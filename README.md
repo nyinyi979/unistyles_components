@@ -1,5 +1,5 @@
 # unistyles_components
-It is UI component for react native built on unistyles. 
+Built in UI components for react native built on unistyles. 
 Types are defined in index.d.ts file.
 ## Style variants
 1. primary
