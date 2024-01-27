@@ -1,4 +1,4 @@
-export const Defaultsizes = {
+export const DefaultSizes = {
     '0': 0,
     '0.5': 2,
     '1': 4,

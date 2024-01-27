@@ -1,9 +1,8 @@
 import { UnistylesRegistry } from "react-native-unistyles";
 import { DefaultBreakPoints } from "./lib/default_values/default_breakpoints";
 import { DefaultColors } from "./lib/default_values/default_colors";
-import { DefaultLightPlatelette } from "./lib/default_values/default_light";
-import { DefaultDarkPlatelette } from "./lib/default_values/default_dark";
-import { Defaultsizes, DefaultFontSizes } from "./lib/default_values/default_sizes";
+import { DefaultDarkPlatelette, DefaultLightPlatelette } from "./lib/default_values/default_themes";
+import { DefaultSizes, DefaultFontSizes } from "./lib/default_values/default_sizes";
 
 type breakPoint = { 
     xxs?: number,
@@ -18,37 +17,21 @@ type breakPoint = {
     tv: number
 }
 
+// Make sure the property name of color matches as in DarkTheme
 export const LightTheme = {
     breakPoint:DefaultBreakPoints,     //CTRL + Click on this breakpoints to modify the existing breakpoints
     color:{
         ...DefaultLightPlatelette,
-        ...DefaultColors
         // 'your_color_name' : 'your_color_hex_code'
     },
-    size: {
-        ...Defaultsizes,
-        // 'your_size_number' : 'your_size_in_px' -_-
-    },
-    fontSize: {
-        ...DefaultFontSizes
-        // 'your_size_string' : 'your_size_in_px' :)
-    }
 }
 
+// Make sure the property name of color matches as in LightTheme
 export const DarkTheme = {
     breakPoint:DefaultBreakPoints,     //CTRL + Click on this breakpoints to modify the existing breakpoints
     color:{
         ...DefaultDarkPlatelette,
-        ...DefaultColors
         // 'your_color_name' : 'your_color_hex_code'
-    },
-    size: {
-        ...Defaultsizes,
-        // 'your_size_number' : 'your_size_in_px' -_-
-    },
-    fontSize: {
-        ...DefaultFontSizes
-        // 'your_size_string' : 'your_size_in_px' :)
     }
 }
 
@@ -77,3 +60,21 @@ UnistylesRegistry
     // allow switching theme based on system JUST FOR light and dark
     adaptiveThemes: true,
 })
+
+/**
+ * Font sizes values, 
+ * -  xxs =  10,
+ * -  xs  = 12,
+ * -  sm  = 14,
+ * -  md  = 16,
+ * -  lg  = 18,
+ * -  xl  = 20,
+ * -  2xl =  24,
+ * -  3xl =  32,
+ * -  4xl =  40,
+ * -  5xl =  52,
+ * -  6xl =  60
+ */
+export const FontSize = DefaultFontSizes
+export const Sizes = DefaultSizes
+export const Colors = DefaultColors

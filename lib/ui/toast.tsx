@@ -5,38 +5,47 @@ import Button from "./button";
 import { GenerateSlideBottomAnimation, GenerateSlideLeftAnimation, 
     GenerateSlideRightAnimation, GenerateSlideTopAnimation } from "../utils/slide_animation";
 import Animated from "react-native-reanimated";
-import { ToastMethod, ToastProps, toastContext } from "../..";
+import { ToastMethod, ToastProps, toastContext, variant } from "../..";
+import { BottomBar } from "../utils/svg_comp";
+import { Colors } from "../../unistyles";
 
 /**
  * 
  * @param 
  * - animationType: four types of animation available 
  * - hidesAfterNoInteraction: time in ms to hide the modal if it is not pressed ( button press will still dimiss it)
- * - closeBtn string
+ * - closeBtn string of the close button, optional ( will hides the button if there is no text )
+ * - bottom boolean, animating bottom bar
  * @returns 
  */
-export default function useToastContextProvider(props: toastContext){
+export default function useToast(props: toastContext){
 	const {
         animationType="slideFromBottom",
         hidesAfterNoInteraction=5000,
-        closeBtn="DONE",
+        closeBtn="",
+        bottomBar=true,
     } = props;
 
+    const [variant , setVariant] = React.useState<variant>(props.variant);
     const [visible, setVisible] = React.useState(false);
     const {styles} = useStyles(styleSheet);
 
+    // setting toast message when passed from toast function
     const [toast, setToast] = React.useState('');
 
     const animation = React.useRef(
         GenerateAnimationForToast(animationType)
     );
     const {animateIntro,animateOutro,animatedStyles} = animation.current;
+
+    // close toast animation for button onclick
 	const closeToast = () =>{
 		animateOutro();
 		setTimeout(()=>{
             setVisible(false);
 		},200)
 	}
+    // open toast animation and setting timer
     const openToast = () =>{
         setVisible(true);
         animateIntro();
@@ -47,7 +56,13 @@ export default function useToastContextProvider(props: toastContext){
             },300)
         },hidesAfterNoInteraction)
     }
+
     const Toast = (ToastMethod: ToastMethod) =>{
+        if(visible) return;
+
+        // setting variant if it was passed from the methods
+        ToastMethod.variant&&setVariant(ToastMethod.variant);
+
         setToast(ToastMethod.message);
         setVisible(true);
     };
@@ -63,11 +78,13 @@ export default function useToastContextProvider(props: toastContext){
                 ]}>
                     <ToastBox
                         message={toast}
-                        variant="primary"
+                        variant={variant}
                         animatedStyles={animatedStyles}
                         closeToast={closeToast}
                         openToast={openToast}
                         closeBtn={closeBtn}
+                        duration={hidesAfterNoInteraction}
+                        bottomBar={bottomBar}
                     />
             </View>
         ),
@@ -75,31 +92,50 @@ export default function useToastContextProvider(props: toastContext){
     }
 }
 
-export function ToastBox(props: ToastProps){
+function ToastBox(props: ToastProps){
     const {styles} = useStyles(styleSheet);
     const {
       	message, 
-		variant='primary', 
+		variant='error', 
         animatedStyles,
         closeToast,
-        closeBtn
+        closeBtn,
+        duration,
+        bottomBar
 	} = props;
 
+    let toastVariant = {
+        backgroundColor: 'black',
+        color: 'white'
+    };
 
+    const getStyle = React.useMemo(()=>{
+        toastVariant = styles['error'];
+    },[variant])
+    
     return(
-        <Animated.View 
-			style={[styles.basicToast,animatedStyles]} 
-			>
-          	<View style={styles.eachToastContainer}>
-          		<Text style={styles.toastTextColor}>{message}</Text>
-          		<View style={{alignItems:'flex-end'}}>
-              		<Button title={closeBtn} onPress={closeToast}/>
-          		</View>
+        <Animated.View style={[
+                styles.basicToast,
+                animatedStyles,
+                {backgroundColor:toastVariant.backgroundColor}
+            ]}>
+          	<View style={styles.toastMessageContainer}>
+
+          		<Text style={[
+                    styles.toastText,
+                    {color:toastVariant.color}
+                ]}>{message}</Text>
+          		{closeBtn===''? '':
+                    <View style={{alignItems:'flex-end'}}>
+                        <Button size="sm" title={closeBtn} onPress={closeToast} variant={'white'}/>
+                    </View>
+                }
           	</View>
+            {bottomBar? 
+            <BottomBar foreground={toastVariant.color} duration={duration} reversed /> : ''}
         </Animated.View>
     )
 }
-
 function GenerateAnimationForToast(animationType:'slideFromTop'|'slideFromRight'|'slideFromBottom'|'slideFromLeft'){
     const props = {
         animationDuration: 200,
@@ -128,9 +164,9 @@ const styleSheet = createStyleSheet((theme=>({
         bottom: 20,
         left: '2.5%',
         position: 'absolute',
-        zIndex:10
+        zIndex:3
     },
-    eachToastContainer:{
+    toastMessageContainer:{
         flex:1,
         flexDirection:'row',
         marginVertical:'auto',
@@ -139,21 +175,54 @@ const styleSheet = createStyleSheet((theme=>({
     basicToast:{
         width: '100%',
         height: 50,
-        backgroundColor: theme.color['black'],
-        padding: 10
+        backgroundColor: 'black',
+        padding: 10,
+        position: 'relative',
+        borderRadius: 5
     },
-    toastTextColor:{
-        textAlignVertical:'center',
+    toastText:{
+        verticalAlign:'middle',
         alignSelf:'flex-start',
         marginTop:5,
         marginRight:'auto',
-        color:theme.color['white']
     },
     pressable:{
         position: 'absolute',
         flex: 1,
         width: '100%',
         height: '100%'
+    },
+    'primary':{
+        backgroundColor: theme.color['primary'],
+        color: Colors.blue['50']
+    },
+    'secondary':{
+        backgroundColor: theme.color['secondary'],
+        color: Colors.blue['50']
+    },
+    'tertiary':{
+        backgroundColor: theme.color['tertiary'],
+        color: Colors.blue['50']
+    },
+    'success':{
+        backgroundColor: theme.color['success'],
+        color: Colors.blue['50']
+    },
+    'warning':{
+        backgroundColor: theme.color['warning'],
+        color: Colors.blue['50']
+    },
+    'error':{
+        backgroundColor: theme.color['error'],
+        color: Colors.blue['50']
+    },
+    'black':{
+        backgroundColor: theme.color['black'],
+        color: theme.color['white']
+    },
+    'white':{
+        backgroundColor: theme.color['white'],
+        color: theme.color['black']
     }
 })))
 

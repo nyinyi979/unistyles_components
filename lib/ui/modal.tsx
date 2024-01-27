@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View, BackHandler } from "react-native"
+import { Pressable, StyleSheet, Text, View, BackHandler, Platform, Dimensions } from "react-native"
 import Color from "color";
 import Animated, { useSharedValue } from "react-native-reanimated";
 import { GenerateAnimation, GenerateFadeAnimation } from "../utils/slide_animation";
@@ -32,10 +32,17 @@ export default function Dialog(DialogProps: DialogProps){
         backdropPressHidesModal=false,
         footer={
             title:'Ok',
-            action: ()=>{}
+            action: ()=>{},
+            variant: 'black'
         },
-        background={color:'white',opacity:1},
-        backdrop={color:'black',opacity:.8},
+        background={
+            color:'white',
+            opacity:1
+        },
+        backdrop={
+            color:'black',
+            opacity:.8
+        },
         animationProperties={
             animationDuration:100,
             animationType:'slideFromBottom',
@@ -54,7 +61,7 @@ export default function Dialog(DialogProps: DialogProps){
 
     const {animateIntro,animateOutro,animatedStyles} = animation.current;
     const {modalContainer,insideModalContainer,modalText,parentView,backdropView} = styles;
-    const [display, setDisplay] = React.useState<'flex'|'none'>('flex');
+
     const closeDialog = () =>{
       backdropAnimation.current.animateOutro();
       animateOutro();
@@ -62,18 +69,20 @@ export default function Dialog(DialogProps: DialogProps){
         setVisible(false);
       },animationProperties.animationDuration)
     };
+
     const openDialog = () =>{
-        setDisplay('flex');
         backdropAnimation.current.animateIntro();
         animateIntro();
     }
+    
     React.useEffect(()=>{
-      console.log(visible);
         if(visible) openDialog();
         else closeDialog();
     },[visible])
     return(
-        <View style={[parentView,{display:display}]}>
+        <View style={[parentView,{
+            display:visible? 'flex':'none',
+            }]}>
             <View style={modalContainer}>
 
                 <Animated.View style={[
@@ -92,10 +101,15 @@ export default function Dialog(DialogProps: DialogProps){
                     {backgroundColor: Color(background.color).alpha(background.opacity).toString()}
                     ]}>
                         <Text style={modalText}>{header}</Text> 
-                        {children}
+                        <View style={{flex:1,marginVertical:5}}>
+                            {children}
+                        </View>
                         <View style={{flex:1}}>
-                            <Button title={footer.title} 
-                            onPress={closeDialog}/>
+                            <Button 
+                                title={footer.title} 
+                                onPress={closeDialog} 
+                                variant={footer.variant}
+                                />
                         </View>
                 </Animated.View>
             </View>
@@ -136,11 +150,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent:'center',
         zIndex:5,
-        padding:10,
+        paddingHorizontal:10,
+        paddingVertical: 15,
         borderRadius: 5,
     },
     modalText: {
-        marginBottom: 18,
         fontWeight:'500',
         textAlign: 'center',
     }
