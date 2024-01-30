@@ -6,6 +6,6 @@ export const DefaultBreakPoints = {
     lg: 992,
     vlg: 1024,
     xl: 1200,
-    vxl: 1400,
+    xxl: 1400,
     tv: 1700
 } 

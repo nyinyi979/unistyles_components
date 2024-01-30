@@ -44,11 +44,11 @@ export function DragTopOrBottomToDimiss(DragProps: DragProps){
         }
     })
     .onEnd(()=>{
-        if(topBottom.value.translateY < -10 && direction==='top'){
+        if(topBottom.value.translateY < -40 && direction==='top'){
             setVisible(false)
             drawn.value = false;
         }
-        else if(topBottom.value.translateY > 10 && direction==='bottom') {
+        else if(topBottom.value.translateY > 40 && direction==='bottom') {
             setVisible(false);
             drawn.value = false;
         }
@@ -101,11 +101,11 @@ export function DragLeftOrRightToDimiss(DragProps: DragProps){
         }
     })
     .onEnd(()=>{
-        if(leftRight.value.translateX < -20 && direction==='left'){
+        if(leftRight.value.translateX < -40 && direction==='left'){
             setVisible(false)
             drawn.value = false;
         }
-        else if(leftRight.value.translateX > 20 && direction==='right') {
+        else if(leftRight.value.translateX > 40 && direction==='right') {
             setVisible(false);
             drawn.value = false;
         }

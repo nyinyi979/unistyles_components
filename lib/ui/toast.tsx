@@ -2,12 +2,13 @@ import React from "react";
 import { Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Button from "./button";
-import { GenerateSlideBottomAnimation, GenerateSlideLeftAnimation, 
+import { GenerateAnimation, GenerateSlideBottomAnimation, GenerateSlideLeftAnimation, 
     GenerateSlideRightAnimation, GenerateSlideTopAnimation } from "../utils/slide_animation";
 import Animated from "react-native-reanimated";
-import { ToastMethod, ToastProps, toastContext, variant } from "../..";
+import { ToastMethod, ToastProps, toastContext } from "../..";
 import { BottomBar } from "../utils/svg_comp";
 import { Colors } from "../../unistyles";
+import { variant } from "../../default";
 
 /**
  * 
@@ -34,7 +35,11 @@ export default function useToast(props: toastContext){
     const [toast, setToast] = React.useState('');
 
     const animation = React.useRef(
-        GenerateAnimationForToast(animationType)
+        GenerateAnimation({
+            animationDuration: 200,
+            animationType: animationType,
+            oneDirectionalAnimation: true,
+        })
     );
     const {animateIntro,animateOutro,animatedStyles} = animation.current;
 
@@ -66,6 +71,7 @@ export default function useToast(props: toastContext){
         setToast(ToastMethod.message);
         setVisible(true);
     };
+    
     React.useEffect(()=>{
         if(visible) openToast();
     },[visible])
@@ -110,7 +116,7 @@ function ToastBox(props: ToastProps){
     };
 
     const getStyle = React.useMemo(()=>{
-        toastVariant = styles['error'];
+        toastVariant = styles[variant];
     },[variant])
     
     return(
@@ -135,24 +141,6 @@ function ToastBox(props: ToastProps){
             <BottomBar foreground={toastVariant.color} duration={duration} reversed /> : ''}
         </Animated.View>
     )
-}
-function GenerateAnimationForToast(animationType:'slideFromTop'|'slideFromRight'|'slideFromBottom'|'slideFromLeft'){
-    const props = {
-        animationDuration: 200,
-        oneDirectionalAnimation: true,
-        translate: 50,
-        animateOpacity: true
-    }
-    switch(animationType){
-        case 'slideFromTop':
-            return GenerateSlideTopAnimation(props);
-        case 'slideFromRight':
-            return GenerateSlideRightAnimation(props);
-        case 'slideFromBottom':
-            return GenerateSlideBottomAnimation(props);
-        case 'slideFromLeft':
-            return GenerateSlideLeftAnimation(props);
-    }
 }
 
 

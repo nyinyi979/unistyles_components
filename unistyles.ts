@@ -78,3 +78,6 @@ UnistylesRegistry
 export const FontSize = DefaultFontSizes
 export const Sizes = DefaultSizes
 export const Colors = DefaultColors
+
+/** Enable this to allow styles to pass to bigger screen width */
+export const enableExperimentalMobileFirstStyle = true

@@ -26,7 +26,8 @@ import { DialogProps } from "../..";
  * - setVisible: state dispatch action to set the state 
  * @returns JSX Element - Dialog */
 
-export default function Dialog(DialogProps: DialogProps){
+function Dialog(DialogProps: DialogProps){
+    // default value assigning
     const {
         children,setVisible,visible,header,
         backdropPressHidesModal=false,
@@ -49,6 +50,7 @@ export default function Dialog(DialogProps: DialogProps){
             oneDirectionalAnimation:true}
         } = DialogProps;
 
+    // backdrop animation and shared value
     const backdropOpacity = useSharedValue(0);
     const backdropAnimation = React.useRef(GenerateFadeAnimation(
         {
@@ -57,10 +59,12 @@ export default function Dialog(DialogProps: DialogProps){
             opacityToAnimate:backdrop.opacity
         })
     )
+    // animation for the modal itself
     const animation = React.useRef(GenerateAnimation(animationProperties));
 
     const {animateIntro,animateOutro,animatedStyles} = animation.current;
     const {modalContainer,insideModalContainer,modalText,parentView,backdropView} = styles;
+
 
     const closeDialog = () =>{
       backdropAnimation.current.animateOutro();
@@ -79,6 +83,7 @@ export default function Dialog(DialogProps: DialogProps){
         if(visible) openDialog();
         else closeDialog();
     },[visible])
+    
     return(
         <View style={[parentView,{
             display:visible? 'flex':'none',
@@ -159,3 +164,4 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     }
 })
+export default Dialog

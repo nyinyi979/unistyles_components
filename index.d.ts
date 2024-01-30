@@ -1,8 +1,12 @@
 //Type definitions a - z
 
-import { Dispatch, SetStateAction } from "react"
-import { ViewProps, TextProps } from 'react-native'
+import React, { Dispatch, SetStateAction } from "react"
+import { ViewProps, TextProps, DimensionValue } from 'react-native'
 import { SharedValue } from "react-native-gesture-handler"
+import { breakPointsProperties, buttonBreakpointStyle, textBreakpointStyle } from "./breakpoints"
+import { animationType, direction, variant, Sizes, btnSize, color, fontSizes, tint, fontWeight, textAlign } from "./default"
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //Accordion props
 /** Overriding the ViewProps for custom properties, */
@@ -39,11 +43,9 @@ export interface BtnProps extends ViewProps {
     /** Variant of the button. Custom buttons can be made! */
     variant?: variant,
     /** Size variant */
-    size?: 'sm'|'md'|'lg'|'xl',
+    size?: btnSize,
     /** Fill the view or not */
     block?: boolean,
-    /** Color of the heading */
-    color?: 'string',
     /** Outlined buttom */
     outlined?: boolean,
     /** Rounded or not */
@@ -52,24 +54,9 @@ export interface BtnProps extends ViewProps {
     onHover?: ()=>void,
     onHoverOut?: ()=>void,
     onPressOut?: ()=>void,
+    /** Breakpoints */
+    breakpoints?: breakPointsProperties<buttonBreakpointStyle>
 }
-/** Type - array of style data
- *  for destructuring the value which will be used in the component itself */ 
-export type BtnTypeArray = [
-    {
-        backgroundColor: string,
-        pressedColor: string,
-        hoverColor: string,
-        color: string,
-        borderWidth?: number,
-        borderColor?: string,
-    },
-    {
-        paddingHorizontal: number,
-        paddingVertical: number,
-        fontSize: number,
-    }
-]
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,6 +104,41 @@ export type animationProperties = {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
+/** Grid */
+export interface GridContext {
+    /** Amount of cols? */
+    cols: cols,
+    /** Amount of rows? */
+    rows?: rows,
+    /** Width of the parent in number, it is required */
+    width: number|'100%',
+    /** Height of the parent, it is required */
+    height: number,
+    /** Gap, can be provided with Sizes['...'] */
+    gap?: number|Sizes
+}
+export interface GridRowContext {
+    rowSpan?: rows,
+    height?: number,
+    children?: React.ReactNode
+}
+export interface GridColContext {
+    colSpan?: cols,
+    children?: React.ReactNode
+}
+export interface GridProps extends ViewProps,GridContext{
+    children?: React.ReactNode
+}
+export interface GridRowProps extends GridRowContext,ViewProps{
+    children?: React.ReactNode
+}
+export interface GridColProps extends GridColContext,ViewProps{
+    children?: React.ReactNode
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+type cols = 1|2|3|4|5|6|7|8|9|10|11|12
+type rows = 1|2|3|4|5|6
+/////////////////////////////////////////////////////////////////////////////////////////////////
 /** Swipe to dimiss menus */
 export interface MenuProps {
     background?: {
@@ -141,18 +163,18 @@ export interface MenuProps {
     /** If the notch is visible or not */
     notchVisible?: boolean,
     /** Direction of the draggable menu */
-    direction: 'left'|'right'|'top'|'bottom',
+    direction: direction,
     /** Width for left & right menu. Height for top & bottom menu */
     widthOrHeight: number
 }
 export interface leftRightTopBottomMenuProps {
-    direction: 'top'|'right'|'bottom'|'left',
+    direction: direction,
     size: number,
     visible: boolean,
     setVisible: Dispatch<SetStateAction<boolean>>
 }
 export interface MenuPropsPassed extends MenuProps { 
-    direction: 'top'|'bottom'|'left'|'right',
+    direction: direction,
     animatedStyles: any,
     drag: any,
     animateIntro: ()=>void,
@@ -166,20 +188,14 @@ export interface MenuPropsPassed extends MenuProps {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //Text types
 export interface TextProp extends TextProps{
-    size?: 'xxs'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl'|'3xl'|'4xl'|'5xl'|'6xl'
+    fontSize?: fontSizes,
     color?: color,
     /** 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 */
     tint?: tint,
     fontWeight?: fontWeight,
-    textAlign?: textAlign
+    textAlign?: textAlign,
+    breakpoints?: breakPointsProperties<textBreakpointStyle>
 }
-export type size = 'sm'|'md'|'lg'|'xl'|'2xl'|'3xl'|'4xl'|'5xl'|'6xl'
-export type color = 'primary'|'secondary'|'tertiary'|'success'|'warning'|'error'|'black'|'white'|
-'slate'|'gray'|'zinc'|'neutral'|'stone'|'red'|'orange'|'amber'|'yellow'|'lime'|'green'|
-'emerald'|'teal'|'cyan'|'sky'|'blue'|'indigo'|'violet'|'purple'|'fuchsia'|'pink'|'rose'
-export type tint = 50|100|200|300|400|500|600|700|800|900|950
-export type fontWeight = '100'|'200'|'300'|'400'|'500'|'600'|'700'|'800'|'900'
-export type textAlign = 'center'|'justify'|'left'|'right'
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,7 +205,7 @@ export interface toastContext{
     /** Setting zero will not hide the toast at all */
     hidesAfterNoInteraction?: number,
     /** outro animation when clicked closeBtn */
-    animationType?: 'slideFromTop'|'slideFromRight'|'slideFromBottom'|'slideFromLeft',
+    animationType?: animationType,
     /** bottom loading bar present or not */
     bottomBar?: boolean,
     /** default variant, if you don't want to set it in toast message */
@@ -216,7 +232,6 @@ export interface ToastMethod{
     variant: variant,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
-export type animationType = 'slideFromLeft'|'slideFromRight'|'slideFromBottom'|'slideFromTop'|'scale'|'fade'
-export type variant = 'primary'|'secondary'|'tertiary'|'success'|'warning'|'error'|'black'|'white'
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 

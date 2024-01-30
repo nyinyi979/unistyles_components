@@ -4,6 +4,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-na
 import { createStyleSheet, useStyles } from "react-native-unistyles"
 import { ChevronArrow, PlusMinus } from "../utils/svg_comp";
 import { AccordionElementProps, AccordionProps } from "../..";
+import { FontSize } from "../../unistyles";
 
 /**
  * 
@@ -17,10 +18,9 @@ import { AccordionElementProps, AccordionProps } from "../..";
     Want to adjust more than that? Go inside the file and adjust them:)
  * @returns JSX Element Accordion 
  */
-export default function Accordion(props: AccordionProps){
+function Accordion(props: AccordionProps){
     const {data,allowOpeningMoreThanTwo=false,defaultOpenedIndex=[0],headings,type="plus"} = props;
     const [opened, setOpened] = React.useState<Set<number>>(new Set([...defaultOpenedIndex]));
-
 
     return(
           <View style={{flex:1, marginTop:20}}>
@@ -112,17 +112,17 @@ function AccordionElement(props: AccordionElementProps){
 const styleSheet = createStyleSheet((theme)=>({
     // View style
     View: {
-        paddingHorizontal: theme.size[4],
-        paddingVertical: theme.size[2],
-        backgroundColor: theme.color.white
+        paddingHorizontal: 12,
+        paddingVertical: 4,
+        backgroundColor: theme.color['white']
     },
     // text displayed in accordion box
     font:{
-        marginTop: theme.size[2],
+        marginTop: 4,
         textAlign: 'justify',
-        fontSize: theme.size['md'],
-        padding: theme.size[2],
-        backgroundColor: theme.color.white
+        fontSize: FontSize['md'],
+        padding: 4,
+        backgroundColor: theme.color['white']
     },
     // modify this for your heading style, 
     //icon color is the same as color here!
@@ -131,10 +131,9 @@ const styleSheet = createStyleSheet((theme)=>({
         textDecorationColor: theme.color.black,
         textDecorationLine: 'underline',
         textDecorationStyle: 'solid',
-        fontSize: theme.size['lg'],
+        fontSize: FontSize['lg'],
         textAlign: 'left',
     }
 }))
 
-
-
+export default Accordion 

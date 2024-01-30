@@ -1,6 +1,6 @@
 import { useAnimatedStyle, useSharedValue, withTiming, SharedValue } from "react-native-reanimated";
 import React from 'react';
-import { animationType } from "../..";
+import { animationType } from "../../default";
 /** This function is mostlly used for normal modal animation
  * - Take access to more function by importing GenerateSlideLeftAnimation ... where you can provide 
  * - oneDirectionalAnimation: whether the left modal will go to left again (USEFUL WITH DragModals)
@@ -58,9 +58,9 @@ export function GenerateScaleAnimation(animation: FadeAnimation){
     }
     const animateOutro = () =>{
         if(oneDirectionalAnimation) 
-            fade.value = withTiming({opacity:0,scale:1.2},{duration:animationDuration})
-        else
             fade.value = withTiming({opacity:0,scale:0.8},{duration:animationDuration})
+        else
+            fade.value = withTiming({opacity:0,scale:1.2},{duration:animationDuration})
 
         setTimeout(()=>{
             fade.value = {opacity:0,scale:0.8}
@@ -274,7 +274,6 @@ type animationProperties = {
     /** Duration of the animation,  */
     animationDuration: number,
     existingValue?: SharedValue<{translateX:number,opacity:number}>|SharedValue<{translateY:number,opacity:number}>,
-    doNotAnimateOpacity?: boolean
 }
 
 type FadeAnimation = {

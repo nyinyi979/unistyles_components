@@ -1,8 +1,9 @@
 import React from "react"
 import { Text } from "react-native"
 import { createStyleSheet, useStyles } from "react-native-unistyles"
-import { Colors, FontSize } from "../../unistyles";
-import { TextProp, fontWeight, textAlign } from "../..";
+import { Colors, FontSize, enableExperimentalMobileFirstStyle } from "../../unistyles";
+import { TextProp } from "../..";
+import mobileFirstBreakpointsChanging from "../utils/breakpoints_passing";
 
 // Add the colors that need to be changed according to light mode and dark mode here
 const themeColors = ['primary','secondary','tertiary','success','warning','error','black','white'];
@@ -10,43 +11,69 @@ const themeColors = ['primary','secondary','tertiary','success','warning','error
 /**
  * 
  * @param - Paragraph just like in web ( but inline, wooo )
- * - size: xxs | xs | sm | md | lg | xl | 2xl | 3xl | 4xl | 5xl | 6xl
+ * - fontSize: xxs | xs | sm | md | lg | xl | 2xl | 3xl | 4xl | 5xl | 6xl
  * - color: theme colors : 'primary','secondary','tertiary','success','warning','error','black','white'...
  * - tint: others than theme colors tint should be provided 
+ * - fontWeight: 100 - 900 , boldness of the text
+ * - breakpoints: breakpoint styles of the text. currently supported for fontSize, fontWeight and textAlign
  * @returns 
  */
 export default function P(TextProp: TextProp){
     const {
-        size='md',
+        fontSize='md',
         color='black',
         tint=500,
         fontWeight='300',
-        textAlign="left"
+        textAlign="left",
+        breakpoints=undefined
     } = TextProp;
 
-    const {styles} = useStyles(StyleSheet);
-    const fontStyle:{color?:string,fontSize?:number,fontWeight?:fontWeight,textAlign?:textAlign}[] = [];
+    const {styles,breakpoint} = useStyles(StyleSheet);
 
-    React.useMemo(()=>{
+    //current breakpoints
+    const mobileFistBreakpointStyles = React.useRef(
+        enableExperimentalMobileFirstStyle? 
+        mobileFirstBreakpointsChanging(breakpoints, {
+            fontSize: fontSize,
+            textAlign: textAlign,
+            fontWeight: fontWeight
+        }):
+        {   ...breakpoints,
+            xs:{
+                fontSize: fontSize,
+                textAlign: textAlign,
+                fontWeight: fontWeight
+            }
+        }
+    )
+    const fontStyle = React.useMemo(()=>{
+        const arr = [];
+
+        //get the current screen sizes
+        const currentSize = mobileFistBreakpointStyles.current[breakpoint];
+
         // Set for better optimized searching
         const colorsToCheck = new Set(themeColors);
         
         // pushing the styles
-        fontStyle.push({fontSize:FontSize[size]});
+        arr.push({fontSize:FontSize[currentSize? currentSize.fontSize: fontSize]});
 
-        fontStyle.push({fontWeight:fontWeight});
+        arr.push({fontWeight:currentSize? currentSize.fontWeight: fontWeight});
 
-        fontStyle.push({textAlign:textAlign});
+        arr.push({textAlign:currentSize? currentSize.textAlign: textAlign});
 
         if(colorsToCheck.has(color)) {
             // dark and light mode colors 
-            fontStyle.push(styles[color])
+            arr.push(styles[color])
         }
         else {
             // simple colors 
-            fontStyle.push({color:Colors[color][tint]})
+            arr.push({color:Colors[color][tint]})
         }
-    },[size]);
+        return arr;
+    },[fontSize,breakpoint]);
+
+    
 
     return (
         <Text {...TextProp} style={fontStyle}>
