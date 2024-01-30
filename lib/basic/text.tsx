@@ -1,8 +1,8 @@
 import React from "react"
 import { Text } from "react-native"
 import { createStyleSheet, useStyles } from "react-native-unistyles"
-import { Colors, FontSize, enableExperimentalMobileFirstStyle } from "../../unistyles";
-import { TextProp } from "../..";
+import { Colors, FontSize, enableExperimentalMobileFirstStyle } from "../unistyles";
+import { TextProp } from "../";
 import mobileFirstBreakpointsChanging from "../utils/breakpoints_passing";
 
 // Add the colors that need to be changed according to light mode and dark mode here

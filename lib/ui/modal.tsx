@@ -4,7 +4,7 @@ import Color from "color";
 import Animated, { useSharedValue } from "react-native-reanimated";
 import { GenerateAnimation, GenerateFadeAnimation } from "../utils/slide_animation";
 import Button from "./button";
-import { DialogProps } from "../..";
+import { DialogProps } from "../";
 /** 
  * The children inside it will be passed directly. 
  * - PROVIDE FOOTER IF YOU ARE NOT USING A FULLSCREEN DIALOG

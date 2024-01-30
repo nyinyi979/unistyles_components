@@ -1,6 +1,6 @@
 import { useAnimatedStyle, useSharedValue, withTiming, SharedValue } from "react-native-reanimated";
 import React from 'react';
-import { animationType } from "../../default";
+import { animationType } from "../default";
 /** This function is mostlly used for normal modal animation
  * - Take access to more function by importing GenerateSlideLeftAnimation ... where you can provide 
  * - oneDirectionalAnimation: whether the left modal will go to left again (USEFUL WITH DragModals)

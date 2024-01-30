@@ -3,8 +3,8 @@ import React from 'react';
 import { Pressable, Text } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import { BtnProps } from '../..';
-import { Colors, FontSize, enableExperimentalMobileFirstStyle } from '../../unistyles';
+import { BtnProps } from '../';
+import { Colors, FontSize, enableExperimentalMobileFirstStyle } from '../unistyles';
 import mobileFirstBreakpointsChanging from '../utils/breakpoints_passing';
 /**
  * 

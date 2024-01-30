@@ -3,8 +3,8 @@ import { Pressable, Text, View } from "react-native"
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { createStyleSheet, useStyles } from "react-native-unistyles"
 import { ChevronArrow, PlusMinus } from "../utils/svg_comp";
-import { AccordionElementProps, AccordionProps } from "../..";
-import { FontSize } from "../../unistyles";
+import { AccordionElementProps, AccordionProps } from "../";
+import { FontSize } from "../unistyles";
 
 /**
  * 

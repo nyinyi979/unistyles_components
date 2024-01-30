@@ -4,7 +4,8 @@ import { GestureDetector } from "react-native-gesture-handler";
 import { Text, View, StyleSheet, Pressable, Dimensions, Platform, BackHandler } from "react-native";
 import Color from "color";
 import { GenerateFadeAnimation } from "../utils/slide_animation";
-import { MenuProps, animationType } from "../..";
+import { MenuProps } from "../";
+import { animationType } from "../default";
 import { DragLeftOrRightToDimiss, DragTopOrBottomToDimiss } from "../utils/drag_to_dimiss";
 
 /**

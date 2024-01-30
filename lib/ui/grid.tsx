@@ -1,6 +1,6 @@
 import React from "react"
 import { DimensionValue, View } from "react-native"
-import { GridColProps, GridContext, GridProps, GridRowContext, GridRowProps } from "../.."
+import { GridColProps, GridContext, GridProps, GridRowContext, GridRowProps } from ".."
 
 const GridContexts = React.createContext<GridContext>({
     cols: 6,
