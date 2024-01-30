@@ -48,13 +48,13 @@ function Button(props:BtnProps){
         }
     )
 
-    // default values 
+    // style values according to breakpoints 
     const usedStyle = React.useMemo(()=>{
         //get the current screen sizes
-        const currentSize = mobileFistBreakpointStyles.current[breakpoint];
+        const stylesAccordingToBreakpoints = mobileFistBreakpointStyles.current[breakpoint];
 
         //returning the new styles, as the breakpoint changes
-        return [styles[variant],styles[currentSize? currentSize.size : size]]
+        return [styles[variant],styles[stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.size : size]]
     },[breakpoint])
 
     // destructring the button and size variants

@@ -49,18 +49,18 @@ export default function P(TextProp: TextProp){
     const fontStyle = React.useMemo(()=>{
         const arr = [];
 
-        //get the current screen sizes
-        const currentSize = mobileFistBreakpointStyles.current[breakpoint];
+        //get the current screen styles
+        const stylesAccordingToBreakpoints = mobileFistBreakpointStyles.current[breakpoint];
 
         // Set for better optimized searching
         const colorsToCheck = new Set(themeColors);
         
         // pushing the styles
-        arr.push({fontSize:FontSize[currentSize? currentSize.fontSize: fontSize]});
+        arr.push({fontSize:FontSize[stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.fontSize: fontSize]});
 
-        arr.push({fontWeight:currentSize? currentSize.fontWeight: fontWeight});
+        arr.push({fontWeight:stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.fontWeight: fontWeight});
 
-        arr.push({textAlign:currentSize? currentSize.textAlign: textAlign});
+        arr.push({textAlign:stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.textAlign: textAlign});
 
         if(colorsToCheck.has(color)) {
             // dark and light mode colors 

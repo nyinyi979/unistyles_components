@@ -1,4 +1,6 @@
+import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils"
 import { btnSize, fontSizes, fontWeight, textAlign } from "./default"
+import { ViewStyle } from "react-native"
 
 export type breakpoints = 'vs'|'sm'|'md'|'lg'|'vlg'|'xl'|'xxl'|'tv'
 
@@ -14,10 +16,13 @@ export type breakPointsProperties<T> = {
 }
 
 export type buttonBreakpointStyle = {
-    size?: btnSize,
+    size: btnSize,
 }
 export type textBreakpointStyle = {
-    fontSize?: fontSizes,
-    textAlign?: textAlign,
-    fontWeight?: fontWeight
+    fontSize: fontSizes,
+    textAlign: textAlign,
+    fontWeight: fontWeight
+}
+export interface DivProps extends ViewProps{
+    breakpoints?: breakPointsProperties<ViewStyle>
 }
