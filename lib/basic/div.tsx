@@ -26,6 +26,7 @@ export default function Div(props: DivProps){
             xs: style
         }
     )
+    // get the breakpoint styles
     const usedStyles = React.useMemo(()=>{
         const stylesAccordingToBreakpoints = mobileFistBreakpointStyles.current[breakpoint];
 

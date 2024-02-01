@@ -5,6 +5,7 @@ import { createStyleSheet, useStyles } from "react-native-unistyles"
 import { ChevronArrow, PlusMinus } from "../utils/svg_comp";
 import { AccordionElementProps, AccordionProps } from "../";
 import { FontSize } from "../unistyles";
+import { GenerateSlideBottomAnimation } from "../utils/slide_animation";
 
 /**
  * 
@@ -41,23 +42,25 @@ function Accordion(props: AccordionProps){
 }
 function AccordionElement(props: AccordionElementProps){
     const {open, setOpen, data, selectedIndex, heading, rightElementType, allowOpeningMoreThanTwo } = props;
-    const scale = useSharedValue(0);
+
+    // boolean value of the index found or not in the set
     const foundOrNot = open.has(selectedIndex);
     const {styles} = useStyles(styleSheet);
 
-    const animatedStyle = useAnimatedStyle(()=>({
-        transform: [{
-            scaleY: scale.value
-        }]
-    }))
+    const {animateIntro,animateOutro,animatedStyles} = GenerateSlideBottomAnimation({
+        animationDuration: 100,
+        oneDirectionalAnimation: false,
+        animateOpacity: true,
+        translateY: 50
+    })
     
     // this is for when default index is supplied
     React.useEffect(()=>{
         if(foundOrNot) {
-            scale.value = withTiming(1,{duration:500});
+            animateIntro();
         }
         else {
-            scale.value = withTiming(0,{duration:500});
+            animateOutro();
         }
     },[])
 
@@ -65,13 +68,13 @@ function AccordionElement(props: AccordionElementProps){
         const foundOrNot = open.has(selectedIndex);
         if(allowOpeningMoreThanTwo){
             if(foundOrNot) {
-                scale.value = withTiming(0,{duration:500});
+                animateOutro();
                 const afterDeletion = new Set([...open]);
                 afterDeletion.delete(selectedIndex);
                 setOpen(afterDeletion);
             }
             else {
-                scale.value = withTiming(1,{duration:500});
+                animateIntro();
                 setOpen(new Set([...open,selectedIndex]));
             }
         }
@@ -81,14 +84,16 @@ function AccordionElement(props: AccordionElementProps){
                 setOpen(afterDeletion);
             }
             else {
-                scale.value = withTiming(1,{duration:500});
+                animateIntro();
                 setOpen(new Set([selectedIndex]));
             }
         }
     }
     return(
         <View style={styles.View}>
+
             <Pressable onPress={handleTaps}>
+
                 <View style={{height:20}}>
                     <Text style={styles.headingStyle}>{selectedIndex}. {heading}</Text>
                     <View style={{alignSelf:'flex-end',marginTop:-20,marginRight:20}}>
@@ -100,11 +105,12 @@ function AccordionElement(props: AccordionElementProps){
                     </View>
                 </View>
                 
-                <Animated.View style={animatedStyle}>
+                <Animated.View style={animatedStyles}>
                    <Text style={styles.font}>{foundOrNot? data: ''}</Text>
                 </Animated.View>
                 
             </Pressable>
+
         </View>
     )
 }
@@ -127,8 +133,8 @@ const styleSheet = createStyleSheet((theme)=>({
     // modify this for your heading style, 
     //icon color is the same as color here!
     headingStyle: {
-        color: theme.color.black,
-        textDecorationColor: theme.color.black,
+        color: theme.color['black'],
+        textDecorationColor: theme.color['black'],
         textDecorationLine: 'underline',
         textDecorationStyle: 'solid',
         fontSize: FontSize['lg'],

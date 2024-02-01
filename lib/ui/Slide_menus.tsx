@@ -34,7 +34,7 @@ export default function Menu(props: MenuProps){
         setVisible,visible,children,header} = props;
     
     // Display to toggle before intro and after outro
-    const [display, setDisplay] = React.useState<'flex'|'none'>('flex');
+    const [display, setDisplay] = React.useState<'flex'|'none'>(visible? 'flex': 'none');
     
     // Getting the drag for the gesutre
     const dragStyles = React.useRef(
@@ -65,7 +65,6 @@ export default function Menu(props: MenuProps){
     const exitModal = () =>{
         animateOutro();
         backdropAnimation.current.animateOutro();
-        setVisible(false);
         setTimeout(()=>{
             setDisplay('none');
         },300)
@@ -96,7 +95,7 @@ export default function Menu(props: MenuProps){
                     {backgroundColor:backdrop.color}
                 ]}>
                     <Pressable 
-                        onPress={exitModal}
+                        onPress={()=>{setVisible(false)}}
                         style={{flex:1}}
                         disabled={!backdropPressHidesMenu}
                         /> 
@@ -148,7 +147,7 @@ const styles = StyleSheet.create({
         width: '100%',
         left:0,
         top:0,
-        zIndex:3
+        zIndex:10
     },
     // you must change this to align just the modal box, background of the whole screen
     modalContainer:{

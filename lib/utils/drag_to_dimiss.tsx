@@ -71,7 +71,7 @@ export function DragLeftOrRightToDimiss(DragProps: DragProps){
     const animation = React.useRef(direction ==='left'? 
     GenerateSlideLeftAnimation(
         {
-            animationDuration:100,
+            animationDuration:200,
             oneDirectionalAnimation:true,
             animateOpacity:false,
             existing:leftRight,
@@ -80,7 +80,7 @@ export function DragLeftOrRightToDimiss(DragProps: DragProps){
     ):
     GenerateSlideRightAnimation(
         {
-            animationDuration:100,
+            animationDuration:200,
             oneDirectionalAnimation:true,
             animateOpacity:false,
             existing:leftRight,

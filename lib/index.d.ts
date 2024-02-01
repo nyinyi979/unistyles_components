@@ -46,8 +46,6 @@ export interface BtnProps extends ViewProps {
     size?: btnSize,
     /** Fill the view or not */
     block?: boolean,
-    /** Outlined buttom */
-    outlined?: boolean,
     /** Rounded or not */
     rounded?: boolean,
     onPress?: ()=>void,
@@ -57,6 +55,63 @@ export interface BtnProps extends ViewProps {
     /** Breakpoints */
     breakpoints?: breakPointsProperties<buttonBreakpointStyle>
 }
+
+/** Badge props */
+export interface BadgeProps extends ViewProps{
+    /** The title must be provided */
+    title: string,
+    /** Variant of the button. Custom buttons can be made! */
+    variant?: variant,
+    /** Size variant */
+    size?: btnSize,
+    /** Outlined buttom */
+    outlined?: boolean,
+    /** Rounded or not */
+    rounded?: boolean,
+    /** Breakpoints */
+    breakpoints?: breakPointsProperties<buttonBreakpointStyle>
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/** Calendar Props */
+interface CalendarProps {
+    /** Sun, Mon or Su, Mo */
+    numberOfLetters?: 2|3,
+    /** return date in string ( for example: 1 January 2023 ) */
+    onValueChange?: (dateData: string)=>void,
+    /** first showing month and year */
+    initDate?: {
+        month: number,
+        year: number
+    }
+}
+interface CalendarHeadingProps {
+    numberOfLetters: 2|3,
+    date: DateData,
+    NextMonth: ()=>void,
+    PreviousMonth: ()=>void
+}
+interface DateData{
+    date: number,
+    month: number,
+    year: number
+}
+interface DayProp extends DateData{
+    onValueChange: (dateData: string)=>void
+}
+interface EachDayProp {
+    date: number,
+    month: number,
+    year: number,
+    unselectable: boolean,
+    selectedDate: string,
+    setSelectedDate: Dispatch<SetStateAction<string>>,
+    onValueChange: (dateData: string)=>void
+}
+type Months = 'January'|'February'|'March'|'March'|'April'|'May'|'June'|'July'|'August'|'September'|'October'|'November'|'December'
+
+type Days = 'Sun'|'Mon'|'Tue'|'Wed'|'Thu'|'Fri'|'Sat'
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

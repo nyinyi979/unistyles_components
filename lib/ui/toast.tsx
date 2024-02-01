@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import Button from "./button";
+import Button from "../basic/button";
 import { GenerateAnimation } from "../utils/slide_animation";
 import Animated from "react-native-reanimated";
 import { ToastMethod, ToastProps, toastContext } from "../";

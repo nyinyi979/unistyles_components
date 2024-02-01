@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View, BackHandler, Platform, Dimensions } 
 import Color from "color";
 import Animated, { useSharedValue } from "react-native-reanimated";
 import { GenerateAnimation, GenerateFadeAnimation } from "../utils/slide_animation";
-import Button from "./button";
+import Button from "../basic/button";
 import { DialogProps } from "../";
 /** 
  * The children inside it will be passed directly. 

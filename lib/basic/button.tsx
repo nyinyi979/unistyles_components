@@ -3,7 +3,7 @@ import React from 'react';
 import { Pressable, Text } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import { BtnProps } from '../';
+import { BtnProps } from '..';
 import { Colors, FontSize, enableExperimentalMobileFirstStyle } from '../unistyles';
 import mobileFirstBreakpointsChanging from '../utils/breakpoints_passing';
 /**
@@ -28,7 +28,6 @@ function Button(props:BtnProps){
         variant='primary',
         block=false,
         size='md',
-        outlined,
         rounded=true,
         onPress=()=>{},
         onHover=()=>{},
@@ -63,7 +62,7 @@ function Button(props:BtnProps){
 
     const scale = useSharedValue(1);
     const backgroundColor = useSharedValue(
-        outlined? styles['white'].backgroundColor : btnVariant.backgroundColor
+        btnVariant.backgroundColor
     );
     const animatedStyles = useAnimatedStyle(()=>({
         backgroundColor: backgroundColor.value,
@@ -71,19 +70,11 @@ function Button(props:BtnProps){
     }));
     
     const originalState = () =>{
-        // when outlined background color would be white
-        if(outlined) 
-            backgroundColor.value = withTiming(styles['white'].backgroundColor,{duration:100});
-        else 
-            backgroundColor.value = withTiming(btnVariant.backgroundColor,{duration:100});
+        backgroundColor.value = withTiming(btnVariant.backgroundColor,{duration:150});
     }
 
     const hoverState = () =>{
-        // when outlined hover, background color would be variant normal color ?
-        if(outlined) 
-            backgroundColor.value = withTiming(btnVariant.backgroundColor,{duration:100});
-        else 
-            backgroundColor.value = withTiming(btnVariant.hoverColor,{duration:100});
+        backgroundColor.value = withTiming(btnVariant.hoverColor,{duration:150});
         onHover();
     }
 
@@ -91,7 +82,6 @@ function Button(props:BtnProps){
         scale.value = withTiming(1.02, {duration:100});
         setTimeout(()=>{
             scale.value = withTiming(1, {duration:50});
-            hoverState();
         },50)
         onPress();
     }
@@ -113,11 +103,6 @@ function Button(props:BtnProps){
                 block? 
                     {alignItems:'center',justifyContent:'flex-start'}: 
                     {alignSelf:'flex-start'},
-                outlined&& {
-                    borderWidth: 2,
-                    borderColor: btnVariant.hoverColor,
-                    borderStyle: 'solid',
-                    },
                 rounded&& {
                     borderRadius: 5
                 },
@@ -126,23 +111,18 @@ function Button(props:BtnProps){
             <Pressable
                 onHoverIn={hoverState}
                 onPress={pressState}
-                onFocus={pressState}
                 onHoverOut={hoverOutState}
                 onPressOut={pressOutState}
                 style={[{width:'100%',height:'100%'},sizeVariant]}
                 >
                 <Text 
-                    style={[{
+                    style={{
                         color:btnVariant.color,
                         textAlign: 'center',
                         fontSize: sizeVariant.fontSize,
                         pointerEvents: 'box-none'
-                        },
-                        outlined&&{
-                            color: btnVariant.pressedColor
-                        },
-                        
-                        ]}>
+                        }
+                        }>
                     {props.title}
                 </Text>
             </Pressable>
@@ -157,77 +137,61 @@ const styleSheet = createStyleSheet((theme => ({
     'primary': {
         backgroundColor: theme.color.primary,
         hoverColor: Color(theme.color.primary).darken(.5).toString(),
-        pressedColor: Color(theme.color.primary).darken(.7).toString(),
         color: 'white',
     },
     'secondary': {
         backgroundColor: theme.color.secondary,
         hoverColor: Color(theme.color.secondary).darken(.5).toString(),
-        pressedColor: Color(theme.color.secondary).darken(.7).toString(),
         color: 'white',
     },
     'tertiary': {
         backgroundColor: theme.color.tertiary,
         hoverColor: Color(theme.color.tertiary).darken(.5).toString(),
-        pressedColor: Color(theme.color.tertiary).darken(.7).toString(),
         color: 'white',
     },
     'success': {
         backgroundColor: theme.color.success,
         hoverColor: Color(theme.color.success).darken(.5).toString(),
-        pressedColor: Color(theme.color.success).darken(.7).toString(),
         color: 'white',
     },
     'warning': {
         backgroundColor: theme.color.warning,
         hoverColor: Color(theme.color.warning).darken(.5).toString(),
-        pressedColor: Color(theme.color.warning).darken(.7).toString(),
         color: 'white',
     },
     'error': {
         backgroundColor: theme.color.error,
         hoverColor: Color(theme.color.error).darken(.5).toString(),
-        pressedColor: Color(theme.color.error).darken(.2).toString(),
         color: 'white',
-    },
-    'outlined': {
-        backgroundColor: Colors.slate[100],
-        pressedColor: Colors.slate[300],
-        hoverColor: Colors.slate[200],
-        color: 'black',
-        borderColor: Colors.slate[400],
-        borderWidth: 2
     },
     'black': {
         backgroundColor: theme.color['black'],
-        hoverColor: Colors.slate[800],
-        pressedColor: Colors.slate[700],
-        color: 'white',
+        hoverColor: theme.color['darkGray'],
+        color: theme.color['lightGray'],
     },
     'white': {
         backgroundColor: theme.color['white'],
-        hoverColor: Colors.slate[200],
-        pressedColor: Colors.slate[300],
-        color: 'black',
+        hoverColor: theme.color['lightGray'],
+        color: theme.color['darkGray'],
     },
     'xs': {
         fontSize: FontSize.xs,
-        paddingHorizontal: 6,
+        paddingHorizontal: 4,
         paddingVertical: 2
     },
     'sm': {
         fontSize: FontSize.sm,
-        paddingHorizontal: 8,
+        paddingHorizontal: 6,
         paddingVertical: 2
     },
     'md': {
         fontSize: FontSize.md,
-        paddingHorizontal: 10,
+        paddingHorizontal: 8,
         paddingVertical: 3
     },
     'lg': {
         fontSize: FontSize.lg,
-        paddingHorizontal: 12,
+        paddingHorizontal: 10,
         paddingVertical: 3
     },
     'xl': {

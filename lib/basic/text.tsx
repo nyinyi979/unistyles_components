@@ -10,7 +10,7 @@ const themeColors = ['primary','secondary','tertiary','success','warning','error
 
 /**
  * 
- * @param - Paragraph just like in web ( but inline, wooo )
+ * @param - Paragraph just like in web ( but inline, use inside a div|view to be a block )
  * - fontSize: xxs | xs | sm | md | lg | xl | 2xl | 3xl | 4xl | 5xl | 6xl
  * - color: theme colors : 'primary','secondary','tertiary','success','warning','error','black','white'...
  * - tint: others than theme colors tint should be provided 
