@@ -1,8 +1,8 @@
 import React from "react";
+import Button from "../basic/button";
 import { Pressable, Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { Colors } from "../unistyles";
-import Button from "../basic/button";
 import { CalendarHeadingProps, CalendarProps, DateData, DayProp, EachDayProp, Months } from "..";
 
 const months:Months[] = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -216,10 +216,10 @@ const styleSheet = createStyleSheet((theme)=>({
         borderBottomColor: Colors.slate['200']
     },
     fontStyles:{
-        fontWeight: '700',
+        fontWeight: '600',
     },
     headingStyles:{
-        fontWeight: '700',
+        fontWeight: '600',
         color: theme.color['black']
     },
     dateView: {
@@ -248,6 +248,7 @@ const styleSheet = createStyleSheet((theme)=>({
         alignItems:'center',
         justifyContent:'center',
         borderRadius: 4,
+        backgroundColor: theme.color['white'],
         color: Colors.slate['500'],
         margin: 1
     }

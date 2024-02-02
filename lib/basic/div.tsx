@@ -1,7 +1,7 @@
+import React from "react";
 import { View } from "react-native";
 import { DivProps } from "../breakpoints";
 import { enableExperimentalMobileFirstStyle } from "../unistyles";
-import React from "react";
 import mobileFirstBreakpointsChanging from "../utils/breakpoints_passing";
 import { useStyles } from "react-native-unistyles";
 

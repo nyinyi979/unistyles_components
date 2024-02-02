@@ -26,3 +26,9 @@ export type textBreakpointStyle = {
 export interface DivProps extends ViewProps{
     breakpoints?: breakPointsProperties<ViewStyle>
 }
+export type inputBreakpointStyle = {
+    width: number,
+    paddingHorizontal: number,
+    paddingVertical: number,
+    borderWidth: number,
+}

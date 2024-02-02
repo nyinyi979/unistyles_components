@@ -1,11 +1,11 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native"
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import { createStyleSheet, useStyles } from "react-native-unistyles"
 import { ChevronArrow, PlusMinus } from "../utils/svg_comp";
 import { AccordionElementProps, AccordionProps } from "../";
 import { FontSize } from "../unistyles";
-import { GenerateSlideBottomAnimation } from "../utils/slide_animation";
+import { GenerateSlideTopAnimation } from "../utils/slide_animation";
 
 /**
  * 
@@ -20,7 +20,7 @@ import { GenerateSlideBottomAnimation } from "../utils/slide_animation";
  * @returns JSX Element Accordion 
  */
 function Accordion(props: AccordionProps){
-    const {data,allowOpeningMoreThanTwo=false,defaultOpenedIndex=[0],headings,type="plus"} = props;
+    const {data,allowOpeningMoreThanTwo=true,defaultOpenedIndex=[0],headings,type="plus"} = props;
     const [opened, setOpened] = React.useState<Set<number>>(new Set([...defaultOpenedIndex]));
 
     return(
@@ -47,11 +47,11 @@ function AccordionElement(props: AccordionElementProps){
     const foundOrNot = open.has(selectedIndex);
     const {styles} = useStyles(styleSheet);
 
-    const {animateIntro,animateOutro,animatedStyles} = GenerateSlideBottomAnimation({
+    const {animateIntro,animateOutro,animatedStyles} = GenerateSlideTopAnimation({
         animationDuration: 100,
-        oneDirectionalAnimation: false,
-        animateOpacity: true,
-        translateY: 50
+        oneDirectionalAnimation: true,
+        animateOpacity: false,
+        translateY: 10
     })
     
     // this is for when default index is supplied
@@ -71,7 +71,10 @@ function AccordionElement(props: AccordionElementProps){
                 animateOutro();
                 const afterDeletion = new Set([...open]);
                 afterDeletion.delete(selectedIndex);
-                setOpen(afterDeletion);
+                // putting a delay for animation
+                setTimeout(()=>{
+                    setOpen(afterDeletion);
+                },50)
             }
             else {
                 animateIntro();
@@ -81,7 +84,11 @@ function AccordionElement(props: AccordionElementProps){
         else {
             if(foundOrNot) {
                 const afterDeletion = new Set([0]);
-                setOpen(afterDeletion);
+                animateOutro();
+                // putting a delay for animation
+                setTimeout(()=>{
+                    setOpen(afterDeletion);
+                },50)
             }
             else {
                 animateIntro();
@@ -94,9 +101,9 @@ function AccordionElement(props: AccordionElementProps){
 
             <Pressable onPress={handleTaps}>
 
-                <View style={{height:20}}>
+                <View style={{minHeight:40,paddingVertical:10}}>
                     <Text style={styles.headingStyle}>{selectedIndex}. {heading}</Text>
-                    <View style={{alignSelf:'flex-end',marginTop:-20,marginRight:20}}>
+                    <View style={{alignSelf:'flex-end',marginTop:-25,marginRight:20}}>
                         {rightElementType==="none"? '' :
                         rightElementType==="arrow"? 
                         <ChevronArrow activated={foundOrNot} color={styles.headingStyle.color}/> :

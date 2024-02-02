@@ -73,15 +73,12 @@ export default function P(TextProp: TextProp){
         return arr;
     },[fontSize,breakpoint]);
 
-    
-
     return (
         <Text {...TextProp} style={fontStyle}>
             {TextProp.children}
         </Text>
     )
 }
-
 
 
 /** For dark mode and light mode colors, please extend it from here */

@@ -1,10 +1,10 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View, BackHandler, Platform, Dimensions } from "react-native"
-import Color from "color";
+import { BackHandler, Pressable, Text, View } from "react-native"
 import Animated, { useSharedValue } from "react-native-reanimated";
 import { GenerateAnimation, GenerateFadeAnimation } from "../utils/slide_animation";
 import Button from "../basic/button";
 import { DialogProps } from "../";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 /** 
  * The children inside it will be passed directly. 
  * - PROVIDE FOOTER IF YOU ARE NOT USING A FULLSCREEN DIALOG
@@ -14,7 +14,7 @@ import { DialogProps } from "../";
  * - animationProperties: {animationType: type of animation to be used(fade), 
  * animationDuration: duration of the animation(500), 
  * oneDirectionalAnimation: see the details hovering it:)}
- * - background: background color of the modal, background opacity of the modal
+ * - variant: black and white is currently supported, default white ( work on both light and dark mode )
  * - backdrop: color for the backdrop and opacity for the opacity of it-_-
  * - header: header string
  * - footer: { 
@@ -31,15 +31,8 @@ function Dialog(DialogProps: DialogProps){
     const {
         children,setVisible,visible,header,
         backdropPressHidesModal=false,
-        footer={
-            title:'Ok',
-            action: ()=>{},
-            variant: 'black'
-        },
-        background={
-            color:'white',
-            opacity:1
-        },
+        footer=undefined,
+        variant='white',
         backdrop={
             color:'black',
             opacity:.8
@@ -63,8 +56,8 @@ function Dialog(DialogProps: DialogProps){
     const animation = React.useRef(GenerateAnimation(animationProperties));
 
     const {animateIntro,animateOutro,animatedStyles} = animation.current;
-    const {modalContainer,insideModalContainer,modalText,parentView,backdropView} = styles;
-
+    const {styles} = useStyles(styleSheet);
+    const {backdropView,childrenContainer,insideModalContainer,modalContainer,modalText,parentView} = styles;
 
     const closeDialog = () =>{
       backdropAnimation.current.animateOutro();
@@ -79,6 +72,14 @@ function Dialog(DialogProps: DialogProps){
         animateIntro();
     }
     
+    // listening to backhanlder event, since it is implemented on View not Modal:)
+    React.useEffect(()=>{
+        BackHandler.addEventListener('hardwareBackPress',()=>{
+            closeDialog();
+            return true;
+        })
+    },[])
+
     React.useEffect(()=>{
         if(visible) openDialog();
         else closeDialog();
@@ -102,19 +103,19 @@ function Dialog(DialogProps: DialogProps){
                 </Animated.View>
 
                 <Animated.View style={[
-                    insideModalContainer,animatedStyles,
-                    {backgroundColor: Color(background.color).alpha(background.opacity).toString()}
+                    insideModalContainer,animatedStyles,styles[variant]
                     ]}>
                         <Text style={modalText}>{header}</Text> 
-                        <View style={{flex:1,marginVertical:5}}>
+                        <View style={childrenContainer}>
                             {children}
                         </View>
                         <View style={{flex:1}}>
-                            <Button 
+                            {footer? <Button 
                                 title={footer.title} 
                                 onPress={closeDialog} 
                                 variant={footer.variant}
                                 />
+                            : <Text></Text>}
                         </View>
                 </Animated.View>
             </View>
@@ -123,7 +124,7 @@ function Dialog(DialogProps: DialogProps){
 }
 
 
-const styles = StyleSheet.create({
+const styleSheet = createStyleSheet((theme)=>({
     // parent of the modal(the whole screen)
     parentView:{
         position: 'absolute',
@@ -162,6 +163,16 @@ const styles = StyleSheet.create({
     modalText: {
         fontWeight:'500',
         textAlign: 'center',
-    }
-})
+    },
+    childrenContainer: {
+        flex: 1,
+        marginVertical: 5
+    },
+    'white':{
+        backgroundColor: theme.color['white']
+    },
+    'black':{
+        backgroundColor: theme.color['black']
+    },
+}))
 export default Dialog

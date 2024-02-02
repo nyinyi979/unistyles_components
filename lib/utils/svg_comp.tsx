@@ -17,8 +17,8 @@ export function PlusMinus(props:{color: string,activated:boolean}){
     }));
 
     React.useEffect(()=>{
-        if(activated) rotation.value = withTiming(90,{duration:500});
-        else rotation.value = withTiming(0,{duration: 500});
+        if(activated) rotation.value = withTiming(90,{duration:100});
+        else rotation.value = withTiming(0,{duration:100});
     }, [activated]);
 
     return(
@@ -37,7 +37,7 @@ export function PlusMinus(props:{color: string,activated:boolean}){
                     position:'absolute',
                     width: 4, 
                     height: 15,
-                    right:6},
+                    right:-9},
                     animatedStyles]
                 }>
             </Animated.View>
@@ -53,27 +53,27 @@ export function PlusMinus(props:{color: string,activated:boolean}){
  */
 export function ChevronArrow(props:{color:string,activated:boolean}){
     const {color,activated} = props;
-    const rotate = useSharedValue(90);
-    const translateX = useSharedValue(0);
-    const animatedStyle = useAnimatedStyle(()=>({
-        transform: [{
-            rotateZ: `${rotate.value}deg`,
-        }]
+    const rotateZ = useSharedValue(0);
+    const animatedStyles = useAnimatedStyle(()=>({
+        transform: [{rotateZ: `${rotateZ.value}deg`}]
     }))
     React.useEffect(()=>{
-      if(activated) rotate.value = withTiming(90,{duration: 100});
-      else rotate.value = withTiming(-90,{duration:100})
+      if(activated) rotateZ.value = withTiming(90,{duration:50});
+      else rotateZ.value = withTiming(0,{duration:70});
+      
     },[activated])
     return(
-        <Animated.Text style={[animatedStyle,
-            {
-                color:color,
-                fontSize:20,
-                fontWeight:'700'
-            }
-        ]}>
-            &gt;
-        </Animated.Text>
+        <View style={{marginTop: activated? 2 : 0,marginRight: activated? -2 : 0}}>
+            <Animated.Text style={[animatedStyles,
+                {
+                    color:color,
+                    fontSize:20,
+                    fontWeight:'700'
+                }
+            ]}>
+                &gt;
+            </Animated.Text>
+        </View>
     )
 }
 

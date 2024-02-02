@@ -1,10 +1,10 @@
 import Color from 'color';
 import React from 'react';
+import mobileFirstBreakpointsChanging from '../utils/breakpoints_passing';
 import { Text, View } from "react-native";
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { BadgeProps } from '../';
 import { Colors, FontSize, enableExperimentalMobileFirstStyle } from '../unistyles';
-import mobileFirstBreakpointsChanging from '../utils/breakpoints_passing';
 /**
  * 
  * @param ButtonProps You can provide more params than ViewProps
@@ -14,15 +14,15 @@ import mobileFirstBreakpointsChanging from '../utils/breakpoints_passing';
  * - breakpoints? for all screen types, you can provide sizes( will support more later )
  * @returns JSX Element Button
  */
-function Button(props:BadgeProps){
+function Badge(props:BadgeProps){
     const {styles,breakpoint} = useStyles(styleSheet);
 
     //Destructuring the properties
     const {
         variant='primary',
         size='md',
-        outlined,
-        breakpoints=undefined
+        breakpoints=undefined,
+        rounded=true
     } = props;
 
     //current breakpoints
@@ -42,28 +42,33 @@ function Button(props:BadgeProps){
         const stylesAccordingToBreakpoints = mobileFistBreakpointStyles.current[breakpoint];
 
         //returning the new styles, as the breakpoint changes
-        return [styles[variant],styles[stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.size : size]]
+        return {
+            btnVariant: styles[variant],
+            sizeVariant: styles[stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.size : size]
+        }
     },[breakpoint])
 
     // destructring the button and size variants
-    const btnVariant = usedStyle[0];
-    const sizeVariant = usedStyle[1];
+    const {btnVariant,sizeVariant} = usedStyle;
     
-    
+    const shadowStyles = {
+        shadowColor: btnVariant.color,
+        shadowOffset: { width: 2, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,  
+        elevation: 5,
+    }
     return(
-        <View style={[{width:'100%',height:'100%',alignSelf:'flex-start'},sizeVariant]}>
-            <Text 
-                style={[{
-                    color:btnVariant.color,
+        <View style={[{
+            alignSelf:'flex-start',
+            backgroundColor:btnVariant.backgroundColor,
+            borderRadius:rounded? 5 : 0,},sizeVariant,shadowStyles]}>
+            <Text style={{
+                    color: btnVariant.color,
                     textAlign: 'center',
                     fontSize: sizeVariant.fontSize,
-                    pointerEvents: 'box-none'
-                    },
-                    outlined&&{
-                        color: btnVariant.pressedColor
-                    },
-                    
-                    ]}>
+                    fontWeight: '700',
+                }}>
                 {props.title}
             </Text>
         </View>
@@ -75,32 +80,28 @@ function Button(props:BadgeProps){
  */
 const styleSheet = createStyleSheet((theme => ({
     'primary': {
-        backgroundColor: theme.color.primary,
-        color: Color(theme.color.primary).darken(.7).toString()
+        backgroundColor: theme.color['primary'],
+        color: Color(theme.color['primary']).darken(.7).toString(),
     },
     'secondary': {
-        backgroundColor: theme.color.secondary,
-        color: Color(theme.color.secondary).darken(.7).toString()
+        backgroundColor: theme.color['secondary'],
+        color: Color(theme.color['secondary']).darken(.7).toString()
     },
     'tertiary': {
-        backgroundColor: theme.color.tertiary,
-        color: Color(theme.color.tertiary).darken(.7).toString()
+        backgroundColor: theme.color['tertiary'],
+        color: Color(theme.color['tertiary']).darken(.7).toString()
     },
     'success': {
-        backgroundColor: theme.color.success,
-        color: Color(theme.color.success).darken(.7).toString()
+        backgroundColor: theme.color['success'],
+        color: Color(theme.color['success']).darken(.7).toString()
     },
     'warning': {
-        backgroundColor: theme.color.warning,
-        color: Color(theme.color.warning).darken(.7).toString()
+        backgroundColor: theme.color['warning'],
+        color: Color(theme.color['warning']).darken(.6).toString()
     },
     'error': {
-        backgroundColor: theme.color.error,
-        color: Color(theme.color.error).darken(.7).toString()
-    },
-    'outlined': {
-        backgroundColor: Colors.slate[100],
-        color: 'black'
+        backgroundColor: theme.color['error'],
+        color: Color(theme.color['error']).lighten(.8).toString()
     },
     'black': {
         backgroundColor: theme.color['black'],
@@ -142,4 +143,4 @@ const styleSheet = createStyleSheet((theme => ({
     },
 })))
 
-export default Button
+export default Badge

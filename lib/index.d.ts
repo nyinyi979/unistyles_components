@@ -1,9 +1,9 @@
 //Type definitions a - z
 
 import React, { Dispatch, SetStateAction } from "react"
-import { ViewProps, TextProps, DimensionValue } from 'react-native'
+import { ViewProps, TextProps, DimensionValue, TextInputProps } from 'react-native'
 import { SharedValue } from "react-native-gesture-handler"
-import { breakPointsProperties, buttonBreakpointStyle, textBreakpointStyle } from "./breakpoints"
+import { breakPointsProperties, buttonBreakpointStyle, inputBreakpointStyle, textBreakpointStyle } from "./breakpoints"
 import { animationType, direction, variant, Sizes, btnSize, color, fontSizes, tint, fontWeight, textAlign } from "./default"
 
 
@@ -14,7 +14,7 @@ export interface AccordionProps extends ViewProps {
     data: string[],
     headings: string[],
     type?: 'plus'|'arrow'|'none',
-    allowOpeningMoreThanTwo: boolean,
+    allowOpeningMoreThanTwo?: boolean,
     /** Supply your index from 1 */
     defaultOpenedIndex?: number[]
 }
@@ -64,8 +64,6 @@ export interface BadgeProps extends ViewProps{
     variant?: variant,
     /** Size variant */
     size?: btnSize,
-    /** Outlined buttom */
-    outlined?: boolean,
     /** Rounded or not */
     rounded?: boolean,
     /** Breakpoints */
@@ -131,11 +129,7 @@ export interface DialogProps {
         variant?: variant
     },
     /** Provides a number between 1-100, no range check is done so just check this value if something is wrong */
-    background?: {
-        color: string,
-        /** must be between 0-1 */
-        opacity?: number,
-    },
+    variant: 'black'|'white'
     backdrop?: {
         color: string,
         /**must be between 0-1 */
@@ -193,6 +187,23 @@ export interface GridColProps extends GridColContext,ViewProps{
 /////////////////////////////////////////////////////////////////////////////////////////////////
 type cols = 1|2|3|4|5|6|7|8|9|10|11|12
 type rows = 1|2|3|4|5|6
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+export interface InputProps extends TextInputProps {
+    /** Button variant */
+    variant?: variant,
+    /** Horizontal padding */
+    paddingHorizontal?: number,
+    /** Vertical Padding */
+    paddingVertical?: number,
+    borderRadius?: number,
+    borderWidth?: number,
+    width?: number,
+    height?: number,
+    breakpoints?: breakPointsProperties<inputBreakpointStyle>
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /** Swipe to dimiss menus */
 export interface MenuProps {

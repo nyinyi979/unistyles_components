@@ -4,7 +4,7 @@ import { Pressable, Text } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { BtnProps } from '..';
-import { Colors, FontSize, enableExperimentalMobileFirstStyle } from '../unistyles';
+import { FontSize, enableExperimentalMobileFirstStyle } from '../unistyles';
 import mobileFirstBreakpointsChanging from '../utils/breakpoints_passing';
 /**
  * 
@@ -48,17 +48,16 @@ function Button(props:BtnProps){
     )
 
     // style values according to breakpoints 
-    const usedStyle = React.useMemo(()=>{
+    const usedStyles = React.useMemo(()=>{
         //get the current screen sizes
         const stylesAccordingToBreakpoints = mobileFistBreakpointStyles.current[breakpoint];
 
         //returning the new styles, as the breakpoint changes
-        return [styles[variant],styles[stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.size : size]]
+        return {
+            btnVariant: styles[variant],
+            sizeVariant: styles[stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.size : size]}
     },[breakpoint])
-
-    // destructring the button and size variants
-    const btnVariant = usedStyle[0];
-    const sizeVariant = usedStyle[1];
+    const {btnVariant,sizeVariant} = usedStyles;
 
     const scale = useSharedValue(1);
     const backgroundColor = useSharedValue(
