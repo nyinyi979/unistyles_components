@@ -4,7 +4,7 @@ import { Pressable, Text } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { BtnProps } from '..';
-import { FontSize, enableExperimentalMobileFirstStyle } from '../unistyles';
+import { FontSizes, enableExperimentalMobileFirstStyle } from '../unistyles';
 import mobileFirstBreakpointsChanging from '../utils/breakpoints_passing';
 /**
  * 
@@ -18,6 +18,7 @@ import mobileFirstBreakpointsChanging from '../utils/breakpoints_passing';
  * - onHover?: void function to be called when the button is hovered
  * - onHoverOut?: void function to be called when the button is not hovered
  * - breakpoints? for all screen types, you can provide sizes( will support more later )
+ * - active? active is not stable it is currently just used in dropdown
  * @returns JSX Element Button
  */
 function Button(props:BtnProps){
@@ -25,15 +26,20 @@ function Button(props:BtnProps){
 
     //Destructuring the properties
     const {
+        title="Hello",
         variant='primary',
         block=false,
-        size='md',
+        asChild=false,
+        size=asChild? 'xs': 'md',
         rounded=true,
+        active=false,
+        animateScale=true,
         onPress=()=>{},
         onHover=()=>{},
         onHoverOut=()=>{},
         onPressOut=()=>{},
-        breakpoints=undefined
+        breakpoints=undefined,
+        children
     } = props;
 
     //current breakpoints
@@ -56,20 +62,19 @@ function Button(props:BtnProps){
         return {
             btnVariant: styles[variant],
             sizeVariant: styles[stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.size : size]}
-    },[breakpoint])
+    },[breakpoint,variant])
+    
     const {btnVariant,sizeVariant} = usedStyles;
 
     const scale = useSharedValue(1);
-    const backgroundColor = useSharedValue(
-        btnVariant.backgroundColor
-    );
+    const backgroundColor = useSharedValue(btnVariant.backgroundColor);
     const animatedStyles = useAnimatedStyle(()=>({
-        backgroundColor: backgroundColor.value,
+        backgroundColor: active? btnVariant.hoverColor : backgroundColor.value,
         transform: [{scale: scale.value}],
     }));
     
     const originalState = () =>{
-        backgroundColor.value = withTiming(btnVariant.backgroundColor,{duration:150});
+        backgroundColor.value = withTiming(active? btnVariant.hoverColor : btnVariant.backgroundColor ,{duration:150});
     }
 
     const hoverState = () =>{
@@ -78,7 +83,8 @@ function Button(props:BtnProps){
     }
 
     const pressState = () =>{
-        scale.value = withTiming(1.02, {duration:100});
+        if(animateScale) scale.value = withTiming(0.92, {duration:100});
+        backgroundColor.value = withTiming(btnVariant.hoverColor,{duration:150});
         setTimeout(()=>{
             scale.value = withTiming(1, {duration:50});
         },50)
@@ -93,37 +99,36 @@ function Button(props:BtnProps){
         originalState();
         onPressOut();
     }
-    
     return(
         <Animated.View {...props}
             style={[
-                {position:'relative'},
                 animatedStyles,
+                {position:'relative'},
                 block? 
                     {alignItems:'center',justifyContent:'flex-start'}: 
                     {alignSelf:'flex-start'},
                 rounded&& {
                     borderRadius: 5
                 },
-                ,sizeVariant
+                sizeVariant,
             ]}>
             <Pressable
                 onHoverIn={hoverState}
                 onPress={pressState}
                 onHoverOut={hoverOutState}
                 onPressOut={pressOutState}
+                onFocus={originalState}
                 style={[{width:'100%',height:'100%'},sizeVariant]}
                 >
-                <Text 
-                    style={{
-                        color:btnVariant.color,
-                        textAlign: 'center',
-                        fontSize: sizeVariant.fontSize,
-                        pointerEvents: 'box-none'
-                        }
-                        }>
+                {asChild? children :
+                <Text style={{
+                    color:btnVariant.color,
+                    textAlign: 'center',
+                    fontSize: sizeVariant.fontSize,
+                    pointerEvents: 'box-none'
+                    }}>
                     {props.title}
-                </Text>
+                </Text>}
             </Pressable>
         </Animated.View>
     )
@@ -134,33 +139,33 @@ function Button(props:BtnProps){
  */
 const styleSheet = createStyleSheet((theme => ({
     'primary': {
-        backgroundColor: theme.color.primary,
-        hoverColor: Color(theme.color.primary).darken(.5).toString(),
-        color: 'white',
+        backgroundColor: theme.color['primary'],
+        hoverColor: Color(theme.color['primary']).darken(.5).toString(),
+        color: 'black',
     },
     'secondary': {
-        backgroundColor: theme.color.secondary,
-        hoverColor: Color(theme.color.secondary).darken(.5).toString(),
+        backgroundColor: theme.color['secondary'],
+        hoverColor: Color(theme.color['secondary']).darken(.5).toString(),
         color: 'white',
     },
     'tertiary': {
-        backgroundColor: theme.color.tertiary,
-        hoverColor: Color(theme.color.tertiary).darken(.5).toString(),
-        color: 'white',
+        backgroundColor: theme.color['tertiary'],
+        hoverColor: Color(theme.color['tertiary']).darken(.5).toString(),
+        color: 'black',
     },
     'success': {
-        backgroundColor: theme.color.success,
-        hoverColor: Color(theme.color.success).darken(.5).toString(),
+        backgroundColor: theme.color['success'],
+        hoverColor: Color(theme.color['success']).darken(.5).toString(),
         color: 'white',
     },
     'warning': {
-        backgroundColor: theme.color.warning,
-        hoverColor: Color(theme.color.warning).darken(.5).toString(),
+        backgroundColor: theme.color['warning'],
+        hoverColor: Color(theme.color['warning']).darken(.5).toString(),
         color: 'white',
     },
     'error': {
-        backgroundColor: theme.color.error,
-        hoverColor: Color(theme.color.error).darken(.5).toString(),
+        backgroundColor: theme.color['error'],
+        hoverColor: Color(theme.color['error']).darken(.5).toString(),
         color: 'white',
     },
     'black': {
@@ -174,32 +179,32 @@ const styleSheet = createStyleSheet((theme => ({
         color: theme.color['darkGray'],
     },
     'xs': {
-        fontSize: FontSize.xs,
+        fontSize: FontSizes['xs'],
         paddingHorizontal: 4,
         paddingVertical: 2
     },
     'sm': {
-        fontSize: FontSize.sm,
+        fontSize: FontSizes['sm'],
         paddingHorizontal: 6,
         paddingVertical: 2
     },
     'md': {
-        fontSize: FontSize.md,
+        fontSize: FontSizes['md'],
         paddingHorizontal: 8,
         paddingVertical: 3
     },
     'lg': {
-        fontSize: FontSize.lg,
+        fontSize: FontSizes['lg'],
         paddingHorizontal: 10,
         paddingVertical: 3
     },
     'xl': {
-        fontSize: FontSize.xl,
+        fontSize: FontSizes['xl'],
         paddingHorizontal: 12,
         paddingVertical: 4
     },
     '2xl': {
-        fontSize: FontSize.xl,
+        fontSize: FontSizes['2xl'],
         paddingHorizontal: 14,
         paddingVertical: 5
     },

@@ -4,7 +4,7 @@ import Animated from "react-native-reanimated";
 import { createStyleSheet, useStyles } from "react-native-unistyles"
 import { ChevronArrow, PlusMinus } from "../utils/svg_comp";
 import { AccordionElementProps, AccordionProps } from "../";
-import { FontSize } from "../unistyles";
+import { FontSizes } from "../unistyles";
 import { GenerateSlideTopAnimation } from "../utils/slide_animation";
 
 /**
@@ -20,28 +20,41 @@ import { GenerateSlideTopAnimation } from "../utils/slide_animation";
  * @returns JSX Element Accordion 
  */
 function Accordion(props: AccordionProps){
-    const {data,allowOpeningMoreThanTwo=true,defaultOpenedIndex=[0],headings,type="plus"} = props;
+    const {
+        data,headings,
+        allowOpeningMoreThanTwo=true,
+        defaultOpenedIndex=[0],
+        type="plus",
+        headingFontSize='lg',
+        dataFontSize='md'
+    } = props;
     const [opened, setOpened] = React.useState<Set<number>>(new Set([...defaultOpenedIndex]));
 
     return(
-          <View style={{flex:1, marginTop:20}}>
-              {data.map((dataString, index)=>(
-                  <AccordionElement
-                      key={index}
-                      selectedIndex={index+1}
-                      open={opened} 
-                      heading={headings[index]}
-                      data={dataString} 
-                      setOpen={setOpened} 
-                      allowOpeningMoreThanTwo={allowOpeningMoreThanTwo}
-                      rightElementType={type}
-                      />
-              ))}
+          <View>
+                {data.map((dataString, index)=>(
+                    <AccordionElement
+                        headingFontSize={headingFontSize}
+                        dataFontSize={dataFontSize}
+                        key={index}
+                        selectedIndex={index+1}
+                        open={opened} 
+                        heading={headings[index]}
+                        data={dataString} 
+                        setOpen={setOpened} 
+                        allowOpeningMoreThanTwo={allowOpeningMoreThanTwo}
+                        rightElementType={type}
+                    />
+                ))}
           </View>
     )
 }
 function AccordionElement(props: AccordionElementProps){
-    const {open, setOpen, data, selectedIndex, heading, rightElementType, allowOpeningMoreThanTwo } = props;
+    const {
+        open, setOpen, data, selectedIndex, 
+        heading, rightElementType, allowOpeningMoreThanTwo, 
+        dataFontSize, headingFontSize 
+    } = props;
 
     // boolean value of the index found or not in the set
     const foundOrNot = open.has(selectedIndex);
@@ -50,7 +63,7 @@ function AccordionElement(props: AccordionElementProps){
     const {animateIntro,animateOutro,animatedStyles} = GenerateSlideTopAnimation({
         animationDuration: 100,
         oneDirectionalAnimation: true,
-        animateOpacity: false,
+        animateOpacity: true,
         translateY: 10
     })
     
@@ -97,23 +110,35 @@ function AccordionElement(props: AccordionElementProps){
         }
     }
     return(
-        <View style={styles.View}>
+        <View style={styles.parnetView}>
 
             <Pressable onPress={handleTaps}>
 
-                <View style={{minHeight:40,paddingVertical:10}}>
-                    <Text style={styles.headingStyle}>{selectedIndex}. {heading}</Text>
+                <View style={styles.headingView}>
+
+                    <Text style={[
+                        styles.headingText,
+                        {fontSize:FontSizes[headingFontSize]}
+                        ]}>
+                            {selectedIndex}. {heading}
+                    </Text>
+
                     <View style={{alignSelf:'flex-end',marginTop:-25,marginRight:20}}>
-                        {rightElementType==="none"? '' :
-                        rightElementType==="arrow"? 
-                        <ChevronArrow activated={foundOrNot} color={styles.headingStyle.color}/> :
-                        <PlusMinus activated={foundOrNot} color={styles.headingStyle.color}/>
+                        {
+                            rightElementType==="none"? <Text /> :
+                            rightElementType==="arrow"? 
+                            <ChevronArrow activated={foundOrNot} color={styles.headingText.color}/> :
+                            <PlusMinus activated={foundOrNot} color={styles.headingText.color}/>
                         } 
                     </View>
                 </View>
                 
                 <Animated.View style={animatedStyles}>
-                   <Text style={styles.font}>{foundOrNot? data: ''}</Text>
+                   <Text style={[
+                    styles.font,{fontSize:FontSizes[dataFontSize]}
+                    ]}>
+                        {foundOrNot? data: ''}
+                    </Text>
                 </Animated.View>
                 
             </Pressable>
@@ -124,7 +149,7 @@ function AccordionElement(props: AccordionElementProps){
 
 const styleSheet = createStyleSheet((theme)=>({
     // View style
-    View: {
+    parnetView: {
         paddingHorizontal: 12,
         paddingVertical: 4,
         backgroundColor: theme.color['white']
@@ -133,19 +158,24 @@ const styleSheet = createStyleSheet((theme)=>({
     font:{
         marginTop: 4,
         textAlign: 'justify',
-        fontSize: FontSize['md'],
         padding: 4,
         backgroundColor: theme.color['white']
     },
     // modify this for your heading style, 
     //icon color is the same as color here!
-    headingStyle: {
+    headingText: {
         color: theme.color['black'],
         textDecorationColor: theme.color['black'],
         textDecorationLine: 'underline',
         textDecorationStyle: 'solid',
-        fontSize: FontSize['lg'],
         textAlign: 'left',
+    },
+    headingView: {
+        minHeight:40,
+        paddingVertical:10
+    },
+    actionView:{
+
     }
 }))
 

@@ -1,15 +1,16 @@
 import React from "react";
 import { View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 /** 
  * @param 
- * - Color - the icon color, please use unistyles color to support light mode and dark mode
  * - Activated - boolean state to control the state of the element, 
  * @returns PlusMinus icon, animated according to state
  */
-export function PlusMinus(props:{color: string,activated:boolean}){
-    const {color,activated} = props;
+export function PlusMinus(props:{activated:boolean,color:string}){
+    const {activated,color} = props;
+    const {styles} = useStyles(styleSheet);
     const rotation = useSharedValue(0);
 
     const animatedStyles = useAnimatedStyle(()=>({
@@ -23,36 +24,20 @@ export function PlusMinus(props:{color: string,activated:boolean}){
 
     return(
         <>
-            <View style={{
-                backgroundColor:
-                color,
-                position:'absolute',
-                width: 15, 
-                height: 4,
-                top:5}}
-            />
-            <Animated.View 
-                style={[{
-                    backgroundColor:color,
-                    position:'absolute',
-                    width: 4, 
-                    height: 15,
-                    right:-9},
-                    animatedStyles]
-                }>
-            </Animated.View>
+            <View style={[styles.plusHorizontal,{backgroundColor:color}]}/>
+            <Animated.View style={[animatedStyles,styles.plusVertical,{backgroundColor:color}]} />
         </>
     )
 }
 /**
  * 
  * @param 
- * - Color - the icon color, please use unistyles color to support light mode and dark mode
+ * - color of the arrow, please use unistyles color for light and dark mode optimisation
  * - Activated - boolean state to control the state of the element, 
  * @returns Arrow icon, animated according to state
  */
-export function ChevronArrow(props:{color:string,activated:boolean}){
-    const {color,activated} = props;
+export function ChevronArrow(props:{activated:boolean,color:string}){
+    const {activated,color} = props;
     const rotateZ = useSharedValue(0);
     const animatedStyles = useAnimatedStyle(()=>({
         transform: [{rotateZ: `${rotateZ.value}deg`}]
@@ -62,15 +47,10 @@ export function ChevronArrow(props:{color:string,activated:boolean}){
       else rotateZ.value = withTiming(0,{duration:70});
       
     },[activated])
+    const {styles} = useStyles(styleSheet);
     return(
-        <View style={{marginTop: activated? 2 : 0,marginRight: activated? -2 : 0}}>
-            <Animated.Text style={[animatedStyles,
-                {
-                    color:color,
-                    fontSize:20,
-                    fontWeight:'700'
-                }
-            ]}>
+        <View style={{marginTop: activated? 4 : 1,marginRight: activated? -2 : 0}}>
+            <Animated.Text style={[animatedStyles,styles.arrowStyle,{color:color}]}>
                 &gt;
             </Animated.Text>
         </View>
@@ -101,3 +81,23 @@ export function BottomBar(props: {duration:number,foreground:string,reversed?: b
         </View>
     )
 }
+
+
+const styleSheet = createStyleSheet((theme)=>({
+    plusHorizontal:{
+        position:'absolute',
+        width: 15, 
+        height: 4,
+        top:5
+    },
+    plusVertical:{
+        position:'absolute',
+        width: 4, 
+        height: 15,
+        right:-9
+    },
+    arrowStyle:{
+        fontSize:20,
+        fontWeight:'700',
+    }
+}))

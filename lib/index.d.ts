@@ -3,7 +3,7 @@
 import React, { Dispatch, SetStateAction } from "react"
 import { ViewProps, TextProps, DimensionValue, TextInputProps } from 'react-native'
 import { SharedValue } from "react-native-gesture-handler"
-import { breakPointsProperties, buttonBreakpointStyle, inputBreakpointStyle, textBreakpointStyle } from "./breakpoints"
+import { breakPointsProperties, buttonBreakpointStyle, inputBreakpointStyle, linkBtnBreakpointStyle, textBreakpointStyle } from "./breakpoints"
 import { animationType, direction, variant, Sizes, btnSize, color, fontSizes, tint, fontWeight, textAlign } from "./default"
 
 
@@ -13,6 +13,8 @@ import { animationType, direction, variant, Sizes, btnSize, color, fontSizes, ti
 export interface AccordionProps extends ViewProps {
     data: string[],
     headings: string[],
+    headingFontSize?: fontSizes,
+    dataFontSize?: fontSizes,
     type?: 'plus'|'arrow'|'none',
     allowOpeningMoreThanTwo?: boolean,
     /** Supply your index from 1 */
@@ -21,12 +23,14 @@ export interface AccordionProps extends ViewProps {
 // Props of each accordion element
 export interface AccordionElementProps {
     selectedIndex: number,
-    open: Set<number>,
+    headingFontSize: fontSizes,
+    dataFontSize: fontSizes,
     allowOpeningMoreThanTwo: boolean,
-    setOpen: Dispatch<SetStateAction<Set<number>>>,
     data: string,
     heading: string,
-    rightElementType: 'plus'|'arrow'|'none'
+    rightElementType: 'plus'|'arrow'|'none',
+    open: Set<number>,
+    setOpen: Dispatch<SetStateAction<Set<number>>>,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,7 +43,7 @@ export interface AccordionElementProps {
 */
 export interface BtnProps extends ViewProps {
     /** The title must be provided */
-    title: string,
+    title?: string,
     /** Variant of the button. Custom buttons can be made! */
     variant?: variant,
     /** Size variant */
@@ -48,10 +52,14 @@ export interface BtnProps extends ViewProps {
     block?: boolean,
     /** Rounded or not */
     rounded?: boolean,
+    active?: boolean,
+    animateScale?: boolean,
     onPress?: ()=>void,
     onHover?: ()=>void,
     onHoverOut?: ()=>void,
     onPressOut?: ()=>void,
+    asChild?: boolean,
+    children?: React.ReactNode,
     /** Breakpoints */
     breakpoints?: breakPointsProperties<buttonBreakpointStyle>
 }
@@ -85,20 +93,25 @@ interface CalendarProps {
     }
 }
 interface CalendarHeadingProps {
-    numberOfLetters: 2|3,
     date: DateData,
     NextMonth: ()=>void,
-    PreviousMonth: ()=>void
+    PreviousMonth: ()=>void,
+    openMonthView: ()=>void,
+    openYearView: ()=>void,
 }
 interface DateData{
     date: number,
     month: number,
     year: number
 }
-interface DayProp extends DateData{
-    onValueChange: (dateData: string)=>void
+interface CurrentMonthProps {
+    numberOfLetters: 2|3,
+    openDayView: ()=>void,
 }
-interface EachDayProp {
+interface DayProp extends DateData{
+    onValueChange: (dateData: string)=>void,
+}
+interface EachDayProps {
     date: number,
     month: number,
     year: number,
@@ -106,6 +119,23 @@ interface EachDayProp {
     selectedDate: string,
     setSelectedDate: Dispatch<SetStateAction<string>>,
     onValueChange: (dateData: string)=>void
+}
+interface MonthProps {
+    selectedMonth: number,
+    setSelectedMonth: (month: number)=>void,
+    openDayView: ()=>void,
+}
+interface YearProps {
+    year: number,
+    openMonthView: ()=>void,
+    setYear: (year: string)=>void
+}
+interface EachMonthProps {
+    month: number,
+    title: string,
+    setSelectedMonth: (month: number)=>void,
+    selectedMonth: number,
+    openDayView: ()=>void
 }
 type Months = 'January'|'February'|'March'|'March'|'April'|'May'|'June'|'July'|'August'|'September'|'October'|'November'|'December'
 
@@ -153,6 +183,37 @@ export type animationProperties = {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
+/** Dropdown */
+type data = {
+    /** Data that will be returned when it is selected */
+    data: string,
+    /** Label to be displayed */
+    label: string
+}
+interface DropdownItemProps {
+    data: data,
+    index: number,
+    setData: Dispatch<SetStateAction<number>>,
+    variant: variant,
+    size: btnSize,
+    active?: boolean,
+    onChange: (data: data)=>void
+}
+interface DropdownProps {
+    data: data[],
+    /** Height of the flatlist inside the dropdown */
+    height: number,
+    width: number,
+    variant?: variant,
+    size?: btnSize,
+    /** selected index starting from 1 */
+    selectedIndex?: number,
+    placeholder?: string,
+    onChange: (data: data)=>void
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
 /** Grid */
 export interface GridContext {
     /** Amount of cols? */
@@ -190,8 +251,9 @@ type rows = 1|2|3|4|5|6
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
+/** Input props */
 export interface InputProps extends TextInputProps {
-    /** Button variant */
+    /** Input variant */
     variant?: variant,
     /** Horizontal padding */
     paddingHorizontal?: number,
@@ -203,6 +265,22 @@ export interface InputProps extends TextInputProps {
     height?: number,
     breakpoints?: breakPointsProperties<inputBreakpointStyle>
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/** Link button props */
+export interface LinkBtnProps extends ViewProps {
+    /** The title must be provided */
+    title: string,
+    /** Variant of the button. Custom buttons can be made! */
+    variant?: variant,
+    fontSize?: fontSizes,
+    onPress?: ()=>void,
+    onHover?: ()=>void,
+    /** Breakpoints */
+    breakpoints?: breakPointsProperties<linkBtnBreakpointStyle>
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /** Swipe to dimiss menus */

@@ -75,7 +75,8 @@ UnistylesRegistry
  * -  5xl =  52,
  * -  6xl =  60
  */
-export const FontSize = DefaultFontSizes
+export const FontSizes = DefaultFontSizes
+/** Sizes are default pixels, which you can use in margin, padding, width and height etc */
 export const Sizes = DefaultSizes
 export const Colors = DefaultColors
 

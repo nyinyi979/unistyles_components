@@ -2,7 +2,7 @@ import { DefaultColors as Colors } from "./default_colors";
 
 export const DefaultLightPlatelette = {
     primary: '#4ddbff',
-    secondary: '#4ddb88',
+    secondary: '#42bb74',
     tertiary: '#ffcb3b',
     success: '#09ff00',
     warning: '#d1bc00',
@@ -11,12 +11,12 @@ export const DefaultLightPlatelette = {
     white: '#ffffff',
     black: '#000000',
     lightGray: Colors.slate['300'],
-    darkGray: Colors.slate['700'],
+    darkGray: Colors.slate['800'],
 }
 
 export const DefaultDarkPlatelette = {
     primary: '#4ddbff',
-    secondary: '#4ddb88',
+    secondary: '#42bb74',
     tertiary: '#ffe7a4',
     success: '#09ff00',
     warning: '#d1bc00',
@@ -24,6 +24,6 @@ export const DefaultDarkPlatelette = {
     base: '#202020',
     white: '#000000',
     black: '#ffffff',
-    lightGray: Colors.slate['700'],
+    lightGray: Colors.slate['800'],
     darkGray: Colors.slate['300'],
 }

@@ -4,13 +4,14 @@ import mobileFirstBreakpointsChanging from '../utils/breakpoints_passing';
 import { Text, View } from "react-native";
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { BadgeProps } from '../';
-import { Colors, FontSize, enableExperimentalMobileFirstStyle } from '../unistyles';
+import { Colors, FontSizes, enableExperimentalMobileFirstStyle } from '../unistyles';
 /**
  * 
  * @param ButtonProps You can provide more params than ViewProps
  * - title: value that you want to display,
  * - variant?: 'error', 'warning', 'success', 'tertiary', 'secondary', 'primary', 'outlined',
  * - size?: 'sm', 'md', 'lg', 'xl',
+ * - rounded?: the badge will be a bit rounded if true
  * - breakpoints? for all screen types, you can provide sizes( will support more later )
  * @returns JSX Element Button
  */
@@ -112,32 +113,32 @@ const styleSheet = createStyleSheet((theme => ({
         color: Colors.slate[800]
     },
     'xs': {
-        fontSize: FontSize.xs,
+        fontSize: FontSizes['xs'],
         paddingHorizontal: 6,
         paddingVertical: 2
     },
     'sm': {
-        fontSize: FontSize.sm,
+        fontSize: FontSizes['sm'],
         paddingHorizontal: 8,
         paddingVertical: 2
     },
     'md': {
-        fontSize: FontSize.md,
+        fontSize: FontSizes['md'],
         paddingHorizontal: 10,
         paddingVertical: 3
     },
     'lg': {
-        fontSize: FontSize.lg,
+        fontSize: FontSizes['lg'],
         paddingHorizontal: 12,
         paddingVertical: 3
     },
     'xl': {
-        fontSize: FontSize.xl,
+        fontSize: FontSizes['xl'],
         paddingHorizontal: 12,
         paddingVertical: 4
     },
     '2xl': {
-        fontSize: FontSize.xl,
+        fontSize: FontSizes['2xl'],
         paddingHorizontal: 14,
         paddingVertical: 5
     },

@@ -32,3 +32,6 @@ export type inputBreakpointStyle = {
     paddingVertical: number,
     borderWidth: number,
 }
+export type linkBtnBreakpointStyle = {
+    fontSize: fontSizes
+}

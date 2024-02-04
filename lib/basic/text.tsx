@@ -1,7 +1,7 @@
 import React from "react"
 import { Text } from "react-native"
 import { createStyleSheet, useStyles } from "react-native-unistyles"
-import { Colors, FontSize, enableExperimentalMobileFirstStyle } from "../unistyles";
+import { Colors, FontSizes, enableExperimentalMobileFirstStyle } from "../unistyles";
 import { TextProp } from "../";
 import mobileFirstBreakpointsChanging from "../utils/breakpoints_passing";
 
@@ -56,7 +56,7 @@ export default function P(TextProp: TextProp){
         const colorsToCheck = new Set(themeColors);
         
         // pushing the styles
-        arr.push({fontSize:FontSize[stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.fontSize: fontSize]});
+        arr.push({fontSize:FontSizes[stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.fontSize: fontSize]});
 
         arr.push({fontWeight:stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.fontWeight: fontWeight});
 

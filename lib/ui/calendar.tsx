@@ -3,7 +3,9 @@ import Button from "../basic/button";
 import { Pressable, Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { Colors } from "../unistyles";
-import { CalendarHeadingProps, CalendarProps, DateData, DayProp, EachDayProp, Months } from "..";
+import { CalendarHeadingProps, CalendarProps, DateData, DayProp, EachDayProps, MonthProps, Months, EachMonthProps, CurrentMonthProps, YearProps } from "..";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Input from "../basic/input";
 
 const months:Months[] = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const initDates = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
@@ -23,7 +25,7 @@ const _year = now.getFullYear();
 function Calendar(props: CalendarProps){
     const {
         numberOfLetters=3,
-        onValueChange=(date)=>{console.log(date)},
+        onValueChange=()=>{},
         initDate={month:_month,year:_year}
     } = props;
     const [date, setDate] = React.useState<DateData>({
@@ -31,6 +33,12 @@ function Calendar(props: CalendarProps){
         month: initDate.month,
         year: initDate.year
     });
+
+    const [views, setViews] = React.useState<'day'|'month'|'year'>('day');
+    const openMonthView = () =>{ setViews('month') };
+    const openDayView = () =>{ setViews('day') };
+    const openYearView = () =>{ setViews('year') };
+
     const {styles} = useStyles(styleSheet);
 
     const NextMonth = () =>{
@@ -45,64 +53,183 @@ function Calendar(props: CalendarProps){
         else 
             setDate({date: 1, month: date.month-1, year: date.year})
     }
-    
+    const setMonth = (month: number) =>{
+        setDate({...date, month: month});
+    }
+    const setYear = (year: string) =>{
+        setDate({...date,year:Number(year)})
+    }
     return(
         <View style={styles.calendarView}>
             <CalendarHeading 
                 date={date} 
-                numberOfLetters={numberOfLetters} 
                 NextMonth={NextMonth} PreviousMonth={PreviousMonth}
+                openMonthView={openMonthView}
+                openYearView={openYearView}
                 />
 
-            <CalendarDays 
-                {...date} 
-                onValueChange={onValueChange}
-                />
+            <View style={{alignItems:'center',justifyContent:'center'}}>
+                {views === 'day'?
+                <>
+                    <Days 
+                        openDayView={openDayView}
+                        numberOfLetters={numberOfLetters}
+                    />
+                    <CalendarDays 
+                        date={date.date}
+                        month={date.month}
+                        year={date.year}
+                        onValueChange={onValueChange}
+                    />
+                </>
+                : views === 'month'?
+                <CalendarMonth 
+                    openDayView={openDayView}
+                    selectedMonth={date.month}
+                    setSelectedMonth={setMonth}
+                    />
+                : <CalendarYear 
+                    openMonthView={openMonthView}
+                    setYear={setYear}
+                    year={date.year}
+                    />
+                }
+            </View>
         </View>
     )
 }
 
+function CalendarYear(props: YearProps){
+    const {openMonthView,year,setYear} = props;
+    React.useEffect(()=>{
+        document.addEventListener('keypress',(e)=>{
+            if(e.key == 'enter') {
+                openMonthView();
+            }
+        })
+    })
+    return(
+        <View style={{alignItems:'center',justifyContent:'center',height:200}}>
+            <Input 
+                keyboardType="numeric" 
+                variant="white" 
+                value={`${year}`}  
+                onChangeText={setYear}
+                onEndEditing={openMonthView}
+                onSubmitEditing={openMonthView}
+                
+            />
+            <Button title="Ok" variant="white" block onPress={openMonthView} size="md"/>
+        </View>
+    )
+}
 
+function CalendarMonth(props: MonthProps){
+    const {styles:{flexBoxStyles}} = useStyles(styleSheet);
+    return(
+        <View style={flexBoxStyles}>
+            {months.map((month,index)=>(
+                <EachMonth
+                    key={index}
+                    title={month} 
+                    month={index} 
+                    {...props}/>
+            ))}
+        </View>
+    )
+}
+
+function EachMonth(props: EachMonthProps){
+    const {month,setSelectedMonth,selectedMonth,title,openDayView} = props;
+    const intendedMonth = React.useRef(month);
+    const selectMonth = () =>{
+        setSelectedMonth(intendedMonth.current);
+        setTimeout(()=>{
+            openDayView();
+        },400)
+    }
+    const {styles:{monthView,selectedDateView,iniDayView,fontStyles}} = useStyles(styleSheet);
+
+    const colors = useSharedValue({
+        backgroundColor: iniDayView.backgroundColor,
+        color: iniDayView.color,
+    });
+
+    React.useEffect(()=>{
+        if(selectedMonth === intendedMonth.current)
+            colors.value = withTiming({
+                backgroundColor: selectedDateView.backgroundColor,
+                color: selectedDateView.color,
+            },{duration:200})
+        else 
+            colors.value = withTiming({
+                backgroundColor: iniDayView.backgroundColor,
+                color: iniDayView.color,
+            },{duration:200})
+    },[selectedMonth])
+
+    
+    const animatedStyles = useAnimatedStyle(()=>(colors.value))
+
+    return(
+        <Animated.View style={[animatedStyles,monthView]}>
+            <Pressable onPress={selectMonth} style={monthView}>
+                <Animated.Text style={[fontStyles,animatedStyles]}>
+                    {title}
+                </Animated.Text>
+            </Pressable>
+        </Animated.View>
+    )
+}
 
 function CalendarHeading(props: CalendarHeadingProps){
     const {
-        numberOfLetters,
-        date,
+        date,openMonthView,openYearView,
         NextMonth,PreviousMonth
     } = props;
-    const {styles} = useStyles(styleSheet);
-    const days = numberOfLetters===3? 
-        ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] : 
-        ['Su','Mo','Tu','We','Th','Fr','Sa'];
+    const {styles:{flexBoxStyles,borderStyle,calendarHeadingView,headingStyles}} = useStyles(styleSheet);
     return (
-        <View>
-            <View style={[styles.flexBoxStyles,styles.borderStyle,{paddingBottom:3}]}>
-
-                <Button title="<" variant="white" size='xs' onPress={PreviousMonth} />
-                <Text style={[styles.headingStyles,{width:'70%',textAlign:'center'}]}>
-                    {months[props.date.month]} {date.year}
-                </Text>
-                <Button title=">" variant="white" size='xs' onPress={NextMonth} />
-
+        <View style={[flexBoxStyles,borderStyle,{paddingBottom:3}]}>
+            <Button title="<" variant="white" size='xs' onPress={PreviousMonth} />
+            <View style={calendarHeadingView}>
+                <Button variant="white" size="xs" asChild onPress={openMonthView}>
+                    <Text style={[headingStyles]}>
+                        {months[props.date.month]} 
+                    </Text>
+                </Button>
+                <Button size="xs" variant="white" asChild onPress={openYearView}>
+                    <Text style={[headingStyles]}>
+                        {date.year}
+                    </Text>
+                </Button>
             </View>
-
-            <Text style={[styles.flexBoxStyles,styles.borderStyle]}>
-                {days.map((day)=>(
-                    <View key={Math.random()*99999} style={styles.dateView}>
-                        <Text style={styles.fontStyles}>{day}</Text>
-                    </View>
-                ))}
-            </Text>
-            
+            <Button title=">" variant="white" size='xs' onPress={NextMonth} />
         </View>
     )
 }
 
+function Days(props: CurrentMonthProps){
+    const {styles:{flexBoxStyles,borderStyle,dayView,fontStyles}} = useStyles(styleSheet);
+    const {numberOfLetters,openDayView} = props;
+    const days = numberOfLetters===3? 
+        ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] : 
+        ['Su','Mo','Tu','We','Th','Fr','Sa'];
+    return(
+        <Text style={[flexBoxStyles,borderStyle]}>
+            {days.map((day)=>(
+                <View key={Math.random()*99999} style={dayView}>
+                    <Text style={fontStyles}>{day}</Text>
+                </View>
+            ))}
+        </Text>
+    )
+}
 
 function CalendarDays(props: DayProp){
     const {date,year,onValueChange} = props;
     const month = months[props.month];
     const [selectedDate, setSelectedDate] = React.useState(`${date} ${month} ${date}`);
+
 
     // Entire workflow can be understood here:)
     // removing 31 from 30 months
@@ -124,6 +251,7 @@ function CalendarDays(props: DayProp){
         }
         else if(month==='February') { 
             dates[1].pop();
+            dates[1].pop(); 
             dates[1].pop(); 
             daysAfter = 6 - (new Date(`${year%4===0? 29:28} ${month} ${year}`).getDay());
         }
@@ -155,6 +283,8 @@ function CalendarDays(props: DayProp){
 
     return(
         <View style={styles.flexBoxStyles}>
+            
+
             {generatedDays.map((date,index)=>(
                 date.map((date_)=>(
                     <EachDay 
@@ -172,13 +302,25 @@ function CalendarDays(props: DayProp){
         </View>
     )
 }
-function EachDay(props: EachDayProp){
-    const {date,month,year,selectedDate,setSelectedDate,unselectable,onValueChange} = props;
-    const {styles:{dateView,selectedDateView,unselectableDateView,fontStyles}} = useStyles(styleSheet);
 
+function EachDay(props: EachDayProps){
+    const {date,month,year,selectedDate,setSelectedDate,unselectable,onValueChange} = props;
     const intendedDate = React.useRef(`${date} ${month} ${year}`);
-    const style = unselectable? unselectableDateView: 
-        selectedDate===intendedDate.current? selectedDateView : dateView;
+    
+    const {styles:{dayView,selectedDateView,unselectableDateView,iniDayView,fontStyles}} = useStyles(styleSheet);
+
+    const colors = useSharedValue({
+        backgroundColor: unselectable? unselectableDateView.backgroundColor : iniDayView.backgroundColor,
+        color: unselectable? unselectableDateView.color : iniDayView.color,
+    });
+
+    React.useEffect(()=>{
+        if(selectedDate === intendedDate.current)
+            colors.value = withTiming({
+                backgroundColor: selectedDateView.backgroundColor,
+                color: selectedDateView.color,
+            },{duration:200})
+    },[selectedDate])
 
     const selectDate = () =>{
         if(!unselectable) {
@@ -186,14 +328,19 @@ function EachDay(props: EachDayProp){
             onValueChange(intendedDate.current);
         }
     }
+    const animatedStyles = useAnimatedStyle(()=>(colors.value))
+
     return(
-        <Pressable style={style} onPress={selectDate}>
-            <Text style={[fontStyles, {color:style.color}]}>
-                {date}
-            </Text>
-        </Pressable>
+        <Animated.View style={[animatedStyles,dayView]}>
+            <Pressable onPress={selectDate} style={[dayView]}>
+                <Animated.Text style={[fontStyles,animatedStyles]}>
+                    {date}
+                </Animated.Text>
+            </Pressable>
+        </Animated.View>
     )
 }
+
 
 const styleSheet = createStyleSheet((theme)=>({
     calendarView: {
@@ -222,35 +369,40 @@ const styleSheet = createStyleSheet((theme)=>({
         fontWeight: '600',
         color: theme.color['black']
     },
-    dateView: {
+    calendarHeadingView:{
+        width:150,
+        flexDirection:'row',
+        paddingBottom:3,
+        marginHorizontal:10,
+        justifyContent:'center'
+    },
+    dayView:{
         width:30,
         height:30,
         alignItems:'center',
         justifyContent:'center',
         borderRadius: 4,
+        margin: 1
+    },
+    iniDayView: {
         backgroundColor: theme.color['white'],
         color: theme.color['black'],
+    },
+    monthView:{
+        width: 70,
+        height: 40,
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius: 4,
         margin: 1
     },
     selectedDateView:{
-        width:30,
-        height:30,
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius: 4,
         backgroundColor: theme.color['black'],
         color: theme.color['white'],
-        margin: 1
     },
     unselectableDateView:{
-        width:30,
-        height:30,
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius: 4,
         backgroundColor: theme.color['white'],
-        color: Colors.slate['500'],
-        margin: 1
+        color: Colors.slate['500']
     }
 }))
 
