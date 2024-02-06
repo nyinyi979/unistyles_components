@@ -57,6 +57,23 @@ export function ChevronArrow(props:{activated:boolean,color:string}){
     )
 }
 
+export function Check(props: {checked:boolean,color:string,backgroundColor:string}){
+    const {backgroundColor,color,checked} = props;
+    const {styles} = useStyles(styleSheet);
+    return(
+        <View style={[{borderColor:backgroundColor},checked&&{backgroundColor:backgroundColor},styles.checkContainer]}>
+            {checked? 
+            <>
+                <View style={[styles.longCheck,{backgroundColor:color}]}></View>
+                <View style={[styles.shortCheck,{backgroundColor:color}]}></View>
+            </> : 
+            <View></View>
+            }
+        </View>
+    )
+}
+
+/** Bottom bar animation for dimiss */
 export function BottomBar(props: {duration:number,foreground:string,reversed?: boolean}){
     const {
         reversed=false,
@@ -99,5 +116,36 @@ const styleSheet = createStyleSheet((theme)=>({
     arrowStyle:{
         fontSize:20,
         fontWeight:'700',
+    },
+    longCheck:{
+        width:2,
+        height:12,
+        transform:[{rotate: '45deg'}],
+        position:'absolute',
+        right:6,
+        borderBottomEndRadius:5,
+        borderStartStartRadius: 5,
+        borderStartEndRadius: 5,
+        bottom:3
+    },
+    shortCheck:{
+        width:2,
+        height:7,
+        transform:[{rotate: '-45deg'}],
+        position:'absolute',
+        left:4,
+        borderBottomStartRadius:5,
+        borderStartStartRadius: 5,
+        borderStartEndRadius: 5,
+        bottom:4
+    },
+    checkContainer:{
+        width:20,
+        height:20,
+        borderWidth:1,
+        margin:2,
+        marginRight:5,
+        borderRadius:3
     }
+    
 }))

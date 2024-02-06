@@ -79,6 +79,3 @@ export const FontSizes = DefaultFontSizes
 /** Sizes are default pixels, which you can use in margin, padding, width and height etc */
 export const Sizes = DefaultSizes
 export const Colors = DefaultColors
-
-/** Enable this to allow styles to pass to bigger screen width */
-export const enableExperimentalMobileFirstStyle = true

@@ -8,6 +8,7 @@ import { ToastMethod, ToastProps, toastContext } from "../";
 import { BottomBar } from "../utils/svg_comp";
 import { Colors } from "../unistyles";
 import { variant } from "../default";
+import Color from "color";
 
 /**
  * 
@@ -98,7 +99,6 @@ export default function useToast(props: toastContext){
 }
 
 function ToastBox(props: ToastProps){
-    const {styles} = useStyles(styleSheet);
     const {
       	message, 
 		variant='error', 
@@ -109,27 +109,23 @@ function ToastBox(props: ToastProps){
         bottomBar
 	} = props;
 
-    let toastVariant = {
-        backgroundColor: 'black',
-        color: 'white'
-    };
-
-    const getStyle = React.useMemo(()=>{
-        toastVariant = styles[variant];
-    },[variant])
+    const {styles:{toast,basicToast,toastMessageContainer,toastText}} = useStyles(styleSheet,{
+        variant: variant
+    });
     
     return(
         <Animated.View style={[
-                styles.basicToast,
+                basicToast,
                 animatedStyles,
-                {backgroundColor:toastVariant.backgroundColor}
+                {backgroundColor:toast.backgroundColor}
             ]}>
-          	<View style={styles.toastMessageContainer}>
+          	<View style={toastMessageContainer}>
 
           		<Text style={[
-                    styles.toastText,
-                    {color:toastVariant.color}
+                    toastText,
+                    {color:toast.color}
                 ]}>{message}</Text>
+                
           		{closeBtn===''? '':
                     <View style={{alignItems:'flex-end'}}>
                         <Button size="sm" title={closeBtn} onPress={closeToast} variant={'white'}/>
@@ -137,13 +133,52 @@ function ToastBox(props: ToastProps){
                 }
           	</View>
             {bottomBar? 
-            <BottomBar foreground={toastVariant.color} duration={duration} reversed /> : ''}
+                <BottomBar foreground={toast.color} duration={duration} reversed /> : 
+            ''}
         </Animated.View>
     )
 }
 
 
 const styleSheet = createStyleSheet((theme=>({
+    toast:{
+        variants:{
+            variant:{
+                primary:{
+                    backgroundColor: theme.color['primary'],
+                    color: Color(theme.color['primary']).darken(.6).toString()
+                },
+                secondary:{
+                    backgroundColor: theme.color['secondary'],
+                    color: Color(theme.color['secondary']).darken(.6).toString()
+                },
+                tertiary:{
+                    backgroundColor: theme.color['tertiary'],
+                    color: Color(theme.color['tertiary']).darken(.6).toString()
+                },
+                success:{
+                    backgroundColor: theme.color['success'],
+                    color: Color(theme.color['success']).darken(.6).toString()
+                },
+                warning:{
+                    backgroundColor: theme.color['warning'],
+                    color: 'black'
+                },
+                error:{
+                    backgroundColor: theme.color['error'],
+                    color: 'white'
+                },
+                black:{
+                    backgroundColor: theme.color['black'],
+                    color: theme.color['white']
+                },
+                white:{
+                    backgroundColor: theme.color['white'],
+                    color: theme.color['black']
+                }
+            }
+        }
+    },
     toastContainer:{
         flex: 1,
         width: '95%',
@@ -179,37 +214,5 @@ const styleSheet = createStyleSheet((theme=>({
         width: '100%',
         height: '100%'
     },
-    'primary':{
-        backgroundColor: theme.color['primary'],
-        color: Colors.blue['50']
-    },
-    'secondary':{
-        backgroundColor: theme.color['secondary'],
-        color: Colors.blue['50']
-    },
-    'tertiary':{
-        backgroundColor: theme.color['tertiary'],
-        color: Colors.blue['50']
-    },
-    'success':{
-        backgroundColor: theme.color['success'],
-        color: Colors.blue['50']
-    },
-    'warning':{
-        backgroundColor: theme.color['warning'],
-        color: Colors.blue['50']
-    },
-    'error':{
-        backgroundColor: theme.color['error'],
-        color: Colors.blue['50']
-    },
-    'black':{
-        backgroundColor: theme.color['black'],
-        color: theme.color['white']
-    },
-    'white':{
-        backgroundColor: theme.color['white'],
-        color: theme.color['black']
-    }
 })))
 

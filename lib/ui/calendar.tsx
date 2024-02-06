@@ -250,8 +250,8 @@ function CalendarDays(props: DayProp){
             daysAfter = 6 - (new Date(`30 ${month} ${year}`).getDay());
         }
         else if(month==='February') { 
+            if(year%4!==0) dates[1].pop();
             dates[1].pop();
-            dates[1].pop(); 
             dates[1].pop(); 
             daysAfter = 6 - (new Date(`${year%4===0? 29:28} ${month} ${year}`).getDay());
         }
@@ -265,7 +265,7 @@ function CalendarDays(props: DayProp){
         // adding before dates
         const daysBeforeArray = [];
         for(let k = 0; k<daysBefore; k++){
-            daysBeforeArray.push(i-k);
+            daysBeforeArray.unshift(i-k);
         }
         dates[0] = daysBeforeArray;
 
@@ -348,7 +348,7 @@ const styleSheet = createStyleSheet((theme)=>({
         width: 240,
         padding:5,
         borderRadius:5,
-        zIndex:5,
+        zIndex:3,
         borderWidth: 1,
         borderColor: Colors.slate['300'],
         backgroundColor: theme.color['white']

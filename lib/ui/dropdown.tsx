@@ -3,7 +3,6 @@ import { FlatList, Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Button from "../basic/button";
 import { DropdownItemProps, DropdownProps } from "..";
-import { ChevronArrow } from "../utils/svg_comp";
 import { GenerateScaleAnimation } from "../utils/slide_animation";
 import Animated from "react-native-reanimated";
 
@@ -19,16 +18,22 @@ export default function Dropdown(props: DropdownProps){
         placeholder="Select"
     } = props;
 
-    const {styles} = useStyles(styleSheet);
+    const {styles:{dropdown,containerView,placeholderStyle}} = useStyles(styleSheet,{
+        variant: variant
+    });
     const [visible, setVisible] = React.useState(false);
-    const [currentData, setSelectedData] = React.useState(selectedIndex);
+    const [currentIndex, setCurrentIndex] = React.useState(selectedIndex);
 
     const {current:{animateIntro,animateOutro,animatedStyles}} = React.useRef(GenerateScaleAnimation({
         animationDuration: 100,
         oneDirectionalAnimation: true,
     }));
     
-    const toggle = () =>{
+    const toggle = (vis?:boolean) =>{
+        if(vis) {
+            setVisible(vis);
+            return;
+        }
         if(visible) {
             animateOutro();
             setTimeout(()=>{
@@ -41,53 +46,64 @@ export default function Dropdown(props: DropdownProps){
         }
     }
     return(
-        <View style={{width:width,position:'relative'}}>
+        <View style={{width:width,position:'relative',zIndex:3}}>
             <Button 
                 variant={variant} 
                 size={size} 
                 onPress={toggle} 
+                onBlur={()=>{toggle(false)}}
                 block 
                 rounded={false} 
                 animateScale={false} 
                 asChild>
-                <View style={{flexDirection:'row'}}>
-                    <Text numberOfLines={1} style={[styles[variant],styles.placeholder]}>
-                        {currentData==0? placeholder : data[currentData-1].label}
+                <View style={{flexDirection:'row',position:'relative'}}>
+                    <Text selectable={false} numberOfLines={1} style={[{color:dropdown.color},placeholderStyle]}>
+                        {currentIndex==0? placeholder : data[currentIndex-1].label}
                     </Text>
-                    <View style={{alignItems:'center',marginTop:-2}}>
-                        <ChevronArrow activated={visible} color={styles[variant].color}/>
+                    <View>
+                        <Text></Text>
                     </View>
                 </View>
             </Button>
             <Animated.View style={[
-                animatedStyles,styles.container,
+                animatedStyles,containerView,
                 {bottom:-height-2,height:height,display: visible? 'flex':'none'}
             ]}>
-                {data.map((d,index)=>(
+            <FlatList 
+                data={data}
+                renderItem={({item,index})=>(
                     <List 
-                    key={index}
-                    size={size} 
-                    variant={variant} 
-                    data={d} 
-                    active={index+1===currentData}
-                    index={index+1}
-                    setData={setSelectedData}
-                    onChange={onChange}
+                        data={item}
+                        index={index+1}
+                        onChange={onChange}
+                        selectedIndex={currentIndex}
+                        setSelectedIndex={setCurrentIndex}
+                        size={size}
+                        toggleVisible={toggle}
+                        variant={variant}
+                        active={index+1===currentIndex}
+                        key={index}
                     />
-                ))}
+                )}/>
             </Animated.View>
         </View>
     )
 }
 
 function List(props: DropdownItemProps){
-    const {data,setData,variant,index,active,onChange} = props;
+    const {data,setSelectedIndex,variant,index,active,selectedIndex,onChange,toggleVisible} = props;
     const intendedData = React.useRef(index);
     const setSelectedData = () => {
-        onChange(data);
-        setData(intendedData.current);
+        if(selectedIndex===intendedData.current)
+            toggleVisible();
+        else {
+            onChange(data);
+            setSelectedIndex(intendedData.current);
+        }
     }
-    const {styles} = useStyles(styleSheet);
+    const {styles} = useStyles(styleSheet,{
+        variant
+    });
     return(
         <Button 
             size={'md'} 
@@ -99,46 +115,53 @@ function List(props: DropdownItemProps){
             block 
             asChild
         >
-            <Text numberOfLines={1} style={styles[variant]}>{data.label}</Text>
+            <Text numberOfLines={1} style={{color:styles.dropdown.color}}>{data.label}</Text>
         </Button>
     )
 
 }
 
 const styleSheet = createStyleSheet((theme)=>({
-    'black':{
-        color: theme.color['white']
+    dropdown:{
+        variants:{
+            variant:{
+                'black':{
+                    color: theme.color['white']
+                },
+                'white':{
+                    color: theme.color['black']
+                },
+                'primary': {
+                    color: 'black',
+                },
+                'secondary': {
+                    color: 'white',
+                },
+                'tertiary': {
+                    color: 'black',
+                },
+                'success': {
+                    color: 'black',
+                },
+                'warning': {
+                    color: 'black',
+                },
+                'error': {
+                    color: 'white',
+                }
+            }
+        }
     },
-    'white':{
-        color: theme.color['black']
-    },
-    'primary': {
-        color: 'black',
-    },
-    'secondary': {
-        color: 'white',
-    },
-    'tertiary': {
-        color: 'black',
-    },
-    'success': {
-        color: 'white',
-    },
-    'warning': {
-        color: 'white',
-    },
-    'error': {
-        color: 'white',
-    },
-    container:{
+    containerView:{
         position:'absolute',
         left:0,
         width:'100%',
     },
-    placeholder:{
+    placeholderStyle:{
         justifyContent:'center',
-        width:'80%',
+        width:'75%',
         paddingVertical:5,
+        marginRight:20,
         fontSize:16
-    }
+    },
 }))

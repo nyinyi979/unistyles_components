@@ -1,11 +1,10 @@
-import Color from 'color';
 import React from 'react';
+import Color from 'color';
 import { Pressable, Text } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { BtnProps } from '..';
-import { FontSizes, enableExperimentalMobileFirstStyle } from '../unistyles';
-import mobileFirstBreakpointsChanging from '../utils/breakpoints_passing';
+import { FontSizes } from '../unistyles';
 /**
  * 
  * @param ButtonProps You can provide more params than ViewProps
@@ -17,74 +16,62 @@ import mobileFirstBreakpointsChanging from '../utils/breakpoints_passing';
  * - onPressOut?: void function to be called after press is out
  * - onHover?: void function to be called when the button is hovered
  * - onHoverOut?: void function to be called when the button is not hovered
- * - breakpoints? for all screen types, you can provide sizes( will support more later )
  * - active? active is not stable it is currently just used in dropdown
  * @returns JSX Element Button
  */
 function Button(props:BtnProps){
-    const {styles,breakpoint} = useStyles(styleSheet);
-
     //Destructuring the properties
     const {
-        title="Hello",
+        title="",
         variant='primary',
         block=false,
         asChild=false,
         size=asChild? 'xs': 'md',
         rounded=true,
         active=false,
-        animateScale=true,
+        animateScale=!active,
         onPress=()=>{},
         onHover=()=>{},
         onHoverOut=()=>{},
         onPressOut=()=>{},
-        breakpoints=undefined,
+        onBlur=()=>{},
+        onFocus=()=>{},
         children
     } = props;
 
-    //current breakpoints
-    const mobileFistBreakpointStyles = React.useRef(
-        enableExperimentalMobileFirstStyle? 
-        mobileFirstBreakpointsChanging(breakpoints, {
-            size: size
-        }):
-        {   ...breakpoints,
-            xs: {size: size}
-        }
-    )
-
-    // style values according to breakpoints 
-    const usedStyles = React.useMemo(()=>{
-        //get the current screen sizes
-        const stylesAccordingToBreakpoints = mobileFistBreakpointStyles.current[breakpoint];
-
-        //returning the new styles, as the breakpoint changes
-        return {
-            btnVariant: styles[variant],
-            sizeVariant: styles[stylesAccordingToBreakpoints? stylesAccordingToBreakpoints.size : size]}
-    },[breakpoint,variant])
+    const { styles:{button} } = useStyles(styleSheet, {
+        variant: variant,
+        sizes: size
+    });
     
-    const {btnVariant,sizeVariant} = usedStyles;
-
+    const backgroundColor = button.backgroundColor;
+    const hoverColor = button.hoverColor;
+    const color = button.color;
+    const fontSize = button.fontSize;
+    const padding = {
+        paddingHorizontal: button.paddingHorizontal,
+        paddingVertical: button.paddingVertical
+    }
     const scale = useSharedValue(1);
-    const backgroundColor = useSharedValue(btnVariant.backgroundColor);
+
+    const bgSharedValue = useSharedValue(backgroundColor);
     const animatedStyles = useAnimatedStyle(()=>({
-        backgroundColor: active? btnVariant.hoverColor : backgroundColor.value,
+        backgroundColor: active? hoverColor : bgSharedValue.value,
         transform: [{scale: scale.value}],
     }));
     
     const originalState = () =>{
-        backgroundColor.value = withTiming(active? btnVariant.hoverColor : btnVariant.backgroundColor ,{duration:150});
+        bgSharedValue.value = withTiming(active? hoverColor : backgroundColor ,{duration:150});
     }
 
     const hoverState = () =>{
-        backgroundColor.value = withTiming(btnVariant.hoverColor,{duration:150});
+        bgSharedValue.value = withTiming(hoverColor,{duration:150});
         onHover();
     }
 
     const pressState = () =>{
         if(animateScale) scale.value = withTiming(0.92, {duration:100});
-        backgroundColor.value = withTiming(btnVariant.hoverColor,{duration:150});
+        bgSharedValue.value = withTiming(hoverColor,{duration:150});
         setTimeout(()=>{
             scale.value = withTiming(1, {duration:50});
         },50)
@@ -110,21 +97,22 @@ function Button(props:BtnProps){
                 rounded&& {
                     borderRadius: 5
                 },
-                sizeVariant,
+                padding
             ]}>
             <Pressable
                 onHoverIn={hoverState}
                 onPress={pressState}
+                onFocus={onFocus}
                 onHoverOut={hoverOutState}
                 onPressOut={pressOutState}
-                onFocus={originalState}
-                style={[{width:'100%',height:'100%'},sizeVariant]}
+                onBlur={onBlur}
+                style={[{width:'100%',height:'100%'},padding]}
                 >
                 {asChild? children :
-                <Text style={{
-                    color:btnVariant.color,
+                <Text selectable={false} style={{
+                    color:color,
                     textAlign: 'center',
-                    fontSize: sizeVariant.fontSize,
+                    fontSize: fontSize,
                     pointerEvents: 'box-none'
                     }}>
                     {props.title}
@@ -138,76 +126,84 @@ function Button(props:BtnProps){
  *  Customization of the buttons' styles can be done here!
  */
 const styleSheet = createStyleSheet((theme => ({
-    'primary': {
-        backgroundColor: theme.color['primary'],
-        hoverColor: Color(theme.color['primary']).darken(.5).toString(),
-        color: 'black',
-    },
-    'secondary': {
-        backgroundColor: theme.color['secondary'],
-        hoverColor: Color(theme.color['secondary']).darken(.5).toString(),
-        color: 'white',
-    },
-    'tertiary': {
-        backgroundColor: theme.color['tertiary'],
-        hoverColor: Color(theme.color['tertiary']).darken(.5).toString(),
-        color: 'black',
-    },
-    'success': {
-        backgroundColor: theme.color['success'],
-        hoverColor: Color(theme.color['success']).darken(.5).toString(),
-        color: 'white',
-    },
-    'warning': {
-        backgroundColor: theme.color['warning'],
-        hoverColor: Color(theme.color['warning']).darken(.5).toString(),
-        color: 'white',
-    },
-    'error': {
-        backgroundColor: theme.color['error'],
-        hoverColor: Color(theme.color['error']).darken(.5).toString(),
-        color: 'white',
-    },
-    'black': {
-        backgroundColor: theme.color['black'],
-        hoverColor: theme.color['darkGray'],
-        color: theme.color['lightGray'],
-    },
-    'white': {
-        backgroundColor: theme.color['white'],
-        hoverColor: theme.color['lightGray'],
-        color: theme.color['darkGray'],
-    },
-    'xs': {
-        fontSize: FontSizes['xs'],
-        paddingHorizontal: 4,
-        paddingVertical: 2
-    },
-    'sm': {
-        fontSize: FontSizes['sm'],
-        paddingHorizontal: 6,
-        paddingVertical: 2
-    },
-    'md': {
-        fontSize: FontSizes['md'],
-        paddingHorizontal: 8,
-        paddingVertical: 3
-    },
-    'lg': {
-        fontSize: FontSizes['lg'],
-        paddingHorizontal: 10,
-        paddingVertical: 3
-    },
-    'xl': {
-        fontSize: FontSizes['xl'],
-        paddingHorizontal: 12,
-        paddingVertical: 4
-    },
-    '2xl': {
-        fontSize: FontSizes['2xl'],
-        paddingHorizontal: 14,
-        paddingVertical: 5
-    },
+    button:{
+        variants:{
+            variant:{
+                primary: {
+                    backgroundColor: theme.color['primary'],
+                    hoverColor: Color(theme.color['primary']).darken(.5).toString(),
+                    color: 'white',
+                },
+                secondary: {
+                    backgroundColor: theme.color['secondary'],
+                    hoverColor: Color(theme.color['secondary']).darken(.5).toString(),
+                    color: 'white',
+                },
+                tertiary: {
+                    backgroundColor: theme.color['tertiary'],
+                    hoverColor: Color(theme.color['tertiary']).darken(.5).toString(),
+                    color: 'white',
+                },
+                success: {
+                    backgroundColor: theme.color['success'],
+                    hoverColor: Color(theme.color['success']).darken(.5).toString(),
+                    color: 'white',
+                },
+                warning: {
+                    backgroundColor: theme.color['warning'],
+                    hoverColor: Color(theme.color['warning']).darken(.5).toString(),
+                    color: 'white',
+                },
+                error: {
+                    backgroundColor: theme.color['error'],
+                    hoverColor: Color(theme.color['error']).darken(.5).toString(),
+                    color: 'white',
+                },
+                black:{
+                    backgroundColor: theme.color['black'],
+                    hoverColor: theme.color['darkGray'],
+                    color: theme.color['white']
+                },
+                white:{
+                    backgroundColor: theme.color['white'],
+                    hoverColor: theme.color['lightGray'],
+                    color: theme.color['black']
+                },
+            },
+            sizes:{
+                'xs': {
+                    fontSize: FontSizes['xs'],
+                    paddingHorizontal: 4,
+                    paddingVertical: 2
+                },
+                'sm': {
+                    fontSize: FontSizes['sm'],
+                    paddingHorizontal: 6,
+                    paddingVertical: 2
+                },
+                'md': {
+                    fontSize: FontSizes['md'],
+                    paddingHorizontal: 8,
+                    paddingVertical: 3
+                },
+                'lg': {
+                    fontSize: FontSizes['lg'],
+                    paddingHorizontal: 10,
+                    paddingVertical: 3
+                },
+                'xl': {
+                    fontSize: FontSizes['xl'],
+                    paddingHorizontal: 12,
+                    paddingVertical: 4
+                },
+                '2xl': {
+                    fontSize: FontSizes['2xl'],
+                    paddingHorizontal: 14,
+                    paddingVertical: 5
+                },
+            }
+        }
+    }
 })))
 
 export default Button

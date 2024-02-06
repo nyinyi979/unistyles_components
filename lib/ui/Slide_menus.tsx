@@ -35,7 +35,7 @@ export default function Menu(props: MenuProps){
     
     // Display to toggle before intro and after outro
     const [display, setDisplay] = React.useState<'flex'|'none'>(visible? 'flex': 'none');
-    
+
     // Getting the drag for the gesutre
     const dragStyles = React.useRef(
         direction==='left'||direction==='right'? 

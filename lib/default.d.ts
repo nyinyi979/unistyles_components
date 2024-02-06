@@ -2,7 +2,7 @@ export type btnSize = 'xs'|'sm'|'md'|'lg'|'xl'
 
 export type fontSizes = 'xxs'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl'|'3xl'|'4xl'|'5xl'|'6xl'
 
-export type color = 'primary'|'secondary'|'tertiary'|'success'|'warning'|'error'|'black'|'white'|
+export type color = 
 'slate'|'gray'|'zinc'|'neutral'|'stone'|'red'|'orange'|'amber'|'yellow'|'lime'|'green'|
 'emerald'|'teal'|'cyan'|'sky'|'blue'|'indigo'|'violet'|'purple'|'fuchsia'|'pink'|'rose'
 

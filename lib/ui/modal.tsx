@@ -97,7 +97,7 @@ function Dialog(DialogProps: DialogProps){
                 ]}>
                     <Pressable 
                     style={backdropView}
-                    onPressIn={closeDialog}
+                    onPress={closeDialog}
                     disabled={!backdropPressHidesModal}
                     />
                 </Animated.View>

@@ -3,7 +3,6 @@
 import React, { Dispatch, SetStateAction } from "react"
 import { ViewProps, TextProps, DimensionValue, TextInputProps } from 'react-native'
 import { SharedValue } from "react-native-gesture-handler"
-import { breakPointsProperties, buttonBreakpointStyle, inputBreakpointStyle, linkBtnBreakpointStyle, textBreakpointStyle } from "./breakpoints"
 import { animationType, direction, variant, Sizes, btnSize, color, fontSizes, tint, fontWeight, textAlign } from "./default"
 
 
@@ -58,10 +57,10 @@ export interface BtnProps extends ViewProps {
     onHover?: ()=>void,
     onHoverOut?: ()=>void,
     onPressOut?: ()=>void,
+    onBlur?: ()=>void,
+    onFocus?: ()=>void,
     asChild?: boolean,
     children?: React.ReactNode,
-    /** Breakpoints */
-    breakpoints?: breakPointsProperties<buttonBreakpointStyle>
 }
 
 /** Badge props */
@@ -74,8 +73,6 @@ export interface BadgeProps extends ViewProps{
     size?: btnSize,
     /** Rounded or not */
     rounded?: boolean,
-    /** Breakpoints */
-    breakpoints?: breakPointsProperties<buttonBreakpointStyle>
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -143,6 +140,16 @@ type Days = 'Sun'|'Mon'|'Tue'|'Wed'|'Thu'|'Fri'|'Sat'
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
+/** Checkbox */
+interface CheckboxProps {
+    description: React.ReactElement|React.JSX.Element,
+    variant?: variant,
+    onChange?: (checked: boolean)=>{},
+    defaultChecked?: boolean
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
 /** Dialog props */
 export interface DialogProps {
     animationProperties?: animationProperties,
@@ -158,7 +165,7 @@ export interface DialogProps {
         /** Variant of the footer, only supported on unistyles buttons:) */
         variant?: variant
     },
-    /** Provides a number between 1-100, no range check is done so just check this value if something is wrong */
+    /** black and white */
     variant: 'black'|'white'
     backdrop?: {
         color: string,
@@ -193,11 +200,13 @@ type data = {
 interface DropdownItemProps {
     data: data,
     index: number,
-    setData: Dispatch<SetStateAction<number>>,
+    selectedIndex: number,
+    setSelectedIndex: Dispatch<SetStateAction<number>>,
+    toggleVisible: ()=>void,
     variant: variant,
     size: btnSize,
     active?: boolean,
-    onChange: (data: data)=>void
+    onChange: (data: data)=>void,
 }
 interface DropdownProps {
     data: data[],
@@ -259,11 +268,11 @@ export interface InputProps extends TextInputProps {
     paddingHorizontal?: number,
     /** Vertical Padding */
     paddingVertical?: number,
+    fontSize?: fontSizes,
     borderRadius?: number,
     borderWidth?: number,
     width?: number,
     height?: number,
-    breakpoints?: breakPointsProperties<inputBreakpointStyle>
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -277,8 +286,6 @@ export interface LinkBtnProps extends ViewProps {
     fontSize?: fontSizes,
     onPress?: ()=>void,
     onHover?: ()=>void,
-    /** Breakpoints */
-    breakpoints?: breakPointsProperties<linkBtnBreakpointStyle>
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -338,7 +345,7 @@ export interface TextProp extends TextProps{
     tint?: tint,
     fontWeight?: fontWeight,
     textAlign?: textAlign,
-    breakpoints?: breakPointsProperties<textBreakpointStyle>
+    variant?: variant
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -373,7 +380,7 @@ export interface ToastMethod{
     /** Message to display */
     message: string,
     /** Variant of the message box, you can change it on each toast method... woo */
-    variant: variant,
+    variant?: variant,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
