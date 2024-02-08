@@ -41,8 +41,8 @@ Default values for variants, colors, fonts can be seen in default.d.ts file.
 ## Basic Elements
 ### Button - built from Pressable, View and Text
 ### Input - built on TextInput from rn
-### Div - a view element with breakpoints 
-### Typography - modified text 
+### Typography - modified text with support for colors and themes
+### link - link btn component with a slight lightened color when hovered
 
 ## Additional UI Elements ( Most of them are inspired from remix, shadcn )
 ### Accordion
@@ -54,6 +54,12 @@ Non interactive elements with the style of button
 ### Date picker
 A calendar for date picking, can set a callback function for getting the selected date.
 
+### Checkbox 
+A checkbox component which can have a callback function when the value is updated.
+
+### Dropdown
+A dropdown component (an arrow is still needed:)) , all variants available built on Button
+
 ### Modal
 Or Dialog you would call. Created with View component ( not built on rn modal ), there are different animation styles, and a footer( must pass to close the dialog )
 Can also enable backdrop press close the modal
@@ -61,8 +67,18 @@ Can also enable backdrop press close the modal
 ### Menu
 This is an other form of Modal which is attached to one side of the screen. Can be dragged to dismiss. ( drag to fullscreen is still in development )
 
+### Switch
+On/Off switch component, can set a callback function when the value is updated
+
 ### Toast
 Toast is an alert box. useToast() must be called in your app.tsx, which will return two things ( Toast: function to display toast messages , ToastProviderComponent: which must be called inside your app.tsx ) 
+
+### Toggle
+A toggle component built on Button ( from this library ), it is only supported for one character yet, 
+can extend it!
+
+### Tab
+A tab component.
 
 ## Dependency 
 1. Unistyles ( so please test them with anything but Expo Go app, unistyles isn't supported in Expo Go ) 
