@@ -6,7 +6,14 @@ import { Pressable} from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { FontSizes } from "../unistyles";
 
-/** It is not named Link because there are a lot of libraries out there using Link. */
+/** It is not named Link because there are a lot of libraries out there using Link. 
+ * @param Link
+ * - variant - primary, secondary, tertiary, success, warning, error, black, white
+ * - onPress - onPress function
+ * - onHover - onHover function 
+ * - fontSize - xxs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl 
+ * @returns Link react node
+*/
 function LinkBtn(props: LinkBtnProps){
     const {
         variant='primary',
@@ -47,13 +54,13 @@ function LinkBtn(props: LinkBtnProps){
             onHoverOut={originalState}
             onPressOut={originalState}
             style={{alignSelf:'flex-start'}}
-            >
+        >
             <Animated.Text style={[animatedStyles,{
                     textAlign: 'center',
                     fontSize: FontSizes[fontSize],
                     pointerEvents: 'box-none'
                     }]}
-                >
+            >
                 {props.title}
             </Animated.Text>
         </Pressable>
@@ -102,6 +109,6 @@ const styleSheet = createStyleSheet((theme => ({
             }
         }
     }
-})))
+})));
 
 export default LinkBtn

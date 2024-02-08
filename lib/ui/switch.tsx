@@ -5,6 +5,17 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-na
 import { Pressable, Text, View } from "react-native";
 import { Colors } from "../unistyles";
 
+/**
+ * 
+ * @param Switch
+ * - variant - black and white
+ * - defualtChecked - default checked or not (default - false)
+ * - onChange - called when the value is changed
+ * - description - description text beside the switch
+ * - disabled - true or false
+ * - animationDuration - animation duration for the switch to turn on and off (default - 300)
+ * @returns 
+ */
 export default function Switch(props: SwitchCheckProps){
     const {
         variant='black',
@@ -15,7 +26,7 @@ export default function Switch(props: SwitchCheckProps){
         disabled=false
     } = props;
     const [checked, setChecked] = React.useState(defaultChecked);
-    const { styles:{switchBtn} } = useStyles(styleSheet,{
+    const { styles:{switchBtn,parentView} } = useStyles(styleSheet,{
         variant:variant,
         sizes: 'xs'
     });
@@ -73,8 +84,8 @@ export default function Switch(props: SwitchCheckProps){
     },[variant])
     
     return(
-        <Animated.View style={[{alignSelf:'flex-start'}]}>
-            <Pressable onPress={toggle}>
+        <Animated.View style={parentView}>
+            <Pressable onPress={toggle} style={{flexDirection:'row',alignItems:'center'}}>
                 <Animated.View style={[sizes.bgSize,{justifyContent:'center'},bgAnimatedStyles]}>
                     <Animated.View style={[sizes.circleStyle,translateXAnimatedStyles]} />
                 </Animated.View>
@@ -85,6 +96,9 @@ export default function Switch(props: SwitchCheckProps){
     )
 }
 const styleSheet = createStyleSheet((theme)=>({
+    parentView:{
+        alignSelf:'flex-start'
+    },
     switchBtn:{
         variants:{
             variant:{

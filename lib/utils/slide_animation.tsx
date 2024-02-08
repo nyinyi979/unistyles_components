@@ -3,12 +3,8 @@ import React from 'react';
 import { animationType } from "../default";
 /** This function is mostlly used for normal modal animation
  * - Take access to more function by importing GenerateSlideLeftAnimation ... where you can provide 
- * - oneDirectionalAnimation: whether the left modal will go to left again (USEFUL WITH DragModals)
+ * - oneDirectionalAnimation - whether the left modal will go to left again (USEFUL WITH DragModals)
  * - animationDuration: duration of the total animation
- * - existing?: Existing shared value in your component to extend the animation on other states, normally 
- * it would take SharedValue<{translateX|tranlsateY:number,opacity:number}> 
- * ***
- * THE EXISTING VALUE ARE AVAILABLE FOR ANIMATION TYPES BUT FADE:(
  */
 export function GenerateAnimation(animation: animationProperties){
     switch(animation.animationType){
@@ -30,10 +26,10 @@ export function GenerateAnimation(animation: animationProperties){
 /**
  * Generate slide left animation intro and outro and animatedStyles to use it in your component,
  * @param
- * - oneDirectionalAnimation: true -> left intro - left outro , false -> left intro - right outro
- * - animationDuration: to animate to the exact duration, fewer is better!!
- * - You can provide existing value SharedValue<{translateX:number,opacity:number}>
- * - animateScale: animate the scale to smaller, bigger or keep it at given scale
+ * - oneDirectionalAnimation - true -> left intro - left outro , false -> left intro - right outro
+ * - animationDuration - to animate to the exact duration, fewer is better!!
+ * - existing - Can provide existing value SharedValue<{translateX:number,opacity:number}>
+ * - animateScale - animate the scale to smaller, bigger or keep it at given scale
  * - animateOpacity: true - animate the opacity to 1 
  *  false - animate the opacity to a give existing value ( must provide existing )
  * @returns animateIntro and animateOutro function and animatedStyles values
@@ -72,9 +68,9 @@ export function GenerateScaleAnimation(animation: FadeAnimation){
 /**
  * Generate slide left animation intro and outro and animatedStyles to use it in your component,
  * @param
- * - animationDuration: to animate to the exact duration, fewer is better!!
- * - existing: You can provide existing value SharedValue<{translateX:number,opacity:number}>
- * - opacityToAnimate: 0-1
+ * - animationDuration - to animate to the exact duration, fewer is better!!
+ * - existing - Can provide existing value SharedValue<{translateX:number,opacity:number}>
+ * - opacityToAnimate - 0-1
  *  false - animate the opacity to a give existing value ( must provide existing )
  * @returns animateIntro and animateOutro function and animatedStyles values
  */
@@ -99,10 +95,10 @@ export function GenerateFadeAnimation(animation: OpacityAnimation){
 /**
  * Generate slide left animation intro and outro and animatedStyles to use it in your component,
  * @param
- * - oneDirectionalAnimation: true -> left intro - left outro , false -> left intro - right outro
- * - animationDuration: to animate to the exact duration, fewer is better!!
- * - You can provide existing value SharedValue<{translateX:number,opacity:number}>
- * - animateOpacity whether the opacity will be animated or not
+ * - oneDirectionalAnimation - true -> left intro - left outro , false -> left intro - right outro
+ * - animationDuration - to animate to the exact duration, fewer is better!!
+ * - existing - Can provide existing value SharedValue<{translateX:number,opacity:number}>
+ * - animateOpacity - whether the opacity will be animated or not
  * @returns animateIntro and animateOutro function and animatedStyles values
  */
 export function GenerateSlideLeftAnimation(animation: LeftRightAnimation){
@@ -141,10 +137,10 @@ export function GenerateSlideLeftAnimation(animation: LeftRightAnimation){
 /**
  * Generate slide right animation intro and outro and animatedStyles to use it in your component,
  * @param
- * - oneDirectionalAnimation: true -> right intro - right outro , false -> right intro - left outro
- * - animationDuration: to animate to the exact duration, fewer is better!!
- * - You can provide existing value SharedValue<{translateX:number,opacity:number}>
- * - animateOpacity whether the opacity will be animated or not
+ * - oneDirectionalAnimation - true -> right intro - right outro , false -> right intro - left outro
+ * - animationDuration - to animate to the exact duration, fewer is better!!
+ * - existing - Can provide existing value SharedValue<{translateX:number,opacity:number}>
+ * - animateOpacity - whether the opacity will be animated or not
  * @returns animateIntro and animateOutro function and animatedStyles values
  */
 export function GenerateSlideRightAnimation(animation: LeftRightAnimation){
@@ -182,10 +178,10 @@ export function GenerateSlideRightAnimation(animation: LeftRightAnimation){
 /**
  * Generate slide top animation intro and outro and animatedStyles to use it in your component,
  * @param
- * - oneDirectionalAnimation: true -> top intro - bottom outro, false -> top intro - top outro
- * - animationDuration: to animate to the exact duration, fewer is better!!
- * - You can provide existing value SharedValue<{translateX:number,opacity:number}>
- * - animateOpacity whether the opacity will be animated or not, sometimes you would just want one value
+ * - oneDirectionalAnimation - true -> top intro - bottom outro, false -> top intro - top outro
+ * - animationDuration - to animate to the exact duration, fewer is better!!
+ * - existing - Can provide existing value SharedValue<{translateX:number,opacity:number}>
+ * - animateOpacity - whether the opacity will be animated or not, sometimes you would just want one value
  * @returns animateIntro and animateOutro function and animatedStyles values
  */
 export function GenerateSlideTopAnimation(animation: TopBottomAnimation){
@@ -224,9 +220,9 @@ export function GenerateSlideTopAnimation(animation: TopBottomAnimation){
 /**
  * Generate slide bottom animation intro and outro and animatedStyles to use it in your component,
  * @param
- * - oneDirectionalAnimation: true -> bottom intro - top outro, false -> bottom intro - bottom outro
- * - animationDuration: to animate to the exact duration, fewer is better!!
- * - You can provide existing value SharedValue<{translateX:number,opacity:number}>
+ * - oneDirectionalAnimation - true -> bottom intro - top outro, false -> bottom intro - bottom outro
+ * - animationDuration - to animate to the exact duration, fewer is better!!
+ * - existing - Can provide existing value SharedValue<{translateX:number,opacity:number}>
  * - animateOpacity whether the opacity will be animated or not, sometimes you would just want one value
  * @returns animateIntro and animateOutro function and animatedStyles values
  */
@@ -273,7 +269,6 @@ type animationProperties = {
     oneDirectionalAnimation: boolean,
     /** Duration of the animation,  */
     animationDuration: number,
-    existingValue?: SharedValue<{translateX:number,opacity:number}>|SharedValue<{translateY:number,opacity:number}>,
 }
 
 type FadeAnimation = {

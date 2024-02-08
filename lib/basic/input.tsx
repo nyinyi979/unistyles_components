@@ -5,7 +5,19 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { InputProps } from "..";
 import { FontSizes } from "../unistyles";
 
-export default function Input(props: InputProps){
+/**
+ * 
+ * @param Input
+ * - variant - primary, secondary, tertiary, success, warning, error, black, white
+ * - width - width of the input box
+ * - paddingHorizontal - padding interior (default - 10)
+ * - paddingVertical - padding interior (default - 5)
+ * - borderRadius - (default - 5)
+ * - borderWidth - (default - 2)
+ * - fontSize - xxs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl 
+ * @returns Input react node
+ */
+function Input(props: InputProps){
     const {
         variant='white',
         width=100,
@@ -92,4 +104,6 @@ const styleSheet = createStyleSheet((theme => ({
             }
         }
     }
-})))
+})));
+
+export default Input

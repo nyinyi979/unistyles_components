@@ -18,9 +18,10 @@ const _year = now.getFullYear();
 /**
  * 
  * @param Calendar
- * - numberOfLetters: Sat, Sun or Sa, Su
- * - onValueChange: (date: string)=>void, callback function for when the value is updated
- * @returns JSX Calendar Component
+ * - numberOfLetters - Sat, Sun or Sa, Su
+ * - onValueChange - (date: string)=>void, callback function for when the value is updated
+ * - initDate - month and year for initial page render
+ * @returns Date Picker react node
  */
 function Calendar(props: CalendarProps){
     const {
@@ -87,12 +88,12 @@ function Calendar(props: CalendarProps){
                     openDayView={openDayView}
                     selectedMonth={date.month}
                     setSelectedMonth={setMonth}
-                    />
+                />
                 : <CalendarYear 
                     openMonthView={openMonthView}
                     setYear={setYear}
                     year={date.year}
-                    />
+                />
                 }
             </View>
         </View>
@@ -283,8 +284,6 @@ function CalendarDays(props: DayProp){
 
     return(
         <View style={styles.flexBoxStyles}>
-            
-
             {generatedDays.map((date,index)=>(
                 date.map((date_)=>(
                     <EachDay 

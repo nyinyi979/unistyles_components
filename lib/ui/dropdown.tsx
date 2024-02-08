@@ -6,6 +6,19 @@ import { DropdownItemProps, DropdownProps } from "..";
 import { GenerateScaleAnimation } from "../utils/slide_animation";
 import Animated from "react-native-reanimated";
 
+/**
+ * 
+ * @param Dropdown
+ * - data - an array of data to be displayed in the dropdown
+ * - height - height of the flatlist, provide larger value if you don't want it to be a flatlist(scrollbar hidden)
+ * - width - width of the dropdown
+ * - selectedIndex - default selected index ( starting from 1 )
+ * - onChange - will return data: {data: string, label: string} when updated
+ * - size - button sizes
+ * - variant - variants
+ * - placeholder - placeholder before anything is selected
+ * @returns dropdown react node
+ */
 export default function Dropdown(props: DropdownProps){
     const {
         data,
@@ -110,7 +123,7 @@ function List(props: DropdownItemProps){
             size={'md'} 
             variant={variant} 
             onPress={setSelectedData} 
-            active={active}
+            disabled={active}
             rounded={false} 
             animateScale={false}
             block 

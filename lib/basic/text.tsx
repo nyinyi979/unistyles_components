@@ -7,13 +7,13 @@ import { TextProp } from "../";
 /**
  * 
  * @param - Paragraph just like in web ( but inline, use inside a div|view to be a block )
- * - fontSize: xxs | xs | sm | md | lg | xl | 2xl | 3xl | 4xl | 5xl | 6xl
- * - color: theme colors : 'primary','secondary','tertiary','success','warning','error','black','white'...
- * - tint: others than theme colors tint should be provided 
- * - fontWeight: 100 - 900 , boldness of the text
- * @returns 
+ * - fontSize - xxs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl 
+ * - color - all variant colors and tailwind colors
+ * - tint - others than variant tint should be provided (default - 500)
+ * - fontWeight - 100 - 900 , boldness of the text
+ * @returns P react node
  */
-export default function P(TextProp: TextProp){
+function P(TextProp: TextProp){
     const {
         fontSize='md',
         color='black',
@@ -73,4 +73,6 @@ const styleSheet = createStyleSheet((theme)=>({
             }
         }
     },
-}))
+}));
+
+export default P

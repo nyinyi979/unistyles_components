@@ -1,23 +1,23 @@
 import React from "react";
+import Animated from "react-native-reanimated";
+import Button from "../basic/button";
 import { Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import Button from "../basic/button";
 import { GenerateAnimation } from "../utils/slide_animation";
-import Animated from "react-native-reanimated";
 import { ToastMethod, ToastProps, toastContext } from "../";
 import { BottomBar } from "../utils/svg_comp";
-import { Colors } from "../unistyles";
 import { variant } from "../default";
 import Color from "color";
 
 /**
  * 
  * @param 
- * - animationType: four types of animation available 
- * - hidesAfterNoInteraction: time in ms to hide the modal if it is not pressed ( button press will still dimiss it)
- * - closeBtn string of the close button, optional ( will hides the button if there is no text )
- * - bottom boolean, animating bottom bar
- * @returns 
+ * - animationType - four types of animation available 
+ * - hidesAfterNoInteraction - time in ms to hide the modal if it is not pressed ( button press will still dimiss it)
+ * - closeBtn - string of the close button, optional ( will hides the button if there is no text )
+ * - bottom - boolean, animating bottom bar
+ * @returns an object containing Toast - a function to display toast message , ToastContextProvider react node
+ * which should be initialized in the main component
  */
 export default function useToast(props: toastContext){
 	const {

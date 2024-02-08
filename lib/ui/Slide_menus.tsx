@@ -22,7 +22,7 @@ import { DragLeftOrRightToDimiss, DragTopOrBottomToDimiss } from "../utils/drag_
  * - notchVisible: whether the notch will be available or not
  * - location: where the menu will be attached to, top|right|bottom|left
  * - widthOrHeight: width for left, right menu . height for top, bottom menu
- * @returns 
+ * @returns menu react node
  */
 export default function Menu(props: MenuProps){
     // DEINING DEFAULT PARAMETERS

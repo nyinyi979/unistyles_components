@@ -5,6 +5,16 @@ import { TabContentsProps, TabHeadingsProps, TabProps } from "..";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { GenerateFadeAnimation } from "../utils/slide_animation";
 
+/**
+ * 
+ * @param Tab
+ * - contents - ReactNode (please optimize it for themes if you are providing others but string) 
+ * - headings - array of string
+ * - defaultOpenedIndex - number 
+ * - variant - black || white
+ * - height - height of the contents
+ * @returns Tab react node
+ */
 export default function Tab(props: TabProps){
     const {contents,headings,defaultOpenedIndex=0,variant='black',width='100%',height} = props;
     const [openedIndex, setOpenedIndex] = React.useState(defaultOpenedIndex);
@@ -44,17 +54,20 @@ function TabHeadings(props: TabHeadingsProps){
     }
 
     return(
-        <View style={[{
+        <View 
+            style={[{
                 backgroundColor:tab.backgroundColor,
                 borderColor:tab.indicatorColor},
                 headingView
                 ]} 
-                onLayout={(e)=>{setWidth(e.nativeEvent.layout.width)}}>
+                onLayout={(e)=>{setWidth(e.nativeEvent.layout.width)}}
+        >
             <Animated.View style={[{
                 width:`${100/headings.length}%`,
                 backgroundColor:tab.indicatorColor},
                 indicatorView,animatedStyles
-                ]} />
+                ]} 
+            />
             {headings.map((heading,index)=>(
                 <Pressable 
                     style={[{width:`${100/headings.length}%`},eachHeadingView]}

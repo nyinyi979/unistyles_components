@@ -11,20 +11,21 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
  * - FULLSCREEN DIALOG WIDTH/HEIGHT ADJUSTABLE VIA INITIALWIDTHHEIGHT,MAXWIDTHHEIGHT
  * *****************************
  * @param
- * - animationProperties: {animationType: type of animation to be used(fade), 
- * animationDuration: duration of the animation(500), 
- * oneDirectionalAnimation: see the details hovering it:)}
- * - variant: black and white is currently supported, default white ( work on both light and dark mode )
- * - backdrop: color for the backdrop and opacity for the opacity of it-_-
- * - header: header string
- * - footer: { 
- *      title: title of the button
- *      actiosn: other actions for the buttons other than closeBtnIndex 
+ * - animationProperties - {animationType: type of animation to be used(fade), 
+ * animationDuration - duration of the animation(500), 
+ * oneDirectionalAnimation - see the details hovering it:)}
+ * - variant - black and white is currently supported, default white ( work on both light and dark mode )
+ * - backdrop - color for the backdrop and opacity for the opacity of it-_-
+ * - header - header string
+ * - footer - { 
+ *      title - title of the button
+ *      actions - other actions for the buttons other than closeBtnIndex 
  *   },
- * - children: you can just provide children and footer (or backdropPressHidesModal), header is not that necessary
- * - visible: state to pass
- * - setVisible: state dispatch action to set the state 
- * @returns JSX Element - Dialog */
+ * - children - you can just provide children and footer (or backdropPressHidesModal), header is not that necessary
+ * - visible - state to pass
+ * - setVisible - state dispatch action to set the state 
+ * @returns Dialog react node
+*/
 
 function Dialog(DialogProps: DialogProps){
     // default value assigning
@@ -96,27 +97,28 @@ function Dialog(DialogProps: DialogProps){
                     {backgroundColor:backdrop.color}
                 ]}>
                     <Pressable 
-                    style={backdropView}
-                    onPress={closeDialog}
-                    disabled={!backdropPressHidesModal}
+                        style={backdropView}
+                        onPress={closeDialog}
+                        disabled={!backdropPressHidesModal}
                     />
                 </Animated.View>
 
                 <Animated.View style={[
                     insideModalContainer,animatedStyles,styles[variant]
-                    ]}>
-                        <Text style={modalText}>{header}</Text> 
-                        <View style={childrenContainer}>
-                            {children}
-                        </View>
-                        <View style={{flex:1}}>
-                            {footer? <Button 
-                                title={footer.title} 
-                                onPress={closeDialog} 
-                                variant={footer.variant}
-                                />
-                            : <Text></Text>}
-                        </View>
+                ]}>
+                    <Text style={modalText}>{header}</Text> 
+                    <View style={childrenContainer}>
+                        {children}
+                    </View>
+                    <View style={{flex:1}}>
+                        {footer? 
+                        <Button 
+                            title={footer.title} 
+                            onPress={closeDialog} 
+                            variant={variant}
+                            />
+                        : <Text></Text>}
+                    </View>
                 </Animated.View>
             </View>
         </View>

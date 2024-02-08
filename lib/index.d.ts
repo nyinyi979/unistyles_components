@@ -178,9 +178,7 @@ export interface DialogProps {
         /** inner text of the buttons */
         title: string,
         /** Additional action to perform */
-        action?: ()=>void,
-        /** Variant of the footer, only supported on unistyles buttons:) */
-        variant?: variant
+        action?: ()=>void
     },
     /** black and white */
     variant: 'black'|'white'

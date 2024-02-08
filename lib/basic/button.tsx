@@ -1,22 +1,25 @@
 import React from 'react';
 import Color from 'color';
-import { Pressable, Text } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { Pressable, Text } from "react-native";
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { BtnProps } from '..';
 import { FontSizes } from '../unistyles';
 /**
  * 
- * @param ButtonProps You can provide more params than ViewProps
- * - title: value that you want to display,
- * - variant?: 'error', 'warning', 'success', 'tertiary', 'secondary', 'primary', 'outlined',
- * - size?: 'sm', 'md', 'lg', 'xl'
- * - onPress?: void function to be called when a press is captured
- * - onPressOut?: void function to be called after press is out
- * - onHover?: void function to be called when the button is hovered
- * - onHoverOut?: void function to be called when the button is not hovered
- * - active? active is not stable it is currently just used in dropdown
- * @returns JSX Element Button
+ * @param Button You can provide more params than ViewProps
+ * - title - title of the button
+ * - variant - primary, secondary, tertiary, success, warning, error, black, white
+ * - block - will display as a block (no floating)
+ * - asChild - will not get the theme optimization just as in title but you can provide more details
+ * - size - xs, sm, md, lg, xl (default to xs when asChild is true)
+ * - rounded - border rounded or not
+ * - disabled - will display hover color as default
+ * - animateScale - will or not animate the scale effect on press 
+ * - italic - italic the title 
+ * - onPress, onHover, onPressOut, onPressOut, onBlur, onFocus can be provided 
+ * - children - provide this when asChild is true 
+ * @returns Button react node
  */
 function Button(props:BtnProps){
     //Destructuring the properties
@@ -99,7 +102,8 @@ function Button(props:BtnProps){
                     borderRadius: 5
                 },
                 padding
-            ]}>
+            ]}
+        >
             <Pressable
                 onHoverIn={hoverState}
                 onPress={pressState}
@@ -109,7 +113,7 @@ function Button(props:BtnProps){
                 onBlur={onBlur}
                 style={[{width:'100%',height:'100%'},padding]}
                 disabled={disabled}
-                >
+            >
                 {asChild? children :
                 <Text selectable={false} style={{
                     color:color,
@@ -206,6 +210,6 @@ const styleSheet = createStyleSheet((theme => ({
             }
         }
     }
-})))
+})));
 
 export default Button

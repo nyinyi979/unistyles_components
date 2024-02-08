@@ -9,15 +9,14 @@ import { GenerateSlideTopAnimation } from "../utils/slide_animation";
 
 /**
  * 
- * @param  Props that must/could be passed more than ViewProps
-    - data: array of data to be rendered,
-    - headings: array of heading for the data,
-    - type?: 'plus', 'arrow', 'none' , right side icon of each accordion element,
-    - allowOpeningMoreThanTwo: if you want the user to open more than one element, then enable this: boolean,
- *  - defaultOpenedIndex?: array of indexes to be opened (can be more than one, start from 1)
-
-    Want to adjust more than that? Go inside the file and adjust them:)
- * @returns JSX Element Accordion 
+ * @param  Accordion
+ * - data, headings - array of string to be rendered
+ * - allowOpeningMoreThanTwo - will allow the user to open more than one accordion
+ * - defaultOpenedIndex - starting from 1
+ * - type - plus, arrow, none
+ * - headingFontSize - xxs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl (default - lg)
+ * - dataFontSize - xxs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl (default - md)
+ * @returns Accordion react node
  */
 function Accordion(props: AccordionProps){
     const {

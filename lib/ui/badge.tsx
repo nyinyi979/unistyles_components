@@ -3,16 +3,15 @@ import React from 'react';
 import { Text, TextStyle, View, ViewStyle } from "react-native";
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { BadgeProps } from '../';
-import { Colors, FontSizes } from '../unistyles';
+import { FontSizes } from '../unistyles';
 /**
  * 
- * @param ButtonProps You can provide more params than ViewProps
- * - title: value that you want to display,
- * - variant?: 'error', 'warning', 'success', 'tertiary', 'secondary', 'primary', 'outlined',
- * - size?: 'sm', 'md', 'lg', 'xl',
- * - rounded?: the badge will be a bit rounded if true
- * - breakpoints? for all screen types, you can provide sizes( will support more later )
- * @returns JSX Element Button
+ * @param Badge
+ * - title - title of the badge
+ * - variant - primary, secondary, tertiary, success, warning, error, black, white
+ * - size - xs, sm, md, lg, xl
+ * - rounded - the badge will be a bit rounded if true
+ * @returns Badge react node
  */
 function Badge(props:BadgeProps){
     //Destructuring the properties

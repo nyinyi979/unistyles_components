@@ -97,10 +97,11 @@ export default function App() {
             </View>
         ))}
         </View>
+        
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
         {variants.map((variant)=>(
             <View style={{margin:2}}>
-            <CheckBox description={<Text selectable={false}>This is a checkbox!</Text>} key={variant} variant={variant} defaultChecked />
+                <CheckBox description={<Text selectable={false}>This is a checkbox!</Text>} key={variant} variant={variant} defaultChecked />
             </View>
         ))}
         </View>
