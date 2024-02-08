@@ -1,6 +1,6 @@
 import Color from "color";
 import React from "react";
-import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { LinkBtnProps } from "..";
 import { Pressable} from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
@@ -21,8 +21,10 @@ function LinkBtn(props: LinkBtnProps){
 
 
     const usedColor = useSharedValue(link.color);
-
-    const originalState = () =>{
+    const animatedStyles = useAnimatedStyle(()=>({
+        color: usedColor.value
+    }))
+    const originalState = () =>{    
         usedColor.value = withTiming(link.color,{duration:50});
     }
     const hoverState = () =>{
@@ -46,12 +48,11 @@ function LinkBtn(props: LinkBtnProps){
             onPressOut={originalState}
             style={{alignSelf:'flex-start'}}
             >
-            <Animated.Text style={{
-                    color:usedColor,
+            <Animated.Text style={[animatedStyles,{
                     textAlign: 'center',
                     fontSize: FontSizes[fontSize],
                     pointerEvents: 'box-none'
-                    }}
+                    }]}
                 >
                 {props.title}
             </Animated.Text>

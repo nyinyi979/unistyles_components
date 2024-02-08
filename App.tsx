@@ -12,6 +12,9 @@ import DatePicker from './lib/ui/calendar';
 import Dropdown from './lib/ui/dropdown';
 import Menu from './lib/ui/slide_menus';
 import Dialog from './lib/ui/modal';
+import Switch from './lib/ui/switch';
+import Tab from './lib/ui/tabs';
+import Toggle from './lib/ui/toggle';
 
 export default function App() {
     const variants:variant[] = ['primary','secondary','tertiary','black','white','success','warning','error'];
@@ -21,7 +24,7 @@ export default function App() {
     React.useEffect(()=>{
         Toast({
         message: "HELLO",
-        variant: 'primary'
+        variant: 'black'
     })
   },[])
   const [visible,setVisible] = React.useState(false);
@@ -62,15 +65,38 @@ export default function App() {
             </View>
         ))}
         </View>
-        
+
+        <Tab height={50} headings={["Hello","World","Good","Evening"]} 
+            contents={["Hello world",'Hello world','Hello world','Hello world']}/>
+
+        <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap',zIndex:10}}>
+        {variants.map((variant)=>(
+            <Dropdown 
+                data={[{data:'Data 1',label: 'Label'},{data:'Data 1',label: 'Label'},{data:'Data 1',label: 'Label'}]} 
+                width={150} 
+                height={100}
+                variant={variant}
+                placeholder='Please select something'
+                onChange={(data)=>{console.log(data.data)}}
+                />
+        ))}
+        </View>
+
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
         {variants.map((variant)=>(
             <View style={{margin:2}}>
-            <Badge key={variant} title='Hello world' variant={variant} size='md' rounded={false}/>
+                <Badge key={variant} title='Hello world' variant={variant} size='md' rounded={false}/>
             </View>
         ))}
         </View>
 
+        <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
+        {variants.map((variant)=>(
+            <View style={{margin:2}}>
+                <Toggle key={variant} description='I' variant={variant} />
+            </View>
+        ))}
+        </View>
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
         {variants.map((variant)=>(
             <View style={{margin:2}}>
@@ -79,27 +105,15 @@ export default function App() {
         ))}
         </View>
         {/* TOAST CONTEXT PROVIDER IS TRIGGERING SOME PROBLEM :) , see console for more details */}
-        <ToastContextProvider />
+        {/* <ToastContextProvider /> */}
         <DatePicker numberOfLetters={2}/>
 
-        <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap',marginBottom:200}}>
-        {variants.map((variant)=>(
-            <Dropdown 
-                data={[{data:'Data 1',label: 'Label'},{data:'Data 1',label: 'Label'},{data:'Data 1',label: 'Label'}]} 
-                width={150} 
-                height={50}
-                variant={variant}
-                placeholder='Please select something'
-                onChange={(data)=>{console.log(data.data)}}
-                />
-        ))}
-        </View>
-
-        <Menu direction='bottom' setVisible={setVisible} visible={visible} widthOrHeight={200} backdropPressHidesMenu />
+        <Menu direction='left' setVisible={setVisible} visible={visible} widthOrHeight={200} backdropPressHidesMenu />
         <Dialog setVisible={setVisible2} visible={visible2} variant='black' backdropPressHidesModal>
             <View><P color='cyan' tint={950}>HELLO WORLD</P></View>
             <Button title='HELLO' variant='black'/>
         </Dialog>
+        <View style={{marginLeft:20,flex:1}}><Switch description="HELLO WORLD" variant='white'/></View>
     </View>
   );
 };

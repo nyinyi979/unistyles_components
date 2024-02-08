@@ -132,7 +132,7 @@ const styleSheet = createStyleSheet((theme)=>({
         height:'100%',
         left:0,
         top:0,
-        zIndex:3
+        zIndex:10
     },
     // you must change this to align just the modal box, background of the whole screen
     modalContainer:{

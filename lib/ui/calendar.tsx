@@ -209,7 +209,7 @@ function CalendarHeading(props: CalendarHeadingProps){
 }
 
 function Days(props: CurrentMonthProps){
-    const {styles:{flexBoxStyles,borderStyle,dayView,fontStyles}} = useStyles(styleSheet);
+    const {styles:{flexBoxStyles,borderStyle,dayView,fontStyles,dayHeading}} = useStyles(styleSheet);
     const {numberOfLetters,openDayView} = props;
     const days = numberOfLetters===3? 
         ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] : 
@@ -218,7 +218,7 @@ function Days(props: CurrentMonthProps){
         <Text style={[flexBoxStyles,borderStyle]}>
             {days.map((day)=>(
                 <View key={Math.random()*99999} style={dayView}>
-                    <Text style={fontStyles}>{day}</Text>
+                    <Text style={[fontStyles,dayHeading]}>{day}</Text>
                 </View>
             ))}
         </Text>
@@ -383,6 +383,9 @@ const styleSheet = createStyleSheet((theme)=>({
         justifyContent:'center',
         borderRadius: 4,
         margin: 1
+    },
+    dayHeading:{
+        color: theme.color['darkGray']
     },
     iniDayView: {
         backgroundColor: theme.color['white'],

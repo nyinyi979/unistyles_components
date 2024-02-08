@@ -46,7 +46,7 @@ export default function Dropdown(props: DropdownProps){
         }
     }
     return(
-        <View style={{width:width,position:'relative',zIndex:3}}>
+        <View style={{width:width,position:'relative',zIndex:2}}>
             <Button 
                 variant={variant} 
                 size={size} 
@@ -70,6 +70,7 @@ export default function Dropdown(props: DropdownProps){
                 {bottom:-height-2,height:height,display: visible? 'flex':'none'}
             ]}>
             <FlatList 
+                style={{zIndex:3}}
                 data={data}
                 renderItem={({item,index})=>(
                     <List 
@@ -156,6 +157,7 @@ const styleSheet = createStyleSheet((theme)=>({
         position:'absolute',
         left:0,
         width:'100%',
+        zIndex:10
     },
     placeholderStyle:{
         justifyContent:'center',

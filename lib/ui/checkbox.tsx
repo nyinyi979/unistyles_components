@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { Check } from "../utils/svg_comp";
 import { CheckboxProps } from "..";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
@@ -19,7 +19,9 @@ export default function CheckBox(props: CheckboxProps){
         <View>
             <Pressable style={{flexDirection:'row'}} onPress={toggleCheck}>
                 <Check {...checkBox} checked={checked}/>
-                {description}
+                {typeof description === 'string'? 
+                <Text>{description}</Text>
+                : description}
             </Pressable>
         </View>
     )

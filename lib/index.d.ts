@@ -51,8 +51,10 @@ export interface BtnProps extends ViewProps {
     block?: boolean,
     /** Rounded or not */
     rounded?: boolean,
-    active?: boolean,
+    /** Disabled */
+    disabled?: boolean,
     animateScale?: boolean,
+    italic?: boolean,
     onPress?: ()=>void,
     onHover?: ()=>void,
     onHoverOut?: ()=>void,
@@ -142,10 +144,25 @@ type Days = 'Sun'|'Mon'|'Tue'|'Wed'|'Thu'|'Fri'|'Sat'
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /** Checkbox */
 interface CheckboxProps {
-    description: React.ReactElement|React.JSX.Element,
+    description?: React.ReactNode,
     variant?: variant,
     onChange?: (checked: boolean)=>{},
     defaultChecked?: boolean
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/** Switch */
+export interface SwitchCheckProps  {
+    onChange?: (checked: boolean)=>{},
+    defaultChecked?: boolean,
+    /** Variant, only supported for black and white yet */
+    variant?: 'black'|'white',
+    /** Description beside the the switch */
+    description?: React.ReactNode,
+    /** Duration in ms */
+    animationDuration?: number,
+    disabled?: boolean,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -333,6 +350,42 @@ export interface MenuPropsPassed extends MenuProps {
     drawn: SharedValue<boolean>,
     width?: number,
     height?:number,
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//Tab types
+export interface TabProps{
+    headings: string[],
+    contents: React.ReactNode[],
+    /** Opened index starting from 0 */
+    defaultOpenedIndex?: number,
+    variant?: 'black'|'white',
+    width?: DimensionValue,
+    height: DimensionValue
+}
+export type TabHeadingsProps = {
+    headings: string[],
+    openedIndex: number,
+    setOpenedIndex: Dispatch<SetStateAction<number>>,
+    variant: 'black'|'white'
+}
+export type TabContentsProps = {
+    contents: React.ReactNode[],
+    openedIndex: number,
+    variant: 'black'|'white',
+    height: DimensionValue
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// Toggle type
+export interface ToggleProps {
+    description: string,
+    variant?: variants,
+    disabled?: boolean,
+    defaultToggled?: boolean,
+    onToggle?: (toggled: boolean)=>void
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 

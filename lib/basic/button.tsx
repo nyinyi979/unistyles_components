@@ -10,8 +10,7 @@ import { FontSizes } from '../unistyles';
  * @param ButtonProps You can provide more params than ViewProps
  * - title: value that you want to display,
  * - variant?: 'error', 'warning', 'success', 'tertiary', 'secondary', 'primary', 'outlined',
- * - size?: 'sm', 'md', 'lg', 'xl',
- * - textAlign?: 'left', 'right', 'center'
+ * - size?: 'sm', 'md', 'lg', 'xl'
  * - onPress?: void function to be called when a press is captured
  * - onPressOut?: void function to be called after press is out
  * - onHover?: void function to be called when the button is hovered
@@ -28,8 +27,9 @@ function Button(props:BtnProps){
         asChild=false,
         size=asChild? 'xs': 'md',
         rounded=true,
-        active=false,
-        animateScale=!active,
+        disabled=false,
+        animateScale=!disabled,
+        italic=false,
         onPress=()=>{},
         onHover=()=>{},
         onHoverOut=()=>{},
@@ -52,16 +52,17 @@ function Button(props:BtnProps){
         paddingHorizontal: button.paddingHorizontal,
         paddingVertical: button.paddingVertical
     }
-    const scale = useSharedValue(1);
 
+    const scale = useSharedValue(1);
     const bgSharedValue = useSharedValue(backgroundColor);
+    
     const animatedStyles = useAnimatedStyle(()=>({
-        backgroundColor: active? hoverColor : bgSharedValue.value,
+        backgroundColor: disabled? hoverColor : bgSharedValue.value,
         transform: [{scale: scale.value}],
     }));
     
     const originalState = () =>{
-        bgSharedValue.value = withTiming(active? hoverColor : backgroundColor ,{duration:150});
+        bgSharedValue.value = withTiming(disabled? hoverColor : backgroundColor ,{duration:150});
     }
 
     const hoverState = () =>{
@@ -107,13 +108,14 @@ function Button(props:BtnProps){
                 onPressOut={pressOutState}
                 onBlur={onBlur}
                 style={[{width:'100%',height:'100%'},padding]}
+                disabled={disabled}
                 >
                 {asChild? children :
                 <Text selectable={false} style={{
                     color:color,
                     textAlign: 'center',
                     fontSize: fontSize,
-                    pointerEvents: 'box-none'
+                    fontStyle: italic? 'italic' : 'normal'
                     }}>
                     {props.title}
                 </Text>}
@@ -132,7 +134,7 @@ const styleSheet = createStyleSheet((theme => ({
                 primary: {
                     backgroundColor: theme.color['primary'],
                     hoverColor: Color(theme.color['primary']).darken(.5).toString(),
-                    color: 'white',
+                    color: 'black',
                 },
                 secondary: {
                     backgroundColor: theme.color['secondary'],
@@ -142,12 +144,12 @@ const styleSheet = createStyleSheet((theme => ({
                 tertiary: {
                     backgroundColor: theme.color['tertiary'],
                     hoverColor: Color(theme.color['tertiary']).darken(.5).toString(),
-                    color: 'white',
+                    color: 'black',
                 },
                 success: {
                     backgroundColor: theme.color['success'],
                     hoverColor: Color(theme.color['success']).darken(.5).toString(),
-                    color: 'white',
+                    color: 'black',
                 },
                 warning: {
                     backgroundColor: theme.color['warning'],

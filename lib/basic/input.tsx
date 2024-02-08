@@ -73,7 +73,7 @@ const styleSheet = createStyleSheet((theme => ({
                 },
                 error: {
                     backgroundColor: theme.color.error,
-                    borderColor: Color(theme.color['error']).darken(.4).toString(),
+                    borderColor: Color(theme.color['error']).lighten(.4).toString(),
                     focusColor: Color(theme.color['error']).darken(.4).toString(),
                     color: 'white'
                 },
