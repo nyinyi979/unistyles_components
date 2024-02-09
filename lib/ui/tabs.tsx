@@ -57,14 +57,13 @@ function TabHeadings(props: TabHeadingsProps){
         <View 
             style={[{
                 backgroundColor:tab.backgroundColor,
-                borderColor:tab.indicatorColor},
+                borderColor:indicatorView.backgroundColor},
                 headingView
                 ]} 
                 onLayout={(e)=>{setWidth(e.nativeEvent.layout.width)}}
         >
             <Animated.View style={[{
-                width:`${100/headings.length}%`,
-                backgroundColor:tab.indicatorColor},
+                width:`${100/headings.length}%`},
                 indicatorView,animatedStyles
                 ]} 
             />
@@ -128,12 +127,10 @@ const styleSheet = createStyleSheet((theme)=>({
         variants:{
             variant:{
                 white:{
-                    indicatorColor: theme.color['lightGray'],
                     backgroundColor: theme.color['white'],
                     color: theme.color['black']
                 },
                 black:{
-                    indicatorColor: theme.color['darkGray'],
                     backgroundColor: theme.color['black'],
                     color: theme.color['white']
                 },
@@ -147,7 +144,17 @@ const styleSheet = createStyleSheet((theme)=>({
         paddingHorizontal: 8,
         paddingVertical: 5,
         borderRadius:4,
-        height:'100%'
+        height:'100%',
+        variants:{
+            variant:{
+                white:{
+                    backgroundColor: theme.color['lightGray']
+                },
+                black:{
+                    backgroundColor: theme.color['darkGray']
+                }
+            }
+        }
     },
     eachHeadingView:{
         paddingHorizontal: 8,

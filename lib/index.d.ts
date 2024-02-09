@@ -64,7 +64,6 @@ export interface BtnProps extends ViewProps {
     asChild?: boolean,
     children?: React.ReactNode,
 }
-
 /** Badge props */
 export interface BadgeProps extends ViewProps{
     /** The title must be provided */
@@ -292,6 +291,17 @@ export interface InputProps extends TextInputProps {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
+/** Slider Props */
+export interface SliderProps {
+    defaultValue?: number,
+    variant?: 'black'|'white',
+    width?: number,
+    onChange?: (value: number)=>void,
+    min?: number,
+    max?: number,
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
 /** Link button props */
 export interface LinkBtnProps extends ViewProps {
     /** The title must be provided */
@@ -301,6 +311,7 @@ export interface LinkBtnProps extends ViewProps {
     fontSize?: fontSizes,
     onPress?: ()=>void,
     onHover?: ()=>void,
+    disabled?: boolean,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 

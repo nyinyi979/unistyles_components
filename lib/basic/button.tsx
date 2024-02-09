@@ -9,7 +9,7 @@ import { FontSizes } from '../unistyles';
  * 
  * @param Button You can provide more params than ViewProps
  * - title - title of the button
- * - variant - primary, secondary, tertiary, success, warning, error, black, white
+ * - variant - primary, secondary, tertiary, success, warning, error, black, white ( accessed by dot signature )
  * - block - will display as a block (no floating)
  * - asChild - will not get the theme optimization just as in title but you can provide more details
  * - size - xs, sm, md, lg, xl (default to xs when asChild is true)
@@ -24,13 +24,12 @@ import { FontSizes } from '../unistyles';
 function Button(props:BtnProps){
     //Destructuring the properties
     const {
-        title="",
-        variant='primary',
         block=false,
         asChild=false,
-        size=asChild? 'xs': 'md',
         rounded=true,
         disabled=false,
+        variant='primary',
+        size=asChild? 'xs':'md',
         animateScale=!disabled,
         italic=false,
         onPress=()=>{},
@@ -42,13 +41,17 @@ function Button(props:BtnProps){
         children
     } = props;
 
-    const { styles:{button} } = useStyles(styleSheet, {
-        variant: variant,
-        sizes: size
-    });
-    
-    const backgroundColor = button.backgroundColor;
-    const hoverColor = button.hoverColor;
+    const [hover,setHover] = React.useState<'normal'|'hover'>(disabled? 'hover':'normal');
+    const {styles:{button}} = 
+    variant==='primary'? useStyles(styleSheet,{primary:hover,sizes:size}) :
+    variant==='secondary'? useStyles(styleSheet,{secondary:hover,sizes:size}) :
+    variant==='tertiary'? useStyles(styleSheet,{tertiary:hover,sizes:size}) :
+    variant==='success'? useStyles(styleSheet,{success:hover,sizes:size}) :
+    variant==='warning'? useStyles(styleSheet,{warning:hover,sizes:size}) :
+    variant==='error'? useStyles(styleSheet,{error:hover,sizes:size}) :
+    variant==='black'? useStyles(styleSheet,{black:hover,sizes:size}) :
+    useStyles(styleSheet,{white:hover,sizes:size});
+
     const color = button.color;
     const fontSize = button.fontSize;
     const padding = {
@@ -57,25 +60,23 @@ function Button(props:BtnProps){
     }
 
     const scale = useSharedValue(1);
-    const bgSharedValue = useSharedValue(backgroundColor);
     
     const animatedStyles = useAnimatedStyle(()=>({
-        backgroundColor: disabled? hoverColor : bgSharedValue.value,
         transform: [{scale: scale.value}],
     }));
     
     const originalState = () =>{
-        bgSharedValue.value = withTiming(disabled? hoverColor : backgroundColor ,{duration:150});
+        setHover('normal');
     }
 
     const hoverState = () =>{
-        bgSharedValue.value = withTiming(hoverColor,{duration:150});
+        setHover('hover');
         onHover();
     }
 
     const pressState = () =>{
         if(animateScale) scale.value = withTiming(0.92, {duration:100});
-        bgSharedValue.value = withTiming(hoverColor,{duration:150});
+        setHover('hover');
         setTimeout(()=>{
             scale.value = withTiming(1, {duration:50});
         },50)
@@ -101,7 +102,7 @@ function Button(props:BtnProps){
                 rounded&& {
                     borderRadius: 5
                 },
-                padding
+                padding,button
             ]}
         >
             <Pressable
@@ -134,47 +135,85 @@ function Button(props:BtnProps){
 const styleSheet = createStyleSheet((theme => ({
     button:{
         variants:{
-            variant:{
-                primary: {
+            primary:{
+                normal:{
                     backgroundColor: theme.color['primary'],
-                    hoverColor: Color(theme.color['primary']).darken(.5).toString(),
                     color: 'black',
                 },
-                secondary: {
+                hover:{
+                    backgroundColor: Color(theme.color['primary']).darken(.5).toString(),
+                    color: 'black',
+                }
+            },
+            secondary:{
+                normal:{
                     backgroundColor: theme.color['secondary'],
-                    hoverColor: Color(theme.color['secondary']).darken(.5).toString(),
                     color: 'white',
                 },
-                tertiary: {
+                hover:{
+                    backgroundColor: Color(theme.color['secondary']).darken(.5).toString(),
+                    color: 'white',
+                }
+            },
+            tertiary:{
+                normal:{
                     backgroundColor: theme.color['tertiary'],
-                    hoverColor: Color(theme.color['tertiary']).darken(.5).toString(),
                     color: 'black',
                 },
-                success: {
+                hover:{
+                    backgroundColor: Color(theme.color['tertiary']).darken(.5).toString(),
+                    color: 'black'
+                },
+            },
+            success:{
+                normal:{
                     backgroundColor: theme.color['success'],
-                    hoverColor: Color(theme.color['success']).darken(.5).toString(),
                     color: 'black',
                 },
-                warning: {
+                hover:{
+                    backgroundColor: Color(theme.color['success']).darken(.5).toString(),
+                    color: 'black'
+                },
+            },
+            warning: {
+                normal:{
                     backgroundColor: theme.color['warning'],
-                    hoverColor: Color(theme.color['warning']).darken(.5).toString(),
-                    color: 'white',
+                    color: 'black',
                 },
-                error: {
+                hover:{
+                    backgroundColor: Color(theme.color['warning']).darken(.5).toString(),
+                    color: 'black'
+                }
+            },
+            error: {
+                normal:{
                     backgroundColor: theme.color['error'],
-                    hoverColor: Color(theme.color['error']).darken(.5).toString(),
                     color: 'white',
                 },
-                black:{
+                hover:{
+                    backgroundColor: Color(theme.color['error']).darken(.5).toString(),
+                    color: 'white'
+                }
+            },
+            black:{
+                normal:{
                     backgroundColor: theme.color['black'],
-                    hoverColor: theme.color['darkGray'],
                     color: theme.color['white']
                 },
-                white:{
+                hover:{
+                    backgroundColor: theme.color['darkGray'],
+                    color: theme.color['white']
+                }
+            },
+            white:{
+                normal:{
                     backgroundColor: theme.color['white'],
-                    hoverColor: theme.color['lightGray'],
                     color: theme.color['black']
                 },
+                hover:{
+                    backgroundColor: theme.color['lightGray'],
+                    color: theme.color['black']
+                }
             },
             sizes:{
                 'xs': {

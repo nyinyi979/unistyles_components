@@ -20,47 +20,36 @@ export default function Switch(props: SwitchCheckProps){
     const {
         variant='black',
         defaultChecked=false,
-        onChange=()=>{},
+        onChange=(e)=>{console.log(e)},
         description,
         animationDuration=300,
         disabled=false
     } = props;
-    const [checked, setChecked] = React.useState(defaultChecked);
-    const { styles:{switchBtn,parentView} } = useStyles(styleSheet,{
-        variant:variant,
-        sizes: 'xs'
-    });
+    const [checked, setChecked] = React.useState<"active" | "notActive" | "disabled">
+        (disabled? 'disabled': defaultChecked? 'active' : 'notActive');
+
+    const { styles:{switchBtn,parentView,circle} } = variant ==='black' ? 
+        useStyles(styleSheet, {black:checked, sizes:'xs' }) :
+        useStyles(styleSheet, {white:checked, sizes:'xs'})
     
-    const sharedValue = useSharedValue({
-        backgroundColor: disabled? switchBtn.disabledColor :  
-            checked? switchBtn.backgroundColor : switchBtn.unactiveColor,
-        translateX: checked?  switchBtn.width/2 : 5
-    });
-    const bgAnimatedStyles = useAnimatedStyle(()=>({
-        backgroundColor: sharedValue.value.backgroundColor,
-    }));
+    const translate = useSharedValue(checked==='notActive'?  switchBtn.width/2 : 5);
     const translateXAnimatedStyles = useAnimatedStyle(()=>({
-        transform: [{translateX: sharedValue.value.translateX}]
+        transform: [{translateX: translate.value}]
     }))
     const animateIntro = () =>{
-        sharedValue.value = withTiming({
-            backgroundColor: switchBtn.backgroundColor,
-            translateX: switchBtn.width/2
-        }, {duration: animationDuration});
+        translate.value = withTiming(switchBtn.width/2,{duration: animationDuration});
     }
     const animateOutro = () =>{
-        sharedValue.value = withTiming({
-            backgroundColor: switchBtn.unactiveColor,
-            translateX: 5
-        }, {duration: animationDuration});
+        translate.value = withTiming(5,{duration: animationDuration});
     }
 
     const toggle = () =>{
-        onChange(!checked);
-        setChecked(!checked);
+        const checkedValue = checked==='active'?true:false;
+        onChange(!checkedValue);
+        setChecked(checkedValue? 'notActive':'active');
     }
     React.useEffect(()=>{
-        if(checked) animateIntro();
+        if(checked==='active') animateIntro();
         else animateOutro();
     },[checked]);
 
@@ -78,17 +67,20 @@ export default function Switch(props: SwitchCheckProps){
                 width: switchBtn.circleSize,
                 height: switchBtn.circleSize,
                 borderRadius: switchBtn.circleSize,
-                backgroundColor: switchBtn.circleColor,
+                backgroundColor: circle.backgroundColor,
             }
         }
     },[variant])
     
     return(
         <Animated.View style={parentView}>
-            <Pressable onPress={toggle} style={{flexDirection:'row',alignItems:'center'}}>
-                <Animated.View style={[sizes.bgSize,{justifyContent:'center'},bgAnimatedStyles]}>
+            <Pressable 
+                disabled={disabled} 
+                onPress={toggle} 
+                style={{flexDirection:'row',alignItems:'center'}}>
+                <View style={[sizes.bgSize,{justifyContent:'center',backgroundColor:switchBtn.backgroundColor}]}>
                     <Animated.View style={[sizes.circleStyle,translateXAnimatedStyles]} />
-                </Animated.View>
+                </View>
                 {typeof description === 'string'? <Text selectable={false}>{description}</Text>
                 : description}
             </Pressable>
@@ -101,18 +93,26 @@ const styleSheet = createStyleSheet((theme)=>({
     },
     switchBtn:{
         variants:{
-            variant:{
-                white:{
+            white:{
+                active:{
                     backgroundColor: theme.color['primary'],
-                    circleColor: Colors.slate[400],
-                    unactiveColor: theme.color['lightGray'],
-                    disabledColor: theme.color['darkGray'],
                 },
-                black:{
+                notActive:{
+                    backgroundColor: theme.color['lightGray'],
+                },
+                disabled:{
+                    backgroundColor: theme.color['darkGray'],
+                }
+            },
+            black:{
+                active:{
                     backgroundColor: theme.color['white'],
-                    circleColor: Colors.slate[400],
-                    unactiveColor: theme.color['black'],
-                    disabledColor: theme.color['lightGray']
+                },
+                notActive:{
+                    backgroundColor: theme.color['black'],
+                },
+                disabled:{
+                    backgroundColor: theme.color['lightGray'],
                 }
             },
             sizes:{
@@ -123,5 +123,8 @@ const styleSheet = createStyleSheet((theme)=>({
                 }
             }
         }
+    },
+    circle:{
+        backgroundColor: Colors.slate[400]
     }
 }))

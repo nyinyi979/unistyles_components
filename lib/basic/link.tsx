@@ -20,26 +20,30 @@ function LinkBtn(props: LinkBtnProps){
         onPress=()=>{},
         onHover=()=>{},
         fontSize='md',
+        disabled=false
     } = props;
     
-    const {styles:{link}} = useStyles(styleSheet,{
-        variant:variant
-    });
+    const [hover,setHover] = React.useState<'normal'|'hover'>(disabled? 'hover':'normal');
+    const {styles:{link}} = 
+    variant==='primary'? useStyles(styleSheet,{primary:hover}) :
+    variant==='secondary'? useStyles(styleSheet,{secondary:hover}) :
+    variant==='tertiary'? useStyles(styleSheet,{tertiary:hover}) :
+    variant==='success'? useStyles(styleSheet,{success:hover}) :
+    variant==='warning'? useStyles(styleSheet,{warning:hover}) :
+    variant==='error'? useStyles(styleSheet,{error:hover}) :
+    variant==='black'? useStyles(styleSheet,{black:hover}) :
+    useStyles(styleSheet,{white:hover});
 
 
-    const usedColor = useSharedValue(link.color);
-    const animatedStyles = useAnimatedStyle(()=>({
-        color: usedColor.value
-    }))
     const originalState = () =>{    
-        usedColor.value = withTiming(link.color,{duration:50});
+        setHover('normal');
     }
     const hoverState = () =>{
-        usedColor.value = withTiming(link.hoverColor,{duration:50});
+        setHover('hover');
         onHover();
     }
     const pressState = () =>{
-        usedColor.value = withTiming(link.hoverColor,{duration:50});
+        hoverState();
         onPress();
         setTimeout(()=>{
             originalState();
@@ -55,10 +59,11 @@ function LinkBtn(props: LinkBtnProps){
             onPressOut={originalState}
             style={{alignSelf:'flex-start'}}
         >
-            <Animated.Text style={[animatedStyles,{
+            <Animated.Text style={[{
                     textAlign: 'center',
                     fontSize: FontSizes[fontSize],
-                    pointerEvents: 'box-none'
+                    pointerEvents: 'box-none',
+                    color: link.color
                     }]}
             >
                 {props.title}
@@ -73,40 +78,71 @@ function LinkBtn(props: LinkBtnProps){
 const styleSheet = createStyleSheet((theme => ({
     link: {
         variants:{
-            variant:{
-                'primary': {
-                    hoverColor: Color(theme.color['primary']).lighten(.2).toString(),
+            'primary': {
+                normal:{
                     color: theme.color['primary'],
+                },          
+                hover:{
+                    color: Color(theme.color['primary']).lighten(.2).toString(),
+                }
+            },
+            'secondary': {
+                normal:{
+                    color: theme.color['secondary']
                 },
-                'secondary': {
-                    hoverColor: Color(theme.color['secondary']).lighten(.2).toString(),
-                    color: theme.color['secondary'],
+                hover:{
+                    color: Color(theme.color['secondary']).lighten(.2).toString()
+                }
+            },
+            'tertiary': {
+                normal:{
+                    color: theme.color['tertiary']
                 },
-                'tertiary': {
-                    hoverColor: Color(theme.color['tertiary']).lighten(.2).toString(),
-                    color: theme.color['tertiary'],
+                hover:{
+                    color: Color(theme.color['tertiary']).lighten(.2).toString()
+                }
+            },
+            'success': {
+                normal:{
+                    color: theme.color['success']
                 },
-                'success': {
-                    hoverColor: Color(theme.color['success']).lighten(.2).toString(),
-                    color: theme.color['success'],
+                hover:{
+                    color: Color(theme.color['success']).lighten(.2).toString()
+                }
+            },
+            'warning': {
+                normal:{
+                    color: theme.color['warning']
                 },
-                'warning': {
-                    hoverColor: Color(theme.color['warning']).lighten(.2).toString(),
-                    color: theme.color['warning'],
+                hover:{
+                    color: Color(theme.color['warning']).lighten(.2).toString()
+                }
+            },
+            'error': {
+                normal:{
+                    color: theme.color['error']
                 },
-                'error': {
-                    hoverColor: Color(theme.color['error']).lighten(.2).toString(),
-                    color: theme.color['error'],
+                hover:{
+                    color: Color(theme.color['error']).lighten(.2).toString()
+                }
+            },
+            'black': {
+                normal:{
+                    color: theme.color['black']
                 },
-                'black': {
-                    hoverColor: theme.color['darkGray'],
-                    color: theme.color['black'],
+                hover:{
+                    color: theme.color['darkGray']
+                }
+            },
+            'white': {
+                normal:{
+                    color: theme.color['white']
                 },
-                'white': {
-                    hoverColor: theme.color['lightGray'],
-                    color: theme.color['white'],
+                hover:{
+                    color: theme.color['lightGray']
                 }
             }
+            
         }
     }
 })));
