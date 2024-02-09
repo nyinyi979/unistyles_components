@@ -66,7 +66,7 @@ export default function App() {
         ))}
         </View>
 
-        <Tab height={50} headings={["Hello","World","Good","Evening"]} 
+        <Tab height={50} variant='white' headings={["Hello","World","Good","Evening"]} 
             contents={["Hello world",'Hello world','Hello world','Hello world']}/>
 
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap',zIndex:10}}>
@@ -110,9 +110,8 @@ export default function App() {
         <DatePicker numberOfLetters={2}/>
 
         <Menu direction='left' setVisible={setVisible} visible={visible} widthOrHeight={200} backdropPressHidesMenu />
-        <Dialog setVisible={setVisible2} visible={visible2} variant='black' backdropPressHidesModal>
+        <Dialog setVisible={setVisible2} visible={visible2} variant='white' backdropPressHidesModal footer={{title:'Hello'}}>
             <View><P color='cyan' tint={950}>HELLO WORLD</P></View>
-            <Button title='HELLO' variant='black'/>
         </Dialog>
         <View style={{marginLeft:20,flex:1}}><Switch description="HELLO WORLD" variant='white'/></View>
     </View>
