@@ -31,7 +31,7 @@ export default function Dropdown(props: DropdownProps){
         placeholder="Select"
     } = props;
 
-    const {styles:{dropdown,containerView,placeholderStyle}} = useStyles(styleSheet,{
+    const {styles:{dropdown,containerView,placeholderStyle,arrowContainer,arrow}} = useStyles(styleSheet,{
         variant: variant
     });
     const [visible, setVisible] = React.useState(false);
@@ -73,11 +73,13 @@ export default function Dropdown(props: DropdownProps){
                     <Text selectable={false} numberOfLines={1} style={[{color:dropdown.color},placeholderStyle]}>
                         {currentIndex==0? placeholder : data[currentIndex-1].label}
                     </Text>
-                    <View>
-                        <Text></Text>
+                    <View style={arrowContainer}>
+                        <Text style={[arrow,{marginBottom:'-40%',color:dropdown.color}]}>&lt;</Text>
+                        <Text style={[arrow,{color:dropdown.color}]}>&gt;</Text>
                     </View>
                 </View>
             </Button>
+            
             <Animated.View style={[
                 animatedStyles,containerView,
                 {bottom:-height-2,height:height,display: visible? 'flex':'none'}
@@ -98,7 +100,8 @@ export default function Dropdown(props: DropdownProps){
                         active={index+1===currentIndex}
                         key={index}
                     />
-                )}/>
+            )}/>
+
             </Animated.View>
         </View>
     )
@@ -179,4 +182,14 @@ const styleSheet = createStyleSheet((theme)=>({
         marginRight:20,
         fontSize:16
     },
+    arrowContainer:{
+        position:'absolute',
+        zIndex:3,
+        right:3,
+        top:'6%'
+    },
+    arrow:{
+        transform:[{rotate:'90deg'}],
+        fontSize: 12
+    }
 }))
