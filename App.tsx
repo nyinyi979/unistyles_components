@@ -15,7 +15,6 @@ import Dialog from './lib/ui/modal';
 import Switch from './lib/ui/switch';
 import Tab from './lib/ui/tabs';
 import Toggle from './lib/ui/toggle';
-
 export default function App() {
     const variants:variant[] = ['primary','secondary','tertiary','black','white','success','warning','error'];
     const {Toast,ToastContextProvider} = useToast({
@@ -35,33 +34,33 @@ export default function App() {
 
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
         {variants.map((variant,index)=>(
-            <View style={{margin:2}}>
-            <Button key={variant} title={`Open ${index%2==0? 'Slide Menu': 'Modal'}`} variant={variant} 
-            onPress={()=>{index%2==0? setVisible(!visible) : setVisible2(!visible)}}/>
+            <View key={Math.random()*9999} style={{margin:2}}>
+                <Button key={variant} title={`Open ${index%2==0? 'Slide Menu': 'Modal'}`} variant={variant} 
+                onPress={()=>{index%2==0? setVisible(!visible) : setVisible2(!visible)}}/>
             </View>
         ))}
         </View>
 
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
         {variants.map((variant)=>(
-            <View style={{margin:2}}>
-            <Input key={variant} placeholder='Hello world' variant={variant} width={150}/>
+            <View key={Math.random()*9999} style={{margin:2}}>
+                <Input key={variant} placeholder='Hello world' variant={variant} width={150}/>
             </View>
         ))}
         </View>
 
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
         {variants.map((variant)=>(
-            <View style={{margin:2}}>
-            <LinkBtn key={variant} title='Hello world' variant={variant} />
+            <View key={Math.random()*9999} style={{margin:2}}>
+                <LinkBtn key={variant} title='Hello world' variant={variant} />
             </View>
         ))}
         </View>
         
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
         {variants.map((variant)=>(
-            <View style={{margin:2}}>
-            <P key={variant} children='Hello world' variant={variant} fontSize='2xl' color='gray' tint={200}/>
+            <View key={Math.random()*9999} style={{margin:2}}>
+                <P key={variant} children='Hello world' variant={variant} fontSize='2xl' color='gray' tint={200}/>
             </View>
         ))}
         </View>
@@ -71,7 +70,7 @@ export default function App() {
 
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap',zIndex:10}}>
         {variants.map((variant)=>(
-            <Dropdown 
+            <Dropdown key={Math.random()*9999}
                 data={[{data:'Data 1',label: 'Label'},{data:'Data 1',label: 'Label'},{data:'Data 1',label: 'Label'}]} 
                 width={150} 
                 height={100}
@@ -84,7 +83,7 @@ export default function App() {
 
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
         {variants.map((variant)=>(
-            <View style={{margin:2}}>
+            <View key={Math.random()*9999} style={{margin:2}}>
                 <Badge key={variant} title='Hello world' variant={variant} size='md' rounded={false}/>
             </View>
         ))}
@@ -92,7 +91,7 @@ export default function App() {
 
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
         {variants.map((variant)=>(
-            <View style={{margin:2}}>
+            <View key={Math.random()*9999} style={{margin:2}}>
                 <Toggle key={variant} description='I' variant={variant} />
             </View>
         ))}
@@ -100,7 +99,7 @@ export default function App() {
         
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
         {variants.map((variant)=>(
-            <View style={{margin:2}}>
+            <View key={Math.random()*9999} style={{margin:2}}>
                 <CheckBox description={<Text selectable={false}>This is a checkbox!</Text>} key={variant} variant={variant} defaultChecked />
             </View>
         ))}

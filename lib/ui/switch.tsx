@@ -20,7 +20,7 @@ export default function Switch(props: SwitchCheckProps){
     const {
         variant='black',
         defaultChecked=false,
-        onChange=(e)=>{console.log(e)},
+        onChange=()=>{},
         description,
         animationDuration=300,
         disabled=false

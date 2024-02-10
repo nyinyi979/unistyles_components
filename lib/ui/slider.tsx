@@ -39,7 +39,6 @@ export default function Slider(props: SliderProps){
 
     const tap = Gesture.Tap()
     .onBegin((e)=>{
-        console.log(value)
         setValue(e.absoluteX/width*100)
     })
     .onEnd(()=>{

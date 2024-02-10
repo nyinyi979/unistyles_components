@@ -39,14 +39,16 @@ function Input(props: InputProps){
     variant==='black'? useStyles(styleSheet,{black:focus}) :
     useStyles(styleSheet,{white:focus});
 
-
     return(
-        <View style={{alignSelf:'flex-start',width}}>
+        <View style={[inputBox,{alignSelf:'flex-start',width,borderWidth,borderRadius}]}>
             <TextInput 
                 {...props} placeholderTextColor={inputBox.borderColor}
-                style={[inputBox,
-                    { borderColor: inputBox.borderColor,
-                        paddingHorizontal,paddingVertical,borderWidth,borderRadius,
+                style={[,
+                    {   
+                        borderWidth:0,
+                        color: inputBox.color,
+                        outlineStyle:'none',
+                        paddingHorizontal,paddingVertical,
                         fontSize: FontSizes[fontSize]
                     }
                 ]} onFocus={()=>{setFocus('focus')}} onBlur={()=>{setFocus('normal')}}
@@ -126,20 +128,20 @@ const styleSheet = createStyleSheet((theme => ({
                 },
                 focus:{
                     backgroundColor: theme.color.error,
-                    borderColor: Color(theme.color['error']).darken(.4).toString(),
+                    borderColor: Color(theme.color['error']).lighten(.7).toString(),
                     color: 'white'
                 },
             },
             black:{
                 normal:{
                     backgroundColor: theme.color['black'],
-                    borderColor: 'gray',
+                    borderColor: theme.color['darkGray'],
                     color: theme.color['lightGray'],
                 },
                 focus:{
                     backgroundColor: theme.color['black'],
-                    borderColor: theme.color['darkGray'] ,
-                    color: theme.color['lightGray']
+                    borderColor: 'gray' ,
+                    color: 'white'
                 },
             },
             white:{
@@ -150,7 +152,7 @@ const styleSheet = createStyleSheet((theme => ({
                 },
                 focus:{
                     backgroundColor: theme.color['white'],
-                    borderColor: theme.color['darkGray'],
+                    borderColor: 'gray',
                     color: theme.color['darkGray'],
                 },
             },

@@ -66,7 +66,8 @@ function Button(props:BtnProps){
     }));
     
     const originalState = () =>{
-        setHover('normal');
+        if(disabled) setHover('hover');
+        else setHover('normal');
     }
 
     const hoverState = () =>{
@@ -102,7 +103,9 @@ function Button(props:BtnProps){
                 rounded&& {
                     borderRadius: 5
                 },
-                padding,button
+                {
+                    backgroundColor: button.backgroundColor
+                }
             ]}
         >
             <Pressable
@@ -228,23 +231,23 @@ const styleSheet = createStyleSheet((theme => ({
                 },
                 'md': {
                     fontSize: FontSizes['md'],
-                    paddingHorizontal: 8,
-                    paddingVertical: 3
+                    paddingHorizontal: 10,
+                    paddingVertical: 4
                 },
                 'lg': {
                     fontSize: FontSizes['lg'],
-                    paddingHorizontal: 10,
-                    paddingVertical: 3
-                },
-                'xl': {
-                    fontSize: FontSizes['xl'],
                     paddingHorizontal: 12,
                     paddingVertical: 4
                 },
+                'xl': {
+                    fontSize: FontSizes['xl'],
+                    paddingHorizontal: 16,
+                    paddingVertical: 6
+                },
                 '2xl': {
                     fontSize: FontSizes['2xl'],
-                    paddingHorizontal: 14,
-                    paddingVertical: 5
+                    paddingHorizontal: 20,
+                    paddingVertical: 8
                 },
             }
         }
