@@ -126,7 +126,7 @@ function ToastBox(props: ToastProps){
                     {color:toast.color}
                 ]}>{message}</Text>
                 
-          		{closeBtn===''? '':
+          		{closeBtn===''? <Text>''</Text>:
                     <View style={{alignItems:'flex-end'}}>
                         <Button size="sm" title={closeBtn} onPress={closeToast} variant={'white'}/>
                     </View>
@@ -186,7 +186,7 @@ const styleSheet = createStyleSheet((theme=>({
         bottom: 20,
         left: '2.5%',
         position: 'absolute',
-        zIndex:3
+        zIndex:5
     },
     toastMessageContainer:{
         flex:1,

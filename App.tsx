@@ -106,7 +106,7 @@ export default function App() {
         ))}
         </View>
         {/* TOAST CONTEXT PROVIDER IS TRIGGERING SOME PROBLEM :) , see console for more details */}
-        {/* <ToastContextProvider /> */}
+        <ToastContextProvider />
         <DatePicker numberOfLetters={2}/>
 
         <Menu direction='left' setVisible={setVisible} visible={visible} widthOrHeight={200} backdropPressHidesMenu />
