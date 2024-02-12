@@ -1,8 +1,8 @@
 import React from "react";
 import Animated from "react-native-reanimated";
+import Button from "../basic/button";
 import { FlatList, Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import Button from "../basic/button";
 import { DropdownItemProps, DropdownProps } from "..";
 import { GenerateScaleAnimation } from "../utils/slide_animation";
 
@@ -25,6 +25,7 @@ export default function Dropdown(props: DropdownProps){
         height,
         width,
         selectedIndex=0,
+        setSelectedIndex,
         onChange=()=>{},
         size='xs',
         variant='white',
@@ -35,7 +36,6 @@ export default function Dropdown(props: DropdownProps){
         variant: variant
     });
     const [visible, setVisible] = React.useState(false);
-    const [currentIndex, setCurrentIndex] = React.useState(selectedIndex);
     const {current:{animateIntro,animateOutro,animatedStyles}} = React.useRef(GenerateScaleAnimation({
         animationDuration: 100,
         oneDirectionalAnimation: true,
@@ -71,7 +71,7 @@ export default function Dropdown(props: DropdownProps){
                 asChild>
                 <View style={{flexDirection:'row',position:'relative'}}>
                     <Text selectable={false} numberOfLines={1} style={[{color:dropdown.color},placeholderStyle]}>
-                        {currentIndex===0? placeholder : data[currentIndex-1].label}
+                        {selectedIndex===0? placeholder : data[selectedIndex-1].label}
                     </Text>
                     <View style={arrowContainer}>
                         <Text style={[arrow,{marginBottom:'-40%',color:dropdown.color}]}>&lt;</Text>
@@ -92,8 +92,8 @@ export default function Dropdown(props: DropdownProps){
                         data={item}
                         index={index+1}
                         onChange={onChange}
-                        selectedIndex={currentIndex}
-                        setSelectedIndex={setCurrentIndex}
+                        selectedIndex={selectedIndex}
+                        setSelectedIndex={setSelectedIndex}
                         toggleVisible={toggle}
                         variant={variant}
                         key={index}
@@ -109,12 +109,8 @@ function List(props: DropdownItemProps){
     const {data,setSelectedIndex,variant,index,selectedIndex,onChange,toggleVisible} = props;
     const intendedData = React.useRef(index);
     const setSelectedData = () => {
-        if(selectedIndex===intendedData.current)
-            toggleVisible();
-        else {
-            onChange(data);
-            setSelectedIndex(intendedData.current);
-        }
+        onChange(data);
+        setSelectedIndex(intendedData.current);
     }
     const {styles} = useStyles(styleSheet,{
         variant

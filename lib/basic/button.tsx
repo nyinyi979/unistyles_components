@@ -76,7 +76,7 @@ function Button(props:BtnProps){
     }
 
     const pressState = () =>{
-        if(animateScale) scale.value = withTiming(0.92, {duration:100});
+        if(animateScale) scale.value = withTiming(0.92, {duration:50});
         setHover('hover');
         setTimeout(()=>{
             scale.value = withTiming(1, {duration:50});

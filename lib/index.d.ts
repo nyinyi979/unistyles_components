@@ -228,7 +228,8 @@ interface DropdownProps {
     variant?: variant,
     size?: btnSize,
     /** selected index starting from 1 */
-    selectedIndex?: number,
+    selectedIndex: number,
+    setSelectedIndex: Dispatch<SetStateAction<number>>,
     placeholder?: string,
     onChange: (data: data)=>void
 }
