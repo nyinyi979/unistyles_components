@@ -122,7 +122,7 @@ function AccordionElement(props: AccordionElementProps){
                             {selectedIndex}. {heading}
                     </Text>
 
-                    <View style={{alignSelf:'flex-end',marginTop:-25,marginRight:20}}>
+                    <View style={styles.actionView}>
                         {
                             rightElementType==="none"? <Text /> :
                             rightElementType==="arrow"? 
@@ -174,7 +174,9 @@ const styleSheet = createStyleSheet((theme)=>({
         paddingVertical:10
     },
     actionView:{
-
+        alignSelf:'flex-end',
+        marginTop:-25,
+        marginRight:20
     }
 }))
 

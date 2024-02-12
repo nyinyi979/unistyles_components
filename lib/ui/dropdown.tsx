@@ -1,10 +1,10 @@
 import React from "react";
+import Animated from "react-native-reanimated";
 import { FlatList, Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import Button from "../basic/button";
 import { DropdownItemProps, DropdownProps } from "..";
 import { GenerateScaleAnimation } from "../utils/slide_animation";
-import Animated from "react-native-reanimated";
 
 /**
  * 
@@ -31,7 +31,7 @@ export default function Dropdown(props: DropdownProps){
         placeholder="Select"
     } = props;
 
-    const {styles:{dropdown,containerView,placeholderStyle,arrowContainer,arrow}} = useStyles(styleSheet,{
+    const {styles:{dropdown,containerView,placeholderStyle,arrowContainer,arrow,mainContainer}} = useStyles(styleSheet,{
         variant: variant
     });
     const [visible, setVisible] = React.useState(false);
@@ -59,14 +59,15 @@ export default function Dropdown(props: DropdownProps){
         }
     }
     return(
-        <View style={{width:width,position:'relative',zIndex:2}}>
+        <View style={[{width:width},mainContainer]}>
             <Button 
                 variant={variant} 
                 size={size} 
                 onPress={toggle} 
                 onBlur={()=>{toggle(false)}}
-                block 
-                rounded={false} 
+                block
+                // Change the border rounded here
+                rounded={true} 
                 animateScale={false} 
                 asChild>
                 <View style={{flexDirection:'row',position:'relative'}}>
@@ -94,7 +95,6 @@ export default function Dropdown(props: DropdownProps){
                         onChange={onChange}
                         selectedIndex={currentIndex}
                         setSelectedIndex={setCurrentIndex}
-                        size={size}
                         toggleVisible={toggle}
                         variant={variant}
                         active={index+1===currentIndex}
@@ -123,7 +123,6 @@ function List(props: DropdownItemProps){
     });
     return(
         <Button 
-            size={'md'} 
             variant={variant} 
             onPress={setSelectedData} 
             disabled={active}
@@ -168,6 +167,11 @@ const styleSheet = createStyleSheet((theme)=>({
                 }
             }
         }
+    },
+    mainContainer:{
+        position:'relative',
+        zIndex:2,
+        borderRadius:5
     },
     containerView:{
         position:'absolute',

@@ -218,7 +218,6 @@ interface DropdownItemProps {
     setSelectedIndex: Dispatch<SetStateAction<number>>,
     toggleVisible: ()=>void,
     variant: variant,
-    size: btnSize,
     active?: boolean,
     onChange: (data: data)=>void,
 }
@@ -415,6 +414,7 @@ export interface TextProp extends TextProps{
 //Toast props
 export interface toastContext{
     closeBtn?: string,
+    closeBtnSize?: btnSize,
     /** Setting zero will not hide the toast at all */
     hidesAfterNoInteraction?: number,
     /** outro animation when clicked closeBtn */
@@ -435,6 +435,7 @@ export interface ToastProps{
     closeToast: ()=>void,
     animatedStyles: any,
     closeBtn: string,
+    closeBtnSize: btnSize,
     duration: number,
     bottomBar: boolean,
 }

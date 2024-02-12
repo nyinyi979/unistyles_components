@@ -1,13 +1,13 @@
 import React from "react";
 import Animated from "react-native-reanimated";
 import Button from "../basic/button";
+import Color from "color";
 import { Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { GenerateAnimation } from "../utils/slide_animation";
 import { ToastMethod, ToastProps, toastContext } from "../";
 import { BottomBar } from "../utils/svg_comp";
 import { variant } from "../default";
-import Color from "color";
 
 /**
  * 
@@ -24,6 +24,7 @@ export default function useToast(props: toastContext){
         animationType="slideFromBottom",
         hidesAfterNoInteraction=5000,
         closeBtn="",
+        closeBtnSize="sm",
         bottomBar=true,
     } = props;
 
@@ -89,6 +90,7 @@ export default function useToast(props: toastContext){
                         closeToast={closeToast}
                         openToast={openToast}
                         closeBtn={closeBtn}
+                        closeBtnSize={closeBtnSize}
                         duration={hidesAfterNoInteraction}
                         bottomBar={bottomBar}
                     />
@@ -105,6 +107,7 @@ function ToastBox(props: ToastProps){
         animatedStyles,
         closeToast,
         closeBtn,
+        closeBtnSize,
         duration,
         bottomBar
 	} = props;
@@ -127,8 +130,8 @@ function ToastBox(props: ToastProps){
                 ]}>{message}</Text>
                 
           		{closeBtn===''? <Text>''</Text>:
-                    <View style={{alignItems:'flex-end'}}>
-                        <Button size="sm" title={closeBtn} onPress={closeToast} variant={'white'}/>
+                    <View style={{alignItems:'flex-end',justifyContent:'center'}}>
+                        <Button size={closeBtnSize} title={closeBtn} onPress={closeToast} variant={variant}/>
                     </View>
                 }
           	</View>

@@ -1,3 +1,6 @@
+/** Default breakpoints to use,
+ * The smallest value must be 0
+ */
 export const DefaultBreakPoints = {
     xs: 0,
     vs: 360,

@@ -1,3 +1,6 @@
+/** Default colors to use in background color and P component
+ * Available colors are the same from tailwind Colors.slate[500]
+ */
 export const DefaultColors = {
     slate: {
     '50': '#f8fafc',

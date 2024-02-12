@@ -18,7 +18,9 @@ import Toggle from './lib/ui/toggle';
 export default function App() {
     const variants:variant[] = ['primary','secondary','tertiary','black','white','success','warning','error'];
     const {Toast,ToastContextProvider} = useToast({
-        animationType:'fade'
+        animationType:'slideFromBottom',
+        closeBtn:'Close',
+        closeBtnSize:'lg'
     })
     React.useEffect(()=>{
         Toast({
@@ -73,8 +75,9 @@ export default function App() {
             <Dropdown key={Math.random()*9999}
                 data={[{data:'Data 1',label: 'Label'},{data:'Data 1',label: 'Label'},{data:'Data 1',label: 'Label'}]} 
                 width={150} 
-                height={100}
+                height={50}
                 variant={variant}
+                size='lg'
                 placeholder='Please select something'
                 onChange={(data)=>{console.log(data.data)}}
                 />
@@ -109,7 +112,7 @@ export default function App() {
         <DatePicker numberOfLetters={2}/>
 
         <Menu direction='left' setVisible={setVisible} visible={visible} widthOrHeight={200} backdropPressHidesMenu />
-        <Dialog setVisible={setVisible2} visible={visible2} variant='white' backdropPressHidesModal footer={{title:'Hello'}}>
+        <Dialog setVisible={setVisible2} visible={visible2} variant='white' backdropPressHidesModal footer={{title:'Close'}}>
             <View><P color='cyan' tint={950}>HELLO WORLD</P></View>
         </Dialog>
         <View style={{marginLeft:20,flex:1}}><Switch description="HELLO WORLD" variant='white'/></View>

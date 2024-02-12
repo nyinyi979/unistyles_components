@@ -45,7 +45,6 @@ function Input(props: InputProps){
                 {...props} placeholderTextColor={inputBox.borderColor}
                 style={[,
                     {   
-                        borderWidth:0,
                         color: inputBox.color,
                         outlineStyle:'none',
                         paddingHorizontal,paddingVertical,

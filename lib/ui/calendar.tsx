@@ -102,6 +102,7 @@ function Calendar(props: CalendarProps){
 
 function CalendarYear(props: YearProps){
     const {openMonthView,year,setYear} = props;
+    const {styles} = useStyles(styleSheet);
     React.useEffect(()=>{
         document.addEventListener('keypress',(e)=>{
             if(e.key == 'enter') {
@@ -110,7 +111,7 @@ function CalendarYear(props: YearProps){
         })
     })
     return(
-        <View style={{alignItems:'center',justifyContent:'center',height:200}}>
+        <View style={styles.calendarContainer}>
             <Input 
                 keyboardType="numeric" 
                 variant="white" 
@@ -342,6 +343,11 @@ function EachDay(props: EachDayProps){
 
 
 const styleSheet = createStyleSheet((theme)=>({
+    calendarContainer:{
+        alignItems:'center',
+        justifyContent:'center',
+        height:200
+    },
     calendarView: {
         maxWidth:240,
         width: 240,

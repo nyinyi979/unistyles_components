@@ -1,3 +1,6 @@
+/** Default sizes, can use in margin, padding, width, height and etc.
+ * All of them are inspired from tailwind also!
+ */
 export const DefaultSizes = {
     '0': 0,
     '0.5': 2,
@@ -35,6 +38,7 @@ export const DefaultSizes = {
     '75%': '75%',
     '100%': '100%'
 }
+/** Default font sizes, also taken reference from tailwind. */
 export const DefaultFontSizes = {
     'xxs': 10,
     'xs': 12,

@@ -100,11 +100,10 @@ function TabContents(props: TabContentsProps){
     },[openedIndex])
     return(
         <View style={[{
-                width:'100%',
-                padding:5,
-                backgroundColor:tab.backgroundColor,
-                height
-            }]}>
+            padding:5,
+            backgroundColor:tab.backgroundColor,
+            height
+        }]}>
             {contents.map((content,index)=>(
                 <Animated.View 
                     key={Math.random()*9999} 
@@ -164,7 +163,7 @@ const styleSheet = createStyleSheet((theme)=>({
     },
     headingView:{
         flexDirection:'row',
-        borderBottomWidth:1
+        borderBottomWidth:1,
     },
     headingText:{
         textAlign:'center',

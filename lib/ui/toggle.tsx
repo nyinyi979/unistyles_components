@@ -1,10 +1,9 @@
+import React from "react";
+import Color from "color";
+import Animated from "react-native-reanimated";
 import { createStyleSheet, useStyles } from "react-native-unistyles"
 import { ToggleProps } from ".."
 import { Pressable, Text} from "react-native"
-import Animated from "react-native-reanimated";
-import React from "react";
-import Button from "../basic/button";
-import Color from "color";
 
 /**
  * 
@@ -24,7 +23,9 @@ export default function Toggle(props: ToggleProps){
         onToggle=()=>{}
     } = props;
     const [hover,setHover] = React.useState(disabled? true: false);
-    const [checked,setChecked] = React.useState<'normal'|'toggle'>(disabled? 'toggle': defaultToggled? 'toggle' : 'normal');
+    const [checked,setChecked] = React.useState<'normal'|'toggle'>
+        (disabled? 'toggle': defaultToggled? 'toggle' : 'normal');
+        
     const {styles:{toggleView}} = 
     variant==='primary'? useStyles(styleSheet,{primary:checked}) :
     variant==='secondary'? useStyles(styleSheet,{secondary:checked}) :

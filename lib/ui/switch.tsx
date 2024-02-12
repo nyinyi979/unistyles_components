@@ -28,7 +28,7 @@ export default function Switch(props: SwitchCheckProps){
     const [checked, setChecked] = React.useState<"active" | "notActive" | "disabled">
         (disabled? 'disabled': defaultChecked? 'active' : 'notActive');
 
-    const { styles:{switchBtn,parentView,circle} } = variant ==='black' ? 
+    const { styles:{switchBtn,parentView,circle,pressableStyle} } = variant ==='black' ? 
         useStyles(styleSheet, {black:checked, sizes:'xs' }) :
         useStyles(styleSheet, {white:checked, sizes:'xs'})
     
@@ -77,7 +77,7 @@ export default function Switch(props: SwitchCheckProps){
             <Pressable 
                 disabled={disabled} 
                 onPress={toggle} 
-                style={{flexDirection:'row',alignItems:'center'}}>
+                style={pressableStyle}>
                 <View style={[sizes.bgSize,{justifyContent:'center',backgroundColor:switchBtn.backgroundColor}]}>
                     <Animated.View style={[sizes.circleStyle,translateXAnimatedStyles]} />
                 </View>
@@ -90,6 +90,9 @@ export default function Switch(props: SwitchCheckProps){
 const styleSheet = createStyleSheet((theme)=>({
     parentView:{
         alignSelf:'flex-start'
+    },
+    pressableStyle:{
+        flexDirection:'row',alignItems:'center'
     },
     switchBtn:{
         variants:{

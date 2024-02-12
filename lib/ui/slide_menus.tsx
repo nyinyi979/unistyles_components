@@ -1,12 +1,13 @@
 import React from "react";
+import Color from "color";
 import Animated, { useSharedValue } from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
-import { Text, View, StyleSheet, Pressable, Dimensions, Platform, BackHandler } from "react-native";
-import Color from "color";
+import { Text, View, Pressable, Dimensions, Platform, BackHandler } from "react-native";
 import { GenerateFadeAnimation } from "../utils/slide_animation";
 import { MenuProps } from "../";
 import { animationType } from "../default";
 import { DragLeftOrRightToDimiss, DragTopOrBottomToDimiss } from "../utils/drag_to_dimiss";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 /**
  * 
@@ -84,6 +85,7 @@ export default function Menu(props: MenuProps){
         else exitModal();
     },[visible])
 
+    const {styles} = useStyles(styleSheet);
     return(
         <GestureDetector gesture={drag}>
             <View style={[styles.parentView,
@@ -123,24 +125,16 @@ export default function Menu(props: MenuProps){
 
 function Notch(props: {animationType: animationType}){
     const {animationType} = props;
-    if(animationType==='slideFromTop'||animationType==='slideFromBottom'){
-        return(
-            <View style={{backgroundColor:'gray',width:50,height:5,alignSelf:'center',marginVertical:5,justifyContent:'center'}}></View>
-        )
-    }
-    else if(animationType==='slideFromLeft'){
-        return(
-            <View style={{backgroundColor:'gray',width:5,position:'absolute',right:15,top:'25%',height:'50%'}} />
-        )
-    }
-    else {
-        return(
-            <View style={{backgroundColor:'gray',width:5,position:'absolute',left:15,top:'25%',height:'50%'}} />
-        )
-    }
+    const {styles:{notchStyle}} = useStyles(styleSheet,{
+        position: animationType==='slideFromLeft'? 'right': 
+            animationType==='slideFromRight'? 'left': 'topBottom'
+    });
+    return (
+        <View style={notchStyle}></View>
+    )
 }
 
-const styles = StyleSheet.create({
+const styleSheet = createStyleSheet((theme)=>({
     // parent of the modal(the whole screen)
     parentView:{
         position: 'absolute',
@@ -213,6 +207,34 @@ const styles = StyleSheet.create({
       fontWeight:'500',
       textAlign: 'center',
       color: 'black'
+    },
+    notchStyle:{
+        backgroundColor: 'gray',
+        variants:{
+            position:{
+                topBottom:{
+                    width:50,
+                    height:5,
+                    alignSelf:'center',
+                    justifyContent:'center',
+                    marginVertical:5
+                },
+                left:{
+                    width:5,
+                    position:'absolute',
+                    left:15,
+                    top:'25%',
+                    height:'50%'
+                },
+                right:{
+                    width:5,
+                    position:'absolute',
+                    right:15,
+                    top:'25%',
+                    height:'50%'
+                }
+            }
+        }
     }
-})
+}))
 

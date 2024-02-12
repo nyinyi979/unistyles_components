@@ -60,12 +60,9 @@ function LinkBtn(props: LinkBtnProps){
             style={{alignSelf:'flex-start'}}
         >
             <Animated.Text style={[{
-                    textAlign: 'center',
-                    fontSize: FontSizes[fontSize],
-                    pointerEvents: 'box-none',
-                    color: link.color
-                    }]}
-            >
+                fontSize: FontSizes[fontSize],
+                color: link.color
+            }]}>
                 {props.title}
             </Animated.Text>
         </Pressable>
@@ -78,7 +75,7 @@ function LinkBtn(props: LinkBtnProps){
 const styleSheet = createStyleSheet((theme => ({
     link: {
         variants:{
-            'primary': {
+            primary: {
                 normal:{
                     color: theme.color['primary'],
                 },          
@@ -86,7 +83,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: Color(theme.color['primary']).lighten(.2).toString(),
                 }
             },
-            'secondary': {
+            secondary: {
                 normal:{
                     color: theme.color['secondary']
                 },
@@ -94,7 +91,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: Color(theme.color['secondary']).lighten(.2).toString()
                 }
             },
-            'tertiary': {
+            tertiary: {
                 normal:{
                     color: theme.color['tertiary']
                 },
@@ -102,7 +99,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: Color(theme.color['tertiary']).lighten(.2).toString()
                 }
             },
-            'success': {
+            success: {
                 normal:{
                     color: theme.color['success']
                 },
@@ -110,7 +107,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: Color(theme.color['success']).lighten(.2).toString()
                 }
             },
-            'warning': {
+            warning: {
                 normal:{
                     color: theme.color['warning']
                 },
@@ -118,7 +115,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: Color(theme.color['warning']).lighten(.2).toString()
                 }
             },
-            'error': {
+            error: {
                 normal:{
                     color: theme.color['error']
                 },
@@ -126,7 +123,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: Color(theme.color['error']).lighten(.2).toString()
                 }
             },
-            'black': {
+            black: {
                 normal:{
                     color: theme.color['black']
                 },
@@ -134,7 +131,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['darkGray']
                 }
             },
-            'white': {
+            white: {
                 normal:{
                     color: theme.color['white']
                 },

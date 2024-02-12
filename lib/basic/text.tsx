@@ -46,28 +46,28 @@ const styleSheet = createStyleSheet((theme)=>({
     text:{
         variants:{
             variant:{
-                'primary':{
+                primary:{
                     color: theme.color['primary']
                 },
-                'secondary':{
+                secondary:{
                     color: theme.color['secondary']
                 },
-                'tertiary':{
+                tertiary:{
                     color: theme.color['tertiary']
                 },
-                'success':{
+                success:{
                     color: theme.color['success']
                 },
-                'warning':{
+                warning:{
                     color: theme.color['warning']
                 },
-                'error':{
+                error:{
                     color: theme.color['error']
                 },
-                'black':{
+                black:{
                     color: theme.color['black']
                 },
-                'white':{
+                white:{
                     color: theme.color['white']
                 }
             }

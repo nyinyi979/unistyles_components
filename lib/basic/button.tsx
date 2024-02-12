@@ -29,7 +29,7 @@ function Button(props:BtnProps){
         rounded=true,
         disabled=false,
         variant='primary',
-        size=asChild? 'xs':'md',
+        size='md',
         animateScale=!disabled,
         italic=false,
         onPress=()=>{},
