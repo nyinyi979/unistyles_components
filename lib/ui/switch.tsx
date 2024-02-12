@@ -1,7 +1,7 @@
-import { createStyleSheet, useStyles } from "react-native-unistyles";
-import { SwitchCheckProps } from "..";
 import React from "react";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
+import { SwitchCheckProps } from "..";
 import { Pressable, Text, View } from "react-native";
 import { Colors } from "../unistyles";
 

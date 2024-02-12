@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text } from "react-native";
 import { Check } from "../utils/svg_comp";
 import { CheckboxProps } from "..";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
@@ -41,37 +41,37 @@ const styleSheet = createStyleSheet((theme)=>({
     checkBox:{
         variants:{
             variant:{
-                'primary': {
-                    color: 'white',
-                    backgroundColor: theme.color['primary']
+                primary: {
+                    backgroundColor: theme.color['primary'],
+                    color: theme.color['primaryForeground']
                 },
-                'secondary': {
-                    color: 'white',
-                    backgroundColor: theme.color['secondary']
+                secondary: {
+                    backgroundColor: theme.color['secondary'],
+                    color: theme.color['secondaryForeground']
                 },
-                'tertiary': {
-                    color: 'white',
-                    backgroundColor: theme.color['tertiary']
+                tertiary: {
+                    backgroundColor: theme.color['tertiary'],
+                    color: theme.color['tertiaryForeground']
                 },
-                'success': {
-                    color: 'white',
-                    backgroundColor: theme.color['success']
+                success: {
+                    backgroundColor: theme.color['success'],
+                    color: theme.color['successForeground']
                 },
-                'warning': {
-                    color: 'white',
-                    backgroundColor: theme.color['warning']
+                warning: {
+                    backgroundColor: theme.color['warning'],
+                    color: theme.color['warningForeground']
                 },
-                'error': {
-                    color: 'white',
-                    backgroundColor: theme.color['error']
+                error: {
+                    backgroundColor: theme.color['error'],
+                    color: theme.color['errorForeground']
                 },
-                'black': {
-                    color: theme.color['white'],
+                black: {
                     backgroundColor: theme.color['black'],
+                    color: theme.color['white']
                 },
-                'white': {
-                    color: theme.color['black'],
-                    backgroundColor: theme.color['lightGray'],
+                white: {
+                    backgroundColor: theme.color['white'],
+                    color: theme.color['black']
                 },
             }
         }

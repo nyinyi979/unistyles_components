@@ -141,61 +141,61 @@ const styleSheet = createStyleSheet((theme => ({
             primary:{
                 normal:{
                     backgroundColor: theme.color['primary'],
-                    color: 'black',
+                    color: theme.color['primaryForeground'],
                 },
                 hover:{
                     backgroundColor: Color(theme.color['primary']).darken(.3).toString(),
-                    color: 'black',
+                    color: theme.color['primaryForeground'],
                 }
             },
             secondary:{
                 normal:{
                     backgroundColor: theme.color['secondary'],
-                    color: 'white',
+                    color: theme.color['secondaryForeground'],
                 },
                 hover:{
                     backgroundColor: Color(theme.color['secondary']).darken(.3).toString(),
-                    color: 'white',
+                    color: theme.color['secondaryForeground']
                 }
             },
             tertiary:{
                 normal:{
                     backgroundColor: theme.color['tertiary'],
-                    color: 'black',
+                    color: theme.color['tertiaryForeground'],
                 },
                 hover:{
                     backgroundColor: Color(theme.color['tertiary']).darken(.3).toString(),
-                    color: 'black'
+                    color: theme.color['tertiaryForeground']
                 },
             },
             success:{
                 normal:{
                     backgroundColor: theme.color['success'],
-                    color: 'black',
+                    color: theme.color['successForeground'],
                 },
                 hover:{
                     backgroundColor: Color(theme.color['success']).darken(.3).toString(),
-                    color: 'black'
+                    color: theme.color['successForeground']
                 },
             },
             warning: {
                 normal:{
                     backgroundColor: theme.color['warning'],
-                    color: 'black',
+                    color: theme.color['warningForeground'],
                 },
                 hover:{
                     backgroundColor: Color(theme.color['warning']).darken(.3).toString(),
-                    color: 'black'
+                    color: theme.color['warningForeground']
                 }
             },
             error: {
                 normal:{
                     backgroundColor: theme.color['error'],
-                    color: 'white',
+                    color: theme.color['errorForeground'],
                 },
                 hover:{
                     backgroundColor: Color(theme.color['error']).darken(.3).toString(),
-                    color: 'white'
+                    color: theme.color['errorForeground']
                 }
             },
             black:{

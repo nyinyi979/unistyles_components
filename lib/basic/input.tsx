@@ -62,73 +62,73 @@ const styleSheet = createStyleSheet((theme => ({
             primary:{
                 normal:{
                     backgroundColor: theme.color['primary'],
-                    borderColor: Color(theme.color['primary']).darken(.5).toString(),
-                    color: 'black',
+                    borderColor: Color(theme.color['primary']).darken(.3).toString(),
+                    color: theme.color['primaryForeground'],
                 },
                 focus:{
                     backgroundColor: theme.color['primary'],
-                    borderColor: Color(theme.color['primary']).darken(.7).toString(),
-                    color: 'black',
+                    borderColor: theme.color['primaryForeground'],
+                    color: theme.color['primaryForeground'],
                 }
             },
             secondary: {
                 normal:{
                     backgroundColor: theme.color['secondary'],
-                    borderColor: Color(theme.color['secondary']).darken(.2).toString(),
-                    color: 'white',
+                    borderColor: Color(theme.color['secondary']).darken(.3).toString(),
+                    color: theme.color['secondaryForeground'],
                 },
                 focus:{
                     backgroundColor: theme.color['secondary'],
-                    borderColor: Color(theme.color['secondary']).darken(.4).toString(),
-                    color: 'white',
+                    borderColor: theme.color['secondaryForeground'],
+                    color: theme.color['secondaryForeground'],
                 }
             },
             tertiary: {
                 normal:{
                     backgroundColor: theme.color['tertiary'],
-                    borderColor: Color(theme.color['tertiary']).darken(.2).toString(),
-                    color: 'black',
+                    borderColor: Color(theme.color['tertiary']).darken(.3).toString(),
+                    color: theme.color['tertiaryForeground'],
                 },
                 focus:{
                     backgroundColor: theme.color['tertiary'],
-                    borderColor: Color(theme.color['tertiary']).darken(.4).toString(),
-                    color: 'black',
+                    borderColor: theme.color['tertiaryForeground'],
+                    color: theme.color['tertiaryForeground'],
                 }
             },
             success: {
                 normal:{
                     backgroundColor: theme.color['success'],
-                    borderColor: Color(theme.color['success']).darken(.2).toString(),
-                    color: 'black',
+                    borderColor: Color(theme.color['success']).darken(.3).toString(),
+                    color: theme.color['successForeground'],
                 },
                 focus:{
                     backgroundColor: theme.color['success'],
-                    borderColor: Color(theme.color['success']).darken(.4).toString(),
-                    color: 'black',
+                    borderColor: theme.color['successForeground'],
+                    color: theme.color['successForeground'],
                 },
             },
             warning: {
                 normal:{
                     backgroundColor: theme.color['warning'],
-                    borderColor: Color(theme.color['warning']).darken(.2).toString(),
-                    color: 'black'
+                    borderColor: Color(theme.color['warning']).darken(.3).toString(),
+                    color: theme.color['successForeground']
                 },
                 focus:{
                     backgroundColor: theme.color['warning'],
-                    borderColor: Color(theme.color['warning']).darken(.4).toString(),
-                    color: 'black'
+                    borderColor: theme.color['warningForeground'],
+                    color: theme.color['warningForeground']
                 },
             },
             error: {
                 normal:{
                     backgroundColor: theme.color.error,
                     borderColor: Color(theme.color['error']).lighten(.4).toString(),
-                    color: 'white'
+                    color: theme.color['errorForeground']
                 },
                 focus:{
                     backgroundColor: theme.color.error,
-                    borderColor: Color(theme.color['error']).lighten(.7).toString(),
-                    color: 'white'
+                    borderColor: theme.color['errorForeground'],
+                    color: theme.color['errorForeground']
                 },
             },
             black:{

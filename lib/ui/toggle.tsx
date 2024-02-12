@@ -81,61 +81,61 @@ const styleSheet = createStyleSheet((theme)=>({
             primary:{
                 normal:{
                     backgroundColor: theme.color['primary'],
-                    color: 'black',
+                    color: theme.color['primaryForeground'],
                 },
                 toggle:{
                     backgroundColor: Color(theme.color['primary']).darken(.5).toString(),
-                    color: 'black',
+                    color: theme.color['primaryForeground'],
                 }
             },
             secondary:{
                 normal:{
                     backgroundColor: theme.color['secondary'],
-                    color: 'white',
+                    color: theme.color['secondaryForeground'],
                 },
                 toggle:{
                     backgroundColor: Color(theme.color['secondary']).darken(.3).toString(),
-                    color: 'white',
+                    color: theme.color['secondaryForeground'],
                 }
             },
             tertiary:{
                 normal:{
                     backgroundColor: theme.color['tertiary'],
-                    color: 'black',
+                    color: theme.color['tertiaryForeground'],
                 },
                 toggle:{
                     backgroundColor: Color(theme.color['tertiary']).darken(.3).toString(),
-                    color: 'black'
+                    color: theme.color['tertiaryForeground'],
                 },
             },
             success:{
                 normal:{
                     backgroundColor: theme.color['success'],
-                    color: 'black',
+                    color: theme.color['successForeground'],
                 },
                 toggle:{
                     backgroundColor: Color(theme.color['success']).darken(.3).toString(),
-                    color: 'black'
+                    color: theme.color['successForeground'],
                 },
             },
             warning: {
                 normal:{
                     backgroundColor: theme.color['warning'],
-                    color: 'black',
+                    color: theme.color['warningForeground'],
                 },
                 toggle:{
                     backgroundColor: Color(theme.color['warning']).darken(.3).toString(),
-                    color: 'black'
+                    color: theme.color['warningForeground'],
                 }
             },
             error: {
                 normal:{
                     backgroundColor: theme.color['error'],
-                    color: 'white',
+                    color: theme.color['errorForeground'],
                 },
                 toggle:{
                     backgroundColor: Color(theme.color['error']).darken(.3).toString(),
-                    color: 'white'
+                    color: theme.color['errorForeground'],
                 }
             },
             black:{

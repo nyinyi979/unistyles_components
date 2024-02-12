@@ -1,4 +1,3 @@
-import Color from 'color';
 import React from 'react';
 import { Text, TextStyle, View, ViewStyle } from "react-native";
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
@@ -64,27 +63,27 @@ const styleSheet = createStyleSheet((theme => ({
             variant:{
                 primary: {
                     backgroundColor: theme.color['primary'],
-                    color: Color(theme.color['primary']).darken(.7).toString(),
+                    color: theme.color['primaryForeground'],
                 },
                 secondary: {
                     backgroundColor: theme.color['secondary'],
-                    color: Color(theme.color['secondary']).darken(.7).toString()
+                    color: theme.color['secondaryForeground'],
                 },
                 tertiary: {
                     backgroundColor: theme.color['tertiary'],
-                    color: Color(theme.color['tertiary']).darken(.7).toString()
+                    color: theme.color['tertiaryForeground'],
                 },
                 success: {
                     backgroundColor: theme.color['success'],
-                    color: Color(theme.color['success']).darken(.7).toString()
+                    color: theme.color['successForeground'],
                 },
                 warning: {
                     backgroundColor: theme.color['warning'],
-                    color: Color(theme.color['warning']).darken(.6).toString()
+                    color: theme.color['warningForeground'],
                 },
                 error: {
                     backgroundColor: theme.color['error'],
-                    color: Color(theme.color['error']).lighten(1).toString()
+                    color: theme.color['errorForeground'],
                 },
                 black: {
                     backgroundColor: theme.color['black'],

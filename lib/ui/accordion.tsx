@@ -1,7 +1,7 @@
 import React from "react";
-import { Pressable, Text, View } from "react-native"
 import Animated from "react-native-reanimated";
-import { createStyleSheet, useStyles } from "react-native-unistyles"
+import { Pressable, Text, View } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { ChevronArrow, PlusMinus } from "../utils/svg_comp";
 import { AccordionElementProps, AccordionProps } from "../";
 import { FontSizes } from "../unistyles";

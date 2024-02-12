@@ -134,29 +134,29 @@ const styleSheet = createStyleSheet((theme)=>({
     dropdown:{
         variants:{
             variant:{
-                'black':{
-                    color: theme.color['white']
+                primary: {
+                    color: theme.color['primaryForeground'],
                 },
-                'white':{
+                secondary: {
+                    color: theme.color['secondaryForeground'],
+                },
+                tertiary: {
+                    color: theme.color['tertiaryForeground'],
+                },
+                success: {
+                    color: theme.color['successForeground'],
+                },
+                warning: {
+                    color: theme.color['warningForeground'],
+                },
+                error: {
+                    color: theme.color['errorForeground'],
+                },
+                black: {
+                    color: theme.color['white'],
+                },
+                white:{
                     color: theme.color['black']
-                },
-                'primary': {
-                    color: 'black',
-                },
-                'secondary': {
-                    color: 'white',
-                },
-                'tertiary': {
-                    color: 'black',
-                },
-                'success': {
-                    color: 'black',
-                },
-                'warning': {
-                    color: 'black',
-                },
-                'error': {
-                    color: 'white',
                 }
             }
         }

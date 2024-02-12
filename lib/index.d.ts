@@ -406,8 +406,10 @@ export interface TextProp extends TextProps{
     tint?: tint,
     fontWeight?: fontWeight,
     textAlign?: textAlign,
-    variant?: variant
+    variant?: textVariant
 }
+type textVariant = 'primary'|'primaryForeground'|'secondary'|'secondaryForeground'|'tertiary'|'tertiaryForeground'|
+            'success'|'successForeground'|'warning'|'warningForeground'|'error'|'errorForeground'|'black'|'white'
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

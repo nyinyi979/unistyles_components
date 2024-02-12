@@ -1,6 +1,6 @@
-import React from "react"
-import { Text, TextStyle } from "react-native"
-import { createStyleSheet, useStyles } from "react-native-unistyles"
+import React from "react";
+import { Text, TextStyle } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { Colors, FontSizes } from "../unistyles";
 import { TextProp } from "../";
 
@@ -8,7 +8,7 @@ import { TextProp } from "../";
  * 
  * @param - Paragraph just like in web ( but inline, use inside a div|view to be a block )
  * - fontSize - xxs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl 
- * - color - all variant colors and tailwind colors
+ * - color - all variant colors including foreground ones and tailwind colors
  * - tint - others than variant tint should be provided (default - 500)
  * - fontWeight - 100 - 900 , boldness of the text
  * @returns P react node
@@ -49,20 +49,38 @@ const styleSheet = createStyleSheet((theme)=>({
                 primary:{
                     color: theme.color['primary']
                 },
+                primaryForeground:{
+                    color: theme.color['primaryForeground']
+                },
                 secondary:{
                     color: theme.color['secondary']
+                },
+                secondaryForeground:{
+                    color: theme.color['secondaryForeground']
                 },
                 tertiary:{
                     color: theme.color['tertiary']
                 },
+                tertiaryForeground:{    
+                    color: theme.color['tertiaryForeground']
+                },
                 success:{
                     color: theme.color['success']
+                },
+                successForeground:{
+                    color: theme.color['successForeground']
                 },
                 warning:{
                     color: theme.color['warning']
                 },
+                warningForeground:{
+                    color: theme.color['warningForeground']
+                },
                 error:{
                     color: theme.color['error']
+                },
+                errorForeground:{
+                    color: theme.color['errorForeground']
                 },
                 black:{
                     color: theme.color['black']

@@ -1,6 +1,5 @@
-import Color from "color";
 import React from "react";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import { LinkBtnProps } from "..";
 import { Pressable} from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
@@ -80,7 +79,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['primary'],
                 },          
                 hover:{
-                    color: Color(theme.color['primary']).darken(.2).toString(),
+                    color: theme.color['primaryForeground']
                 }
             },
             secondary: {
@@ -88,7 +87,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['secondary']
                 },
                 hover:{
-                    color: Color(theme.color['secondary']).darken(.2).toString()
+                    color: theme.color['secondaryForeground']
                 }
             },
             tertiary: {
@@ -96,7 +95,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['tertiary']
                 },
                 hover:{
-                    color: Color(theme.color['tertiary']).darken(.2).toString()
+                    color: theme.color['tertiaryForeground']
                 }
             },
             success: {
@@ -104,7 +103,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['success']
                 },
                 hover:{
-                    color: Color(theme.color['success']).darken(.2).toString()
+                    color: theme.color['successForeground']
                 }
             },
             warning: {
@@ -112,7 +111,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['warning']
                 },
                 hover:{
-                    color: Color(theme.color['warning']).darken(.2).toString()
+                    color: theme.color['warningForeground']
                 }
             },
             error: {
@@ -120,7 +119,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['error']
                 },
                 hover:{
-                    color: Color(theme.color['error']).darken(.2).toString()
+                    color: theme.color['errorForeground']
                 }
             },
             black: {

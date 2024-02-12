@@ -1,7 +1,6 @@
 import React from "react";
 import Animated from "react-native-reanimated";
 import Button from "../basic/button";
-import Color from "color";
 import { Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { GenerateAnimation } from "../utils/slide_animation";
@@ -149,27 +148,27 @@ const styleSheet = createStyleSheet((theme=>({
             variant:{
                 primary:{
                     backgroundColor: theme.color['primary'],
-                    color: Color(theme.color['primary']).darken(.6).toString()
+                    color: theme.color['primaryForeground']
                 },
                 secondary:{
                     backgroundColor: theme.color['secondary'],
-                    color: Color(theme.color['secondary']).darken(.6).toString()
+                    color: theme.color['secondaryForeground']
                 },
                 tertiary:{
                     backgroundColor: theme.color['tertiary'],
-                    color: Color(theme.color['tertiary']).darken(.6).toString()
+                    color: theme.color['tertiaryForeground']
                 },
                 success:{
                     backgroundColor: theme.color['success'],
-                    color: Color(theme.color['success']).darken(.6).toString()
+                    color: theme.color['successForeground']
                 },
                 warning:{
                     backgroundColor: theme.color['warning'],
-                    color: 'black'
+                    color: theme.color['warningForeground']
                 },
                 error:{
                     backgroundColor: theme.color['error'],
-                    color: 'white'
+                    color: theme.color['errorForeground']
                 },
                 black:{
                     backgroundColor: theme.color['black'],

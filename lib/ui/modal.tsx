@@ -170,10 +170,10 @@ const styleSheet = createStyleSheet((theme)=>({
         flex: 1,
         marginVertical: 5
     },
-    'white':{
+    white:{
         backgroundColor: theme.color['white']
     },
-    'black':{
+    black:{
         backgroundColor: theme.color['black']
     },
 }))
