@@ -80,7 +80,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['primary'],
                 },          
                 hover:{
-                    color: Color(theme.color['primary']).lighten(.2).toString(),
+                    color: Color(theme.color['primary']).darken(.2).toString(),
                 }
             },
             secondary: {
@@ -88,7 +88,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['secondary']
                 },
                 hover:{
-                    color: Color(theme.color['secondary']).lighten(.2).toString()
+                    color: Color(theme.color['secondary']).darken(.2).toString()
                 }
             },
             tertiary: {
@@ -96,7 +96,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['tertiary']
                 },
                 hover:{
-                    color: Color(theme.color['tertiary']).lighten(.2).toString()
+                    color: Color(theme.color['tertiary']).darken(.2).toString()
                 }
             },
             success: {
@@ -104,7 +104,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['success']
                 },
                 hover:{
-                    color: Color(theme.color['success']).lighten(.2).toString()
+                    color: Color(theme.color['success']).darken(.2).toString()
                 }
             },
             warning: {
@@ -112,7 +112,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['warning']
                 },
                 hover:{
-                    color: Color(theme.color['warning']).lighten(.2).toString()
+                    color: Color(theme.color['warning']).darken(.2).toString()
                 }
             },
             error: {
@@ -120,7 +120,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: theme.color['error']
                 },
                 hover:{
-                    color: Color(theme.color['error']).lighten(.2).toString()
+                    color: Color(theme.color['error']).darken(.2).toString()
                 }
             },
             black: {

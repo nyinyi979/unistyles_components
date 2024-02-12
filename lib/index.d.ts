@@ -218,7 +218,6 @@ interface DropdownItemProps {
     setSelectedIndex: Dispatch<SetStateAction<number>>,
     toggleVisible: ()=>void,
     variant: variant,
-    active?: boolean,
     onChange: (data: data)=>void,
 }
 interface DropdownProps {

@@ -82,18 +82,18 @@ export default function useToast(props: toastContext){
             <View style={[
                 styles.toastContainer,
                 {display: visible? 'flex':'none'}
-                ]}>
-                    <ToastBox
-                        message={toast}
-                        variant={variant}
-                        animatedStyles={animatedStyles}
-                        closeToast={closeToast}
-                        openToast={openToast}
-                        closeBtn={closeBtn}
-                        closeBtnSize={closeBtnSize}
-                        duration={hidesAfterNoInteraction}
-                        bottomBar={bottomBar}
-                    />
+            ]}>
+                <ToastBox
+                    message={toast}
+                    variant={variant}
+                    animatedStyles={animatedStyles}
+                    closeToast={closeToast}
+                    openToast={openToast}
+                    closeBtn={closeBtn}
+                    closeBtnSize={closeBtnSize}
+                    duration={hidesAfterNoInteraction}
+                    bottomBar={bottomBar}
+                />
             </View>
         ),
         Toast: Toast

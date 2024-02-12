@@ -67,7 +67,7 @@ const styleSheet = createStyleSheet((theme => ({
                 },
                 focus:{
                     backgroundColor: theme.color['primary'],
-                    borderColor: Color(theme.color['primary']).darken(.4).toString(),
+                    borderColor: Color(theme.color['primary']).darken(.7).toString(),
                     color: 'black',
                 }
             },
@@ -134,7 +134,7 @@ const styleSheet = createStyleSheet((theme => ({
             black:{
                 normal:{
                     backgroundColor: theme.color['black'],
-                    borderColor: theme.color['darkGray'],
+                    borderColor: 'gray',
                     color: theme.color['lightGray'],
                 },
                 focus:{

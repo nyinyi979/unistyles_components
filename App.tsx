@@ -22,12 +22,12 @@ export default function App() {
         closeBtn:'Close',
         closeBtnSize:'lg'
     })
-    React.useEffect(()=>{
+    const toastfn = () =>{
         Toast({
-        message: "HELLO",
-        variant: 'black'
-    })
-  },[])
+            message: "HELLO",
+            variant: 'black'
+        })
+    }
   const [visible,setVisible] = React.useState(false);
   const [visible2,setVisible2] = React.useState(false);
   return (
@@ -73,11 +73,11 @@ export default function App() {
         <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap',zIndex:10}}>
         {variants.map((variant)=>(
             <Dropdown key={Math.random()*9999}
-                data={[{data:'Data 1',label: 'Label'},{data:'Data 1',label: 'Label'},{data:'Data 1',label: 'Label'}]} 
+                data={[{data:'Data 1',label: 'Option 1'},{data:'Data 1',label: 'Option 2'},{data:'Data 1',label: 'Option 3'}]} 
                 width={150} 
                 height={50}
                 variant={variant}
-                size='lg'
+                size='sm'
                 placeholder='Please select something'
                 onChange={(data)=>{console.log(data.data)}}
                 />

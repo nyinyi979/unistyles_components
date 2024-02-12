@@ -36,7 +36,6 @@ export default function Dropdown(props: DropdownProps){
     });
     const [visible, setVisible] = React.useState(false);
     const [currentIndex, setCurrentIndex] = React.useState(selectedIndex);
-
     const {current:{animateIntro,animateOutro,animatedStyles}} = React.useRef(GenerateScaleAnimation({
         animationDuration: 100,
         oneDirectionalAnimation: true,
@@ -72,7 +71,7 @@ export default function Dropdown(props: DropdownProps){
                 asChild>
                 <View style={{flexDirection:'row',position:'relative'}}>
                     <Text selectable={false} numberOfLines={1} style={[{color:dropdown.color},placeholderStyle]}>
-                        {currentIndex==0? placeholder : data[currentIndex-1].label}
+                        {currentIndex===0? placeholder : data[currentIndex-1].label}
                     </Text>
                     <View style={arrowContainer}>
                         <Text style={[arrow,{marginBottom:'-40%',color:dropdown.color}]}>&lt;</Text>
@@ -97,7 +96,6 @@ export default function Dropdown(props: DropdownProps){
                         setSelectedIndex={setCurrentIndex}
                         toggleVisible={toggle}
                         variant={variant}
-                        active={index+1===currentIndex}
                         key={index}
                     />
             )}/>
@@ -108,7 +106,7 @@ export default function Dropdown(props: DropdownProps){
 }
 
 function List(props: DropdownItemProps){
-    const {data,setSelectedIndex,variant,index,active,selectedIndex,onChange,toggleVisible} = props;
+    const {data,setSelectedIndex,variant,index,selectedIndex,onChange,toggleVisible} = props;
     const intendedData = React.useRef(index);
     const setSelectedData = () => {
         if(selectedIndex===intendedData.current)
@@ -125,7 +123,6 @@ function List(props: DropdownItemProps){
         <Button 
             variant={variant} 
             onPress={setSelectedData} 
-            disabled={active}
             rounded={false} 
             animateScale={false}
             block 

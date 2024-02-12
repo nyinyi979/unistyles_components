@@ -80,8 +80,8 @@ function Button(props:BtnProps){
         setHover('hover');
         setTimeout(()=>{
             scale.value = withTiming(1, {duration:50});
-        },50)
-        onPress();
+            onPress();
+        },30)
     }
 
     const hoverOutState = () =>{
@@ -144,7 +144,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: 'black',
                 },
                 hover:{
-                    backgroundColor: Color(theme.color['primary']).darken(.5).toString(),
+                    backgroundColor: Color(theme.color['primary']).darken(.3).toString(),
                     color: 'black',
                 }
             },
@@ -154,7 +154,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: 'white',
                 },
                 hover:{
-                    backgroundColor: Color(theme.color['secondary']).darken(.5).toString(),
+                    backgroundColor: Color(theme.color['secondary']).darken(.3).toString(),
                     color: 'white',
                 }
             },
@@ -164,7 +164,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: 'black',
                 },
                 hover:{
-                    backgroundColor: Color(theme.color['tertiary']).darken(.5).toString(),
+                    backgroundColor: Color(theme.color['tertiary']).darken(.3).toString(),
                     color: 'black'
                 },
             },
@@ -174,7 +174,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: 'black',
                 },
                 hover:{
-                    backgroundColor: Color(theme.color['success']).darken(.5).toString(),
+                    backgroundColor: Color(theme.color['success']).darken(.3).toString(),
                     color: 'black'
                 },
             },
@@ -184,7 +184,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: 'black',
                 },
                 hover:{
-                    backgroundColor: Color(theme.color['warning']).darken(.5).toString(),
+                    backgroundColor: Color(theme.color['warning']).darken(.3).toString(),
                     color: 'black'
                 }
             },
@@ -194,7 +194,7 @@ const styleSheet = createStyleSheet((theme => ({
                     color: 'white',
                 },
                 hover:{
-                    backgroundColor: Color(theme.color['error']).darken(.5).toString(),
+                    backgroundColor: Color(theme.color['error']).darken(.3).toString(),
                     color: 'white'
                 }
             },

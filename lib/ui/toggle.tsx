@@ -53,7 +53,7 @@ export default function Toggle(props: ToggleProps){
                 onHoverOut={()=>{setHover(false)}}
                 onPress={toggle}
                 style={[toggleView,hover&&{
-                    shadowColor: toggleView.backgroundColor,
+                    shadowColor: variant==='white'? toggleView.color : toggleView.backgroundColor,
                     shadowOffset: { width: 2, height: 2 },
                     shadowOpacity: 0.6,
                     shadowRadius: 2,  
@@ -94,7 +94,7 @@ const styleSheet = createStyleSheet((theme)=>({
                     color: 'white',
                 },
                 toggle:{
-                    backgroundColor: Color(theme.color['secondary']).darken(.5).toString(),
+                    backgroundColor: Color(theme.color['secondary']).darken(.3).toString(),
                     color: 'white',
                 }
             },
@@ -104,7 +104,7 @@ const styleSheet = createStyleSheet((theme)=>({
                     color: 'black',
                 },
                 toggle:{
-                    backgroundColor: Color(theme.color['tertiary']).darken(.5).toString(),
+                    backgroundColor: Color(theme.color['tertiary']).darken(.3).toString(),
                     color: 'black'
                 },
             },
@@ -114,7 +114,7 @@ const styleSheet = createStyleSheet((theme)=>({
                     color: 'black',
                 },
                 toggle:{
-                    backgroundColor: Color(theme.color['success']).darken(.5).toString(),
+                    backgroundColor: Color(theme.color['success']).darken(.3).toString(),
                     color: 'black'
                 },
             },
@@ -124,7 +124,7 @@ const styleSheet = createStyleSheet((theme)=>({
                     color: 'black',
                 },
                 toggle:{
-                    backgroundColor: Color(theme.color['warning']).darken(.5).toString(),
+                    backgroundColor: Color(theme.color['warning']).darken(.3).toString(),
                     color: 'black'
                 }
             },
@@ -134,7 +134,7 @@ const styleSheet = createStyleSheet((theme)=>({
                     color: 'white',
                 },
                 toggle:{
-                    backgroundColor: Color(theme.color['error']).darken(.5).toString(),
+                    backgroundColor: Color(theme.color['error']).darken(.3).toString(),
                     color: 'white'
                 }
             },
