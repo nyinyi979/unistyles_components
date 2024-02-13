@@ -149,21 +149,6 @@ interface CheckboxProps {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-/** Switch */
-export interface SwitchCheckProps  {
-    /** Duration in ms */
-    animationDuration?: number,
-    disabled?: boolean,
-    /** Description beside the the switch */
-    description?: React.ReactNode,
-    defaultChecked?: boolean,
-    onChange?: (checked: boolean)=>void,
-    /** Variant, only supported for black and white yet */
-    variant?: 'black'|'white',
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
 /** Dialog props */
 export interface DialogProps {
     animationProperties?: animationProperties,
@@ -198,6 +183,54 @@ export type animationProperties = {
     animationType: animationType,
     /**If the animation is one directional, left entrance -> left outro (true) : left entrance -> right outro  */
     oneDirectionalAnimation: boolean,
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/** Drawer */
+export interface DrawerProps {
+    backdrop?: {
+        color: string,
+        /**must be between 0-1 */
+        opacity: number,
+    },
+    /** If clicking on the backdrop would hides the modal */
+    backdropPressHidesMenu?: boolean,
+    background?: {
+        color: string,
+        /**must be between 0-1 */
+        opacity: number,
+    },
+    children?: React.ReactNode,
+    /** location of the draggable menu */
+    direction: direction,
+    header?: string,
+    /** If the notch is visible or not */
+    notchVisible?: boolean,
+    /** Set state must be the function from useState */
+    setVisible: Dispatch<SetStateAction<boolean>>,
+    /** Visible state */
+    visible: boolean,
+    /** Width for left & right menu. Height for top & bottom menu */
+    widthOrHeight: number
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/** Input props */
+export interface InputProps extends TextInputProps {
+    borderRadius?: number,
+    borderWidth?: number,
+    /** xxs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl */
+    fontSize?: fontSizes,
+    height?: number,
+    /** Horizontal padding */
+    paddingHorizontal?: number,
+    /** Vertical Padding */
+    paddingVertical?: number,
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
+    variant?: variant,
+    width?: number,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -237,20 +270,16 @@ interface selectProps {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-/** Input props */
-export interface InputProps extends TextInputProps {
-    borderRadius?: number,
-    borderWidth?: number,
-    /** xxs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl */
+/** Link button props */
+export interface LinkBtnProps extends ViewProps {
+    disabled?: boolean,
     fontSize?: fontSizes,
-    height?: number,
-    /** Horizontal padding */
-    paddingHorizontal?: number,
-    /** Vertical Padding */
-    paddingVertical?: number,
+    onHover?: ()=>void,
+    onPress?: ()=>void,
+    /** The title must be provided */
+    title: string,
     /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
     variant?: variant,
-    width?: number,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -267,46 +296,17 @@ export interface SliderProps {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-/** Link button props */
-export interface LinkBtnProps extends ViewProps {
+/** Switch */
+export interface SwitchCheckProps  {
+    /** Duration in ms */
+    animationDuration?: number,
     disabled?: boolean,
-    fontSize?: fontSizes,
-    onHover?: ()=>void,
-    onPress?: ()=>void,
-    /** The title must be provided */
-    title: string,
-    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
-    variant?: variant,
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/** Swipe to dimiss menus */
-export interface DrawerProps {
-    backdrop?: {
-        color: string,
-        /**must be between 0-1 */
-        opacity: number,
-    },
-    /** If clicking on the backdrop would hides the modal */
-    backdropPressHidesMenu?: boolean,
-    background?: {
-        color: string,
-        /**must be between 0-1 */
-        opacity: number,
-    },
-    children?: React.ReactNode,
-    /** location of the draggable menu */
-    direction: direction,
-    header?: string,
-    /** If the notch is visible or not */
-    notchVisible?: boolean,
-    /** Set state must be the function from useState */
-    setVisible: Dispatch<SetStateAction<boolean>>,
-    /** Visible state */
-    visible: boolean,
-    /** Width for left & right menu. Height for top & bottom menu */
-    widthOrHeight: number
+    /** Description beside the the switch */
+    description?: React.ReactNode,
+    defaultChecked?: boolean,
+    onChange?: (checked: boolean)=>void,
+    /** Variant, only supported for black and white yet */
+    variant?: 'black'|'white',
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 

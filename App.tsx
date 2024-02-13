@@ -10,7 +10,7 @@ import CheckBox from './lib/ui/checkbox';
 import useToast from './lib/ui/toast';
 import DatePicker from './lib/ui/calendar';
 import Drawer from './lib/ui/drawer';
-import Dialog from './lib/ui/modal';
+import Dialog from './lib/ui/dialog';
 import Switch from './lib/ui/switch';
 import Tab from './lib/ui/tabs';
 import Toggle from './lib/ui/toggle';
