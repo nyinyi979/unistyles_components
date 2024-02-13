@@ -235,7 +235,21 @@ export interface InputProps extends TextInputProps {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-/** Dropdown */
+/** Link button props */
+export interface LinkBtnProps extends ViewProps {
+    disabled?: boolean,
+    fontSize?: fontSizes,
+    onHover?: ()=>void,
+    onPress?: ()=>void,
+    /** The title must be provided */
+    title: string,
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
+    variant?: variant,
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/** select */
 type data = {
     /** Data that will be returned when it is selected */
     data: string,
@@ -270,20 +284,6 @@ interface selectProps {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-/** Link button props */
-export interface LinkBtnProps extends ViewProps {
-    disabled?: boolean,
-    fontSize?: fontSizes,
-    onHover?: ()=>void,
-    onPress?: ()=>void,
-    /** The title must be provided */
-    title: string,
-    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
-    variant?: variant,
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
 /** Slider Props */
 export interface SliderProps {
     defaultValue?: number,
@@ -300,10 +300,10 @@ export interface SliderProps {
 export interface SwitchCheckProps  {
     /** Duration in ms */
     animationDuration?: number,
-    disabled?: boolean,
     /** Description beside the the switch */
     description?: React.ReactNode,
     defaultChecked?: boolean,
+    disabled?: boolean,
     onChange?: (checked: boolean)=>void,
     /** Variant, only supported for black and white yet */
     variant?: 'black'|'white',
@@ -336,17 +336,6 @@ export type TabContentsProps = {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-// Toggle type
-export interface ToggleProps {
-    description: string,
-    variant?: variants,
-    disabled?: boolean,
-    defaultToggled?: boolean,
-    onToggle?: (toggled: boolean)=>void
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
 //Text types
 export interface TextProp extends TextProps{
     color?: color,
@@ -359,6 +348,17 @@ export interface TextProp extends TextProps{
 }
 type textVariant = 'primary'|'primaryForeground'|'secondary'|'secondaryForeground'|'tertiary'|'tertiaryForeground'|
             'success'|'successForeground'|'warning'|'warningForeground'|'error'|'errorForeground'|'black'|'white'
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// Toggle type
+export interface ToggleProps {
+    description: string,
+    variant?: variant,
+    disabled?: boolean,
+    defaultToggled?: boolean,
+    onToggle?: (toggled: boolean)=>void
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
