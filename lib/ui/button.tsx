@@ -76,19 +76,18 @@ function Button(props:BtnProps){
     }
 
     const pressState = () =>{
-        if(animateScale) scale.value = withTiming(0.92, {duration:50});
         setHover('hover');
-        setTimeout(()=>{
-            scale.value = withTiming(1, {duration:50});
-            onPress();
-        },30)
+        onPress();
     }
-
+    const pressInState = () =>{
+        if(animateScale) scale.value = withTiming(0.95, {duration:50});
+    }
     const hoverOutState = () =>{
         originalState();
         onHoverOut();
     }
     const pressOutState = ()=>{
+        if(animateScale) scale.value = withTiming(1, {duration:50});
         originalState();
         onPressOut();
     }
@@ -111,9 +110,10 @@ function Button(props:BtnProps){
             <Pressable
                 onHoverIn={hoverState}
                 onPress={pressState}
+                onPressIn={pressInState}
+                onPressOut={pressOutState}
                 onFocus={onFocus}
                 onHoverOut={hoverOutState}
-                onPressOut={pressOutState}
                 onBlur={onBlur}
                 style={[{width:'100%',height:'100%'},padding]}
                 disabled={disabled}

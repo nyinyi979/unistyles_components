@@ -9,12 +9,12 @@ import Badge from './lib/ui/badge';
 import CheckBox from './lib/ui/checkbox';
 import useToast from './lib/ui/toast';
 import DatePicker from './lib/ui/calendar';
-import Dropdown from './lib/ui/dropdown';
 import Drawer from './lib/ui/drawer';
 import Dialog from './lib/ui/modal';
 import Switch from './lib/ui/switch';
 import Tab from './lib/ui/tabs';
 import Toggle from './lib/ui/toggle';
+import Select from './lib/ui/select';
 export default function App() {
     const variants:variant[] = ['primary','secondary','tertiary','black','white','success','warning','error'];
     const {Toast,ToastContextProvider} = useToast({
@@ -73,7 +73,7 @@ export default function App() {
 
             <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap',zIndex:10}}>
             {variants.map((variant)=>(
-                <Dropdown key={Math.random()*9999}
+                <Select key={Math.random()*9999}
                     data={[{data:'Data 1',label: 'Option 1'},{data:'Data 2',label: 'Option 2'},{data:'Data 3',label: 'Option 3'}]} 
                     width={150} 
                     height={50}
@@ -106,7 +106,7 @@ export default function App() {
             <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
             {variants.map((variant)=>(
                 <View key={Math.random()*9999} style={{margin:2}}>
-                    <CheckBox description={<Text selectable={false}>This is a checkbox!</Text>} key={variant} variant={variant} defaultChecked />
+                    <CheckBox onChange={(c)=>{console.log(c)}} description={<Text selectable={false}>This is a checkbox!</Text>} key={variant} variant={variant} defaultChecked />
                 </View>
             ))}
             </View>

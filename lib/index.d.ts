@@ -34,12 +34,21 @@ export interface AccordionElementProps {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-/** Button Props */
+/** Badge props */
+export interface BadgeProps extends ViewProps{
+    /** Rounded or not */
+    rounded?: boolean,
+    /** Size variant - xs, sm, md, lg, xl*/
+    size?: btnSize,
+    /** The title must be provided */
+    title: string,
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
+    variant?: variant,
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
-/** 
- * Overriding the ViewProps for custom properties
- * You can customize extra props here! 
-*/
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/** Button Props */
 export interface BtnProps extends ViewProps {
     animateScale?: boolean,
     asChild?: boolean,
@@ -61,17 +70,6 @@ export interface BtnProps extends ViewProps {
     size?: btnSize,
     /** The title of the button, provide if asChild is not used */
     title?: string,
-    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
-    variant?: variant,
-}
-/** Badge props */
-export interface BadgeProps extends ViewProps{
-    /** Rounded or not */
-    rounded?: boolean,
-    /** Size variant - xs, sm, md, lg, xl*/
-    size?: btnSize,
-    /** The title must be provided */
-    title: string,
     /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
     variant?: variant,
 }
@@ -145,7 +143,7 @@ type Days = 'Sun'|'Mon'|'Tue'|'Wed'|'Thu'|'Fri'|'Sat'
 interface CheckboxProps {
     description?: React.ReactNode,
     defaultChecked?: boolean,
-    onChange?: (checked: boolean)=>{},
+    onChange?: (checked: boolean)=>void,
     variant?: variant,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +157,7 @@ export interface SwitchCheckProps  {
     /** Description beside the the switch */
     description?: React.ReactNode,
     defaultChecked?: boolean,
-    onChange?: (checked: boolean)=>{},
+    onChange?: (checked: boolean)=>void,
     /** Variant, only supported for black and white yet */
     variant?: 'black'|'white',
 }
@@ -211,7 +209,7 @@ type data = {
     /** Label to be displayed */
     label: string
 }
-interface DropdownItemProps {
+interface optionProps {
     data: data,
     index: number,
     onChange: (data: data)=>void,
@@ -221,7 +219,7 @@ interface DropdownItemProps {
     /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
     variant?: variant,
 }
-interface DropdownProps {
+interface selectProps {
     data: data[],
     /** Height of the flatlist inside the dropdown */
     height: number,
