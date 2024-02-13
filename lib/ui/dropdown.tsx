@@ -1,6 +1,6 @@
 import React from "react";
 import Animated from "react-native-reanimated";
-import Button from "../basic/button";
+import Button from "./button";
 import { FlatList, Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { DropdownItemProps, DropdownProps } from "..";

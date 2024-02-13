@@ -2,7 +2,7 @@ import React from "react";
 import { BackHandler, Pressable, Text, View } from "react-native"
 import Animated, { useSharedValue } from "react-native-reanimated";
 import { GenerateAnimation, GenerateFadeAnimation } from "../utils/slide_animation";
-import Button from "../basic/button";
+import Button from "./button";
 import { DialogProps } from "../";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 /** 

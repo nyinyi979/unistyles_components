@@ -1,16 +1,16 @@
 import { Text, View } from 'react-native';
 import React from 'react';
-import Button from './lib/basic/button';
+import Button from './lib/ui/button';
 import { variant } from './lib/default';
-import Input from './lib/basic/input';
-import LinkBtn from './lib/basic/link';
-import P from './lib/basic/text';
+import Input from './lib/ui/input';
+import LinkBtn from './lib/ui/link';
+import P from './lib/ui/text';
 import Badge from './lib/ui/badge';
 import CheckBox from './lib/ui/checkbox';
 import useToast from './lib/ui/toast';
 import DatePicker from './lib/ui/calendar';
 import Dropdown from './lib/ui/dropdown';
-import Menu from './lib/ui/slide_menus';
+import Drawer from './lib/ui/drawer';
 import Dialog from './lib/ui/modal';
 import Switch from './lib/ui/switch';
 import Tab from './lib/ui/tabs';
@@ -114,7 +114,7 @@ export default function App() {
             <ToastContextProvider />
             <DatePicker numberOfLetters={2}/>
 
-            <Menu direction='left' setVisible={setVisible} visible={visible} widthOrHeight={200} backdropPressHidesMenu />
+            <Drawer direction='bottom' setVisible={setVisible} visible={visible} widthOrHeight={200} backdropPressHidesMenu />
             <Dialog setVisible={setVisible2} visible={visible2} variant='white' backdropPressHidesModal footer={{title:'Close'}}>
                 <View><P color='cyan' tint={950}>HELLO WORLD</P></View>
             </Dialog>

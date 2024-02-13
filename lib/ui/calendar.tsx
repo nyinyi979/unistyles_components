@@ -1,7 +1,7 @@
 import React from "react";
-import Button from "../basic/button";
+import Button from "./button";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import Input from "../basic/input";
+import Input from "./input";
 import { Pressable, Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { Colors } from "../unistyles";

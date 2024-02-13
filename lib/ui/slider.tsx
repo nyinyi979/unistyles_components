@@ -4,6 +4,17 @@ import { SliderProps } from "..";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
+/**
+ * 
+ * @param Slider
+ * - defaultValue - default value (1-100)
+ * - onChange - (number)=>fn
+ * - width - width of the slider
+ * - min - minimum value
+ * - max - maximum value
+ * - variant - white, black
+ * @returns 
+ */
 export default function Slider(props: SliderProps){
     const {
         defaultValue=10,

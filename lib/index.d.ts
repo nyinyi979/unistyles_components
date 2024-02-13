@@ -10,25 +10,25 @@ import { animationType, direction, variant, Sizes, btnSize, color, fontSizes, ti
 //Accordion props
 /** Overriding the ViewProps for custom properties, */
 export interface AccordionProps extends ViewProps {
-    data: string[],
-    headings: string[],
-    headingFontSize?: fontSizes,
-    dataFontSize?: fontSizes,
-    type?: 'plus'|'arrow'|'none',
     allowOpeningMoreThanTwo?: boolean,
+    data: string[],
+    dataFontSize?: fontSizes,
     /** Supply your index from 1 */
     defaultOpenedIndex?: number[]
+    headings: string[],
+    headingFontSize?: fontSizes,
+    type?: 'plus'|'arrow'|'none',
 }
 // Props of each accordion element
 export interface AccordionElementProps {
-    selectedIndex: number,
-    headingFontSize: fontSizes,
-    dataFontSize: fontSizes,
     allowOpeningMoreThanTwo: boolean,
     data: string,
+    dataFontSize: fontSizes,
     heading: string,
-    rightElementType: 'plus'|'arrow'|'none',
+    headingFontSize: fontSizes,
     open: Set<number>,
+    rightElementType: 'plus'|'arrow'|'none',
+    selectedIndex: number,
     setOpen: Dispatch<SetStateAction<Set<number>>>,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,61 +41,61 @@ export interface AccordionElementProps {
  * You can customize extra props here! 
 */
 export interface BtnProps extends ViewProps {
-    /** The title must be provided */
-    title?: string,
-    /** Variant of the button. Custom buttons can be made! */
-    variant?: variant,
-    /** Size variant */
-    size?: btnSize,
-    /** Fill the view or not */
+    animateScale?: boolean,
+    asChild?: boolean,
+    /** Fill the parent view or not */
     block?: boolean,
-    /** Rounded or not */
-    rounded?: boolean,
+    children?: React.ReactNode,
     /** Disabled */
     disabled?: boolean,
-    animateScale?: boolean,
     italic?: boolean,
-    onPress?: ()=>void,
-    onHover?: ()=>void,
-    onHoverOut?: ()=>void,
-    onPressOut?: ()=>void,
     onBlur?: ()=>void,
     onFocus?: ()=>void,
-    asChild?: boolean,
-    children?: React.ReactNode,
+    onHover?: ()=>void,
+    onHoverOut?: ()=>void,
+    onPress?: ()=>void,
+    onPressOut?: ()=>void,
+    /** Rounded or not */
+    rounded?: boolean,
+    /** Size variant - xs, sm, md, lg, xl*/
+    size?: btnSize,
+    /** The title of the button, provide if asChild is not used */
+    title?: string,
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
+    variant?: variant,
 }
 /** Badge props */
 export interface BadgeProps extends ViewProps{
-    /** The title must be provided */
-    title: string,
-    /** Variant of the button. Custom buttons can be made! */
-    variant?: variant,
-    /** Size variant */
-    size?: btnSize,
     /** Rounded or not */
     rounded?: boolean,
+    /** Size variant - xs, sm, md, lg, xl*/
+    size?: btnSize,
+    /** The title must be provided */
+    title: string,
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
+    variant?: variant,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /** Calendar Props */
 interface CalendarProps {
-    /** Sun, Mon or Su, Mo */
-    numberOfLetters?: 2|3,
-    /** return date in string ( for example: 1 January 2023 ) */
-    onValueChange?: (dateData: string)=>void,
     /** first showing month and year */
     initDate?: {
         month: number,
         year: number
-    }
+    },
+    /** Sun, Mon or Su, Mo */
+    numberOfLetters?: 2|3,
+    /** return date in string ( for example: 1 January 2023 ) */
+    onValueChange?: (dateData: string)=>void,
 }
 interface CalendarHeadingProps {
     date: DateData,
     NextMonth: ()=>void,
-    PreviousMonth: ()=>void,
     openMonthView: ()=>void,
     openYearView: ()=>void,
+    PreviousMonth: ()=>void,
 }
 interface DateData{
     date: number,
@@ -113,10 +113,10 @@ interface EachDayProps {
     date: number,
     month: number,
     year: number,
-    unselectable: boolean,
+    onValueChange: (dateData: string)=>void
     selectedDate: string,
     setSelectedDate: Dispatch<SetStateAction<string>>,
-    onValueChange: (dateData: string)=>void
+    unselectable: boolean,
 }
 interface MonthProps {
     selectedMonth: number,
@@ -124,16 +124,16 @@ interface MonthProps {
     openDayView: ()=>void,
 }
 interface YearProps {
-    year: number,
     openMonthView: ()=>void,
     setYear: (year: string)=>void
+    year: number,
 }
 interface EachMonthProps {
     month: number,
-    title: string,
-    setSelectedMonth: (month: number)=>void,
+    openDayView: ()=>void,
     selectedMonth: number,
-    openDayView: ()=>void
+    setSelectedMonth: (month: number)=>void,
+    title: string,
 }
 type Months = 'January'|'February'|'March'|'March'|'April'|'May'|'June'|'July'|'August'|'September'|'October'|'November'|'December'
 
@@ -144,24 +144,24 @@ type Days = 'Sun'|'Mon'|'Tue'|'Wed'|'Thu'|'Fri'|'Sat'
 /** Checkbox */
 interface CheckboxProps {
     description?: React.ReactNode,
-    variant?: variant,
+    defaultChecked?: boolean,
     onChange?: (checked: boolean)=>{},
-    defaultChecked?: boolean
+    variant?: variant,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /** Switch */
 export interface SwitchCheckProps  {
-    onChange?: (checked: boolean)=>{},
-    defaultChecked?: boolean,
-    /** Variant, only supported for black and white yet */
-    variant?: 'black'|'white',
-    /** Description beside the the switch */
-    description?: React.ReactNode,
     /** Duration in ms */
     animationDuration?: number,
     disabled?: boolean,
+    /** Description beside the the switch */
+    description?: React.ReactNode,
+    defaultChecked?: boolean,
+    onChange?: (checked: boolean)=>{},
+    /** Variant, only supported for black and white yet */
+    variant?: 'black'|'white',
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -169,37 +169,37 @@ export interface SwitchCheckProps  {
 /** Dialog props */
 export interface DialogProps {
     animationProperties?: animationProperties,
-    /** Visible state */
-    visible: boolean,
-    /** Set state must be the function from useState */
-    setVisible: Dispatch<SetStateAction<boolean>>,
+    backdrop?: {
+        color: string,
+        /**must be between 0-1 */
+        opacity: number,
+    },
+    /** If clicking on the backdrop would hides the modal */
+    backdropPressHidesModal?: boolean,
+    /** Body component */
+    children?: React.ReactNode,
+    /** Header component */
+    header?: React.ReactNode,
     footer?: {
         /** inner text of the buttons */
         title: string,
         /** Additional action to perform */
         action?: ()=>void
     },
+    /** Set state must be the function from useState */
+    setVisible: Dispatch<SetStateAction<boolean>>,
+    /** Visible state */
+    visible: boolean,
     /** black and white */
     variant: 'black'|'white'
-    backdrop?: {
-        color: string,
-        /**must be between 0-1 */
-        opacity: number,
-    },
-    /** Header component */
-    header?: React.ReactNode,
-    /** Body component */
-    children?: React.ReactNode,
-    /** If clicking on the backdrop would hides the modal */
-    backdropPressHidesModal?: boolean,
 }
 export type animationProperties = {
+    /** Duration of the animation,  */
+    animationDuration: number
     /**Extended properties of Dialog animation */
     animationType: animationType,
     /**If the animation is one directional, left entrance -> left outro (true) : left entrance -> right outro  */
     oneDirectionalAnimation: boolean,
-    /** Duration of the animation,  */
-    animationDuration: number
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -214,78 +214,45 @@ type data = {
 interface DropdownItemProps {
     data: data,
     index: number,
+    onChange: (data: data)=>void,
     selectedIndex: number,
     setSelectedIndex: Dispatch<SetStateAction<number>>,
     toggleVisible: ()=>void,
-    variant: variant,
-    onChange: (data: data)=>void,
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
+    variant?: variant,
 }
 interface DropdownProps {
     data: data[],
     /** Height of the flatlist inside the dropdown */
     height: number,
-    width: number,
-    variant?: variant,
-    size?: btnSize,
+    onChange: (data: data)=>void,
+    placeholder?: string,
     /** selected index starting from 1 */
     selectedIndex: number,
     setSelectedIndex: Dispatch<SetStateAction<number>>,
-    placeholder?: string,
-    onChange: (data: data)=>void
+    /** Only the placeholder button size will be affected by this! */
+    size?: btnSize,
+    width: number,
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
+    variant?: variant,
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/** Grid */
-export interface GridContext {
-    /** Amount of cols? */
-    cols: cols,
-    /** Amount of rows? */
-    rows?: rows,
-    /** Width of the parent in number, it is required */
-    width: number|'100%',
-    /** Height of the parent, it is required */
-    height: number,
-    /** Gap, can be provided with Sizes['...'] */
-    gap?: number|Sizes
-}
-export interface GridRowContext {
-    rowSpan?: rows,
-    height?: number,
-    children?: React.ReactNode
-}
-export interface GridColContext {
-    colSpan?: cols,
-    children?: React.ReactNode
-}
-export interface GridProps extends ViewProps,GridContext{
-    children?: React.ReactNode
-}
-export interface GridRowProps extends GridRowContext,ViewProps{
-    children?: React.ReactNode
-}
-export interface GridColProps extends GridColContext,ViewProps{
-    children?: React.ReactNode
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////
-type cols = 1|2|3|4|5|6|7|8|9|10|11|12
-type rows = 1|2|3|4|5|6
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /** Input props */
 export interface InputProps extends TextInputProps {
-    /** Input variant */
-    variant?: variant,
+    borderRadius?: number,
+    borderWidth?: number,
+    /** xxs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl */
+    fontSize?: fontSizes,
+    height?: number,
     /** Horizontal padding */
     paddingHorizontal?: number,
     /** Vertical Padding */
     paddingVertical?: number,
-    fontSize?: fontSizes,
-    borderRadius?: number,
-    borderWidth?: number,
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
+    variant?: variant,
     width?: number,
-    height?: number,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -293,96 +260,80 @@ export interface InputProps extends TextInputProps {
 /** Slider Props */
 export interface SliderProps {
     defaultValue?: number,
+    max?: number,
+    min?: number,
+    onChange?: (value: number)=>void,
     variant?: 'black'|'white',
     width?: number,
-    onChange?: (value: number)=>void,
-    min?: number,
-    max?: number,
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /** Link button props */
 export interface LinkBtnProps extends ViewProps {
+    disabled?: boolean,
+    fontSize?: fontSizes,
+    onHover?: ()=>void,
+    onPress?: ()=>void,
     /** The title must be provided */
     title: string,
-    /** Variant of the button. Custom buttons can be made! */
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
     variant?: variant,
-    fontSize?: fontSizes,
-    onPress?: ()=>void,
-    onHover?: ()=>void,
-    disabled?: boolean,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /** Swipe to dimiss menus */
-export interface MenuProps {
-    background?: {
-        color: string,
-        /**must be between 0-1 */
-        opacity: number,
-    },
+export interface DrawerProps {
     backdrop?: {
         color: string,
         /**must be between 0-1 */
         opacity: number,
     },
-    /** Visible state */
-    visible: boolean,
-    /** Set state must be the function from useState */
-    setVisible: Dispatch<SetStateAction<boolean>>,
-    /** Header component */
-    header?: string,
-    children?: React.ReactNode,
     /** If clicking on the backdrop would hides the modal */
     backdropPressHidesMenu?: boolean,
+    background?: {
+        color: string,
+        /**must be between 0-1 */
+        opacity: number,
+    },
+    children?: React.ReactNode,
+    /** location of the draggable menu */
+    direction: direction,
+    header?: string,
     /** If the notch is visible or not */
     notchVisible?: boolean,
-    /** Direction of the draggable menu */
-    direction: direction,
+    /** Set state must be the function from useState */
+    setVisible: Dispatch<SetStateAction<boolean>>,
+    /** Visible state */
+    visible: boolean,
     /** Width for left & right menu. Height for top & bottom menu */
     widthOrHeight: number
-}
-export interface leftRightTopBottomMenuProps {
-    direction: direction,
-    size: number,
-    visible: boolean,
-    setVisible: Dispatch<SetStateAction<boolean>>
-}
-export interface MenuPropsPassed extends MenuProps { 
-    direction: direction,
-    animatedStyles: any,
-    drag: any,
-    animateIntro: ()=>void,
-    animateOutro: ()=>void,
-    drawn: SharedValue<boolean>,
-    width?: number,
-    height?:number,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //Tab types
 export interface TabProps{
-    headings: string[],
     contents: React.ReactNode[],
     /** Opened index starting from 0 */
     defaultOpenedIndex?: number,
+    headings: string[],
+    height: DimensionValue
     variant?: 'black'|'white',
     width?: DimensionValue,
-    height: DimensionValue
 }
 export type TabHeadingsProps = {
     headings: string[],
     openedIndex: number,
     setOpenedIndex: Dispatch<SetStateAction<number>>,
-    variant: 'black'|'white'
+    variant: 'black'|'white',
 }
 export type TabContentsProps = {
     contents: React.ReactNode[],
+    height: DimensionValue,
     openedIndex: number,
     variant: 'black'|'white',
-    height: DimensionValue
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -400,12 +351,12 @@ export interface ToggleProps {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //Text types
 export interface TextProp extends TextProps{
-    fontSize?: fontSizes,
     color?: color,
-    /** 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 */
-    tint?: tint,
+    fontSize?: fontSizes,
     fontWeight?: fontWeight,
     textAlign?: textAlign,
+    /** 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 */
+    tint?: tint,
     variant?: textVariant
 }
 type textVariant = 'primary'|'primaryForeground'|'secondary'|'secondaryForeground'|'tertiary'|'tertiaryForeground'|
@@ -415,40 +366,40 @@ type textVariant = 'primary'|'primaryForeground'|'secondary'|'secondaryForegroun
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //Toast props
 export interface toastContext{
+    /** animation type */
+    animationType?: animationType,
+    /** bottom loading bar present or not */
+    bottomBar?: boolean,
     closeBtn?: string,
     closeBtnSize?: btnSize,
     /** Setting zero will not hide the toast at all */
     hidesAfterNoInteraction?: number,
-    /** outro animation when clicked closeBtn */
-    animationType?: animationType,
-    /** bottom loading bar present or not */
-    bottomBar?: boolean,
-    /** default variant, if you don't want to set it in toast message */
-    variant?: variant
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
+    variant?: variant,
 }
 export interface toastElementContext{
 	intendedIndex: number,
 	selectedIndex: number,
 }
 export interface ToastProps{
-    message: string,
-    variant: variant,
-    openToast: ()=>void,
-    closeToast: ()=>void,
     animatedStyles: any,
+    bottomBar: boolean,
     closeBtn: string,
     closeBtnSize: btnSize,
+    closeToast: ()=>void,
     duration: number,
-    bottomBar: boolean,
+    message: string,
+    openToast: ()=>void,
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
+    variant?: variant,
 }
 export interface ToastMethod{
     /** Message to display */
     message: string,
-    /** Variant of the message box, you can change it on each toast method... woo */
+    /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
     variant?: variant,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
