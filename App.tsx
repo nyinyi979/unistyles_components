@@ -15,6 +15,7 @@ import Switch from './lib/ui/switch';
 import Tab from './lib/ui/tabs';
 import Toggle from './lib/ui/toggle';
 import Select from './lib/ui/select';
+import Skeleton from './lib/ui/skeleton';
 export default function App() {
     const variants:variant[] = ['primary','secondary','tertiary','black','white','success','warning','error'];
     const {Toast,ToastContextProvider} = useToast({
@@ -33,8 +34,7 @@ export default function App() {
     const [visible2,setVisible2] = React.useState(false);
     return (
         <View style={{flex:1}}>
-            <Button title='Open toast' onPress={toastfn} variant='black'/>
-
+            <Skeleton backgroundColor={'red'} style={{width:200,height:200,flex:1,borderRadius:5}}/>
             <View style={{flexDirection:'row',alignContent:'space-between',flexWrap:'wrap'}}>
             {variants.map((variant,index)=>(
                 <View key={Math.random()*9999} style={{margin:2}}>
