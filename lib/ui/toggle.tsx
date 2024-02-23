@@ -22,32 +22,28 @@ export default function Toggle(props: ToggleProps){
         defaultToggled=false,
         onToggle=()=>{}
     } = props;
-    const [hover,setHover] = React.useState(disabled? true: false);
-    const [checked,setChecked] = React.useState<'normal'|'toggle'>
-        (disabled? 'toggle': defaultToggled? 'toggle' : 'normal');
-        
-    const {styles:{toggleView}} = 
-    variant==='primary'? useStyles(styleSheet,{primary:checked}) :
-    variant==='secondary'? useStyles(styleSheet,{secondary:checked}) :
-    variant==='tertiary'? useStyles(styleSheet,{tertiary:checked}) :
-    variant==='success'? useStyles(styleSheet,{success:checked}) :
-    variant==='warning'? useStyles(styleSheet,{warning:checked}) :
-    variant==='error'? useStyles(styleSheet,{error:checked}) :
-    variant==='black'? useStyles(styleSheet,{black:checked}) :
-    useStyles(styleSheet,{white:checked});
+
+    const [toggled,setToggle] = React.useState(disabled? true: defaultToggled);
+    const [hover,setHover] = React.useState(false);
+    const {styles:{toggleView,container}} = useStyles(styleSheet,{variant:variant});
+
+    const hoverColor = React.useRef(variant==='black'? 
+        Color(toggleView.backgroundColor).lighten(.3).toString():
+        Color(toggleView.backgroundColor).darken(.3).toString());
+
 
     const toggle = () =>{
-        if(checked==='normal') {
+        if(!toggled) {
             onToggle(true);
-            setChecked('toggle');
+            setToggle(true);
         }
         else {
             onToggle(false);
-            setChecked('normal')
+            setToggle(false);
         }
     }
     return(
-        <Animated.View style={[{alignSelf:'flex-start'}]}>
+        <Animated.View style={container}>
             <Pressable
                 onHoverIn={()=>{setHover(true)}}
                 onHoverOut={()=>{setHover(false)}}
@@ -58,6 +54,8 @@ export default function Toggle(props: ToggleProps){
                     shadowOpacity: 0.6,
                     shadowRadius: 2,  
                     elevation: 5,
+                },{
+                    backgroundColor: toggled? hoverColor.current : toggleView.backgroundColor
                 }]}
                 disabled={disabled}
             >
@@ -73,90 +71,45 @@ export default function Toggle(props: ToggleProps){
 }
 
 const styleSheet = createStyleSheet((theme)=>({
+    container: {alignSelf:'flex-start'},
     toggleView:{  
         paddingHorizontal: 10,
         borderRadius:5,
         paddingVertical: 5,
         variants:{
-            primary:{
-                normal:{
-                    backgroundColor: theme.color['primary'],
-                    color: theme.color['primaryForeground'],
+            variant:{
+                primary:{
+                    backgroundColor: theme.color.primary,
+                    color: theme.color.primaryForeground
                 },
-                toggle:{
-                    backgroundColor: Color(theme.color['primary']).darken(.5).toString(),
-                    color: theme.color['primaryForeground'],
-                }
-            },
-            secondary:{
-                normal:{
-                    backgroundColor: theme.color['secondary'],
-                    color: theme.color['secondaryForeground'],
+                secondary:{
+                    backgroundColor: theme.color.secondary,
+                    color: theme.color.secondaryForeground
                 },
-                toggle:{
-                    backgroundColor: Color(theme.color['secondary']).darken(.3).toString(),
-                    color: theme.color['secondaryForeground'],
-                }
-            },
-            tertiary:{
-                normal:{
-                    backgroundColor: theme.color['tertiary'],
-                    color: theme.color['tertiaryForeground'],
+                tertiary:{
+                    backgroundColor: theme.color.tertiary,
+                    color: theme.color.primaryForeground
                 },
-                toggle:{
-                    backgroundColor: Color(theme.color['tertiary']).darken(.3).toString(),
-                    color: theme.color['tertiaryForeground'],
+                success:{
+                    backgroundColor: theme.color.success,
+                    color: theme.color.successForeground
                 },
-            },
-            success:{
-                normal:{
-                    backgroundColor: theme.color['success'],
-                    color: theme.color['successForeground'],
+                warning: {
+                    backgroundColor: theme.color.warning,
+                    color: theme.color.warningForeground
                 },
-                toggle:{
-                    backgroundColor: Color(theme.color['success']).darken(.3).toString(),
-                    color: theme.color['successForeground'],
+                error: {
+                    backgroundColor: theme.color.error,
+                    color: theme.color.errorForeground
                 },
-            },
-            warning: {
-                normal:{
-                    backgroundColor: theme.color['warning'],
-                    color: theme.color['warningForeground'],
+                black:{
+                    backgroundColor: theme.color.black,
+                    color: theme.color.white
                 },
-                toggle:{
-                    backgroundColor: Color(theme.color['warning']).darken(.3).toString(),
-                    color: theme.color['warningForeground'],
-                }
-            },
-            error: {
-                normal:{
-                    backgroundColor: theme.color['error'],
-                    color: theme.color['errorForeground'],
+                white:{
+                    backgroundColor: theme.color.white,
+                    color: theme.color.black
                 },
-                toggle:{
-                    backgroundColor: Color(theme.color['error']).darken(.3).toString(),
-                    color: theme.color['errorForeground'],
-                }
-            },
-            black:{
-                normal:{
-                    backgroundColor: theme.color['black'],
-                    color: theme.color['white']
-                },
-                toggle:{
-                    backgroundColor: theme.color['darkGray'],
-                    color: theme.color['white']
-                }
-            },
-            white:{
-                normal:{
-                    backgroundColor: theme.color['white'],
-                    color: theme.color['black']
-                },
-                toggle:{
-                    backgroundColor: theme.color['lightGray'],
-                    color: theme.color['black']
-                }
             },
         }
     }

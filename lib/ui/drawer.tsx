@@ -38,9 +38,10 @@ export default function Drawer(props: DrawerProps){
     const {styles} = useStyles(styleSheet,{
         direction: direction
     });
+    let timeOut: NodeJS.Timeout;
     // Display to toggle before intro and after outro
-    const [display, setDisplay] = React.useState<'flex'|'none'>(visible? 'flex': 'none');
-
+    const [display, setDisplay] = React.useState(false);
+    !display&&clearInterval(timeOut);
     // Getting the drag for the gesutre
     const dragStyles = React.useRef(
         direction==='left'||direction==='right'? 
@@ -54,31 +55,31 @@ export default function Drawer(props: DrawerProps){
     const backdropOpacity = useSharedValue(0);
     const backdropAnimation = 
     React.useRef(GenerateFadeAnimation({
-        animationDuration:200,
+        animationDuration:300,
         existing: backdropOpacity,
         opacityToAnimate: backdrop.opacity
     }));
 
     // animate the modal intro
     const enterModal = () =>{
-        setDisplay('flex');
+        setDisplay(true);
         animateIntro();
         backdropAnimation.current.animateIntro();
         drawn.value = true;
     }
     // animate the modal outro
-    const exitModal = () =>{
-        animateOutro();
+    const closeModal = () =>{
         backdropAnimation.current.animateOutro();
-        setTimeout(()=>{
-            setDisplay('none');
-        },300)
-    }
+        animateOutro();
+        timeOut = setTimeout(()=>{
+            setDisplay(false);
+        },300);
+    };
     
     // listening to backhanlder event, since it is implemented on View not Modal:)
     React.useEffect(()=>{
         BackHandler.addEventListener('hardwareBackPress',()=>{
-            exitModal();
+            closeModal();
             return true;
         })
     },[])
@@ -86,13 +87,11 @@ export default function Drawer(props: DrawerProps){
     // can be done with a button click with a stage
     React.useEffect(()=>{
         if(visible) enterModal()
-        else exitModal();
+        else closeModal();
     },[visible])
-
     return(
         <GestureDetector gesture={drag}>
-            <View style={[styles.parentView,
-                {display:display},
+            <View style={[styles.parentView(display),
                 {height:Platform.OS !=='web'? Dimensions.get('screen').height: '100vh'}]}>
                 
                 <Animated.View style={[
@@ -137,13 +136,14 @@ function Notch(props: {animationType: animationType}){
 
 const styleSheet = createStyleSheet((theme)=>({
     // parent of the modal(the whole screen)
-    parentView:{
+    parentView:(visible: boolean)=>({
         position: 'absolute',
+        display: visible? 'flex' : 'none',
         width: '100%',
         left:0,
         top:0,
         zIndex:10
-    },
+    }),
     // you must change this to align just the modal box, background of the whole screen
     modalContainer:{
         flex: 1,

@@ -42,13 +42,15 @@ function Dialog(DialogProps: DialogProps){
             animationDuration:100,
             animationType:'slideFromBottom',
             oneDirectionalAnimation:true}
-        } = DialogProps;
+    } = DialogProps;
 
+    let timeOut:NodeJS.Timeout;
+    !visible&&clearInterval(timeOut);
     // backdrop animation and shared value
     const backdropOpacity = useSharedValue(0);
     const backdropAnimation = React.useRef(GenerateFadeAnimation(
         {
-            animationDuration:200,
+            animationDuration:animationProperties.animationDuration,
             existing:backdropOpacity,
             opacityToAnimate:backdrop.opacity
         })
@@ -61,11 +63,11 @@ function Dialog(DialogProps: DialogProps){
     const {backdropView,childrenContainer,insideModalContainer,modalContainer,modalText,parentView} = styles;
 
     const closeDialog = () =>{
-      backdropAnimation.current.animateOutro();
-      animateOutro();
-      setTimeout(()=>{
-        setVisible(false);
-      },animationProperties.animationDuration)
+        backdropAnimation.current.animateOutro();
+        animateOutro();
+        timeOut = setTimeout(()=>{
+            setVisible(false);
+        },animationProperties.animationDuration)
     };
 
     const openDialog = () =>{
@@ -78,7 +80,7 @@ function Dialog(DialogProps: DialogProps){
         BackHandler.addEventListener('hardwareBackPress',()=>{
             closeDialog();
             return true;
-        })
+        });
     },[])
 
     React.useEffect(()=>{
@@ -87,9 +89,7 @@ function Dialog(DialogProps: DialogProps){
     },[visible])
     
     return(
-        <View style={[parentView,{
-            display:visible? 'flex':'none',
-            }]}>
+        <View style={parentView(visible)}>
             <View style={modalContainer}>
 
                 <Animated.View style={[
@@ -110,15 +110,13 @@ function Dialog(DialogProps: DialogProps){
                     <View style={childrenContainer}>
                         {children}
                     </View>
-                    <View style={{flex:1}}>
-                        {footer? 
+                    {footer&&<View style={{flex:1}}>
                         <Button 
                             title={footer.title} 
                             onPress={closeDialog} 
                             variant={variant}
                             />
-                        : <Text></Text>}
-                    </View>
+                    </View>}
                 </Animated.View>
             </View>
         </View>
@@ -128,14 +126,15 @@ function Dialog(DialogProps: DialogProps){
 
 const styleSheet = createStyleSheet((theme)=>({
     // parent of the modal(the whole screen)
-    parentView:{
+    parentView: (displayed: boolean)=>({
         position: 'absolute',
         width: '100%',
         height:'100%',
         left:0,
         top:0,
-        zIndex:10
-    },
+        zIndex:10,
+        display: displayed? 'flex' : 'none'
+    }),
     // you must change this to align just the modal box, background of the whole screen
     modalContainer:{
         flex: 1,
@@ -171,10 +170,10 @@ const styleSheet = createStyleSheet((theme)=>({
         marginVertical: 5
     },
     white:{
-        backgroundColor: theme.color['white']
+        backgroundColor: theme.color.white
     },
     black:{
-        backgroundColor: theme.color['black']
+        backgroundColor: theme.color.black
     },
 }))
 export default Dialog

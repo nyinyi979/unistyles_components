@@ -15,42 +15,43 @@ import { FontSizes } from "../unistyles";
  * - borderRadius - (default - 5)
  * - borderWidth - (default - 2)
  * - fontSize - xxs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl 
+ * - disabled - boolean
  * @returns Input react node
  */
 function Input(props: InputProps){
     const {
-        variant='white',
+        variant='black',
         width=100,
         paddingHorizontal=10,
         paddingVertical=5,
         borderRadius=3,
         borderWidth=2,
-        fontSize='md'
+        fontSize='md',
+        disabled=false
     } = props;
 
-    const [focus, setFocus] = React.useState<'normal'|'focus'>('normal');
-    const {styles:{inputBox}} = 
-    variant==='primary'? useStyles(styleSheet,{primary:focus}) :
-    variant==='secondary'? useStyles(styleSheet,{secondary:focus}) :
-    variant==='tertiary'? useStyles(styleSheet,{tertiary:focus}) :
-    variant==='success'? useStyles(styleSheet,{success:focus}) :
-    variant==='warning'? useStyles(styleSheet,{warning:focus}) :
-    variant==='error'? useStyles(styleSheet,{error:focus}) :
-    variant==='black'? useStyles(styleSheet,{black:focus}) :
-    useStyles(styleSheet,{white:focus});
+    const [focus,setFocus] = React.useState(disabled? true: false);
+    const {styles:{inputBox}} = useStyles(styleSheet,{variant:variant});
+
+    const focusColor = React.useRef(variant==='black'? 
+        Color(inputBox.backgroundColor).lighten(.3).toString():
+        Color(inputBox.backgroundColor).darken(.3).toString());
+    const borderColor = React.useRef(variant==='black'? 
+        Color(inputBox.borderColor).lighten(.3).toString():
+        Color(inputBox.borderColor).darken(.3).toString());
+    const usedBorder = focus? borderColor.current : inputBox.borderColor;
 
     return(
-        <View style={[inputBox,{alignSelf:'flex-start',width,borderWidth,borderRadius}]}>
+        <View style={[inputBox,{alignSelf:'flex-start',width,borderWidth,borderRadius,borderColor:usedBorder}]}>
             <TextInput 
-                {...props} placeholderTextColor={inputBox.borderColor}
-                style={[,
+                {...props} placeholderTextColor={usedBorder}
+                style={[inputBox,
                     {   
-                        color: inputBox.color,
                         outlineStyle:'none',
                         paddingHorizontal,paddingVertical,
                         fontSize: FontSizes[fontSize]
                     }
-                ]} onFocus={()=>{setFocus('focus')}} onBlur={()=>{setFocus('normal')}}
+                ]} onFocus={()=>{setFocus(true)}} onBlur={()=>{setFocus(false)}}
                 />
         </View>
     )
@@ -59,104 +60,75 @@ function Input(props: InputProps){
 const styleSheet = createStyleSheet((theme => ({
     inputBox:{
         variants:{
-            primary:{
-                normal:{
-                    backgroundColor: theme.color['primary'],
-                    borderColor: Color(theme.color['primary']).darken(.3).toString(),
-                    color: theme.color['primaryForeground'],
+            variant:{
+                primary:{
+                    backgroundColor: theme.color.primary,
+                    borderColor: Color(theme.color.primary).darken(.2).toString(),
+                    color: theme.color.primaryForeground
                 },
-                focus:{
-                    backgroundColor: theme.color['primary'],
-                    borderColor: theme.color['primaryForeground'],
-                    color: theme.color['primaryForeground'],
-                }
-            },
-            secondary: {
-                normal:{
-                    backgroundColor: theme.color['secondary'],
-                    borderColor: Color(theme.color['secondary']).darken(.3).toString(),
-                    color: theme.color['secondaryForeground'],
+                secondary:{
+                    backgroundColor: theme.color.secondary,
+                    borderColor: Color(theme.color.secondary).darken(.2).toString(),
+                    color: theme.color.secondaryForeground
                 },
-                focus:{
-                    backgroundColor: theme.color['secondary'],
-                    borderColor: theme.color['secondaryForeground'],
-                    color: theme.color['secondaryForeground'],
-                }
-            },
-            tertiary: {
-                normal:{
-                    backgroundColor: theme.color['tertiary'],
-                    borderColor: Color(theme.color['tertiary']).darken(.3).toString(),
-                    color: theme.color['tertiaryForeground'],
+                tertiary:{
+                    backgroundColor: theme.color.tertiary,
+                    borderColor: Color(theme.color.tertiary).darken(.2).toString(),
+                    color: theme.color.tertiaryForeground
                 },
-                focus:{
-                    backgroundColor: theme.color['tertiary'],
-                    borderColor: theme.color['tertiaryForeground'],
-                    color: theme.color['tertiaryForeground'],
-                }
-            },
-            success: {
-                normal:{
-                    backgroundColor: theme.color['success'],
-                    borderColor: Color(theme.color['success']).darken(.3).toString(),
-                    color: theme.color['successForeground'],
+                success:{
+                    backgroundColor: theme.color.success,
+                    borderColor: Color(theme.color.success).darken(.2).toString(),
+                    color: theme.color.successForeground
                 },
-                focus:{
-                    backgroundColor: theme.color['success'],
-                    borderColor: theme.color['successForeground'],
-                    color: theme.color['successForeground'],
+                warning: {
+                    backgroundColor: theme.color.warning,
+                    borderColor: Color(theme.color.warning).darken(.2).toString(),
+                    color: theme.color.warningForeground
                 },
-            },
-            warning: {
-                normal:{
-                    backgroundColor: theme.color['warning'],
-                    borderColor: Color(theme.color['warning']).darken(.3).toString(),
-                    color: theme.color['successForeground']
-                },
-                focus:{
-                    backgroundColor: theme.color['warning'],
-                    borderColor: theme.color['warningForeground'],
-                    color: theme.color['warningForeground']
-                },
-            },
-            error: {
-                normal:{
+                error: {
                     backgroundColor: theme.color.error,
-                    borderColor: Color(theme.color['error']).lighten(.4).toString(),
-                    color: theme.color['errorForeground']
+                    borderColor: Color(theme.color.error).darken(.2).toString(),
+                    color: theme.color.errorForeground
                 },
-                focus:{
-                    backgroundColor: theme.color.error,
-                    borderColor: theme.color['errorForeground'],
-                    color: theme.color['errorForeground']
-                },
-            },
-            black:{
-                normal:{
-                    backgroundColor: theme.color['black'],
+                black:{
+                    backgroundColor: theme.color.black,
                     borderColor: 'gray',
-                    color: theme.color['lightGray'],
+                    color: theme.color.white
                 },
-                focus:{
-                    backgroundColor: theme.color['black'],
-                    borderColor: 'gray' ,
-                    color: 'white'
-                },
-            },
-            white:{
-                normal:{
-                    backgroundColor: theme.color['white'],
+                white:{
+                    backgroundColor: theme.color.white,
                     borderColor: theme.color['lightGray'],
-                    color: theme.color['darkGray'],
-                },
-                focus:{
-                    backgroundColor: theme.color['white'],
-                    borderColor: 'gray',
-                    color: theme.color['darkGray'],
+                    color: theme.color.black
                 },
             },
-            
-        }
+            sizes:{
+                'xs': {
+                    paddingHorizontal: 4,
+                    paddingVertical: 2
+                },
+                'sm': {
+                    paddingHorizontal: 6,
+                    paddingVertical: 2
+                },
+                'md': {
+                    paddingHorizontal: 10,
+                    paddingVertical: 4
+                },
+                'lg': {
+                    paddingHorizontal: 12,
+                    paddingVertical: 4
+                },
+                'xl': {
+                    paddingHorizontal: 16,
+                    paddingVertical: 6
+                },
+                '2xl': {
+                    paddingHorizontal: 20,
+                    paddingVertical: 8
+                },
+            }
+        },
     }
 })));
 

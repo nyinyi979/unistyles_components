@@ -69,7 +69,7 @@ function Calendar(props: CalendarProps){
                 openYearView={openYearView}
                 />
 
-            <View style={{alignItems:'center',justifyContent:'center'}}>
+            <View style={styles.centerView}>
                 {views === 'day'?
                 <>
                     <Days 
@@ -142,11 +142,12 @@ function CalendarMonth(props: MonthProps){
 }
 
 function EachMonth(props: EachMonthProps){
+    let timeOut:NodeJS.Timeout;
     const {month,setSelectedMonth,selectedMonth,title,openDayView} = props;
     const intendedMonth = React.useRef(month);
     const selectMonth = () =>{
         setSelectedMonth(intendedMonth.current);
-        setTimeout(()=>{
+        timeOut = setTimeout(()=>{
             openDayView();
         },400)
     }
@@ -168,6 +169,7 @@ function EachMonth(props: EachMonthProps){
                 backgroundColor: iniDayView.backgroundColor,
                 color: iniDayView.color,
             },{duration:200})
+        clearInterval(timeOut);
     },[selectedMonth])
 
     
@@ -192,20 +194,20 @@ function CalendarHeading(props: CalendarHeadingProps){
     const {styles:{flexBoxStyles,borderStyle,calendarHeadingView,headingStyles}} = useStyles(styleSheet);
     return (
         <View style={[flexBoxStyles,borderStyle,{paddingBottom:3}]}>
-            <Button title="<" variant="white" size='xs' onPress={PreviousMonth} />
+            <Button title="<" variant="white" size="sm" onPress={PreviousMonth} />
             <View style={calendarHeadingView}>
-                <Button variant="white" size="xs" asChild onPress={openMonthView}>
+                <Button variant="white" asChild onPress={openMonthView}>
                     <Text style={[headingStyles]}>
                         {months[props.date.month]} 
                     </Text>
                 </Button>
-                <Button size="xs" variant="white" asChild onPress={openYearView}>
+                <Button variant="white" asChild onPress={openYearView}>
                     <Text style={[headingStyles]}>
                         {date.year}
                     </Text>
                 </Button>
             </View>
-            <Button title=">" variant="white" size='xs' onPress={NextMonth} />
+            <Button title=">" variant="white" size="sm" onPress={NextMonth} />
         </View>
     )
 }
@@ -343,6 +345,9 @@ function EachDay(props: EachDayProps){
 
 
 const styleSheet = createStyleSheet((theme)=>({
+    centerView:{
+        alignItems:'center',justifyContent:'center'
+    },
     calendarContainer:{
         alignItems:'center',
         justifyContent:'center',
@@ -356,7 +361,7 @@ const styleSheet = createStyleSheet((theme)=>({
         zIndex:3,
         borderWidth: 1,
         borderColor: Colors.slate['300'],
-        backgroundColor: theme.color['white']
+        backgroundColor: theme.color.white
     },
     flexBoxStyles:{
         flexDirection:'row',
@@ -372,7 +377,7 @@ const styleSheet = createStyleSheet((theme)=>({
     },
     headingStyles:{
         fontWeight: '600',
-        color: theme.color['black']
+        color: theme.color.black
     },
     calendarHeadingView:{
         width:150,
@@ -390,11 +395,11 @@ const styleSheet = createStyleSheet((theme)=>({
         margin: 1
     },
     dayHeading:{
-        color: theme.color['darkGray']
+        color: theme.color.darkGray
     },
     iniDayView: {
-        backgroundColor: theme.color['white'],
-        color: theme.color['black'],
+        backgroundColor: theme.color.white,
+        color: theme.color.black,
     },
     monthView:{
         width: 70,
@@ -405,11 +410,11 @@ const styleSheet = createStyleSheet((theme)=>({
         margin: 1
     },
     selectedDateView:{
-        backgroundColor: theme.color['black'],
-        color: theme.color['white'],
+        backgroundColor: theme.color.black,
+        color: theme.color.white,
     },
     unselectableDateView:{
-        backgroundColor: theme.color['white'],
+        backgroundColor: theme.color.white,
         color: Colors.slate['500']
     }
 }))

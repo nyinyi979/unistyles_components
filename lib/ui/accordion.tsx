@@ -54,7 +54,7 @@ function AccordionElement(props: AccordionElementProps){
         heading, rightElementType, allowOpeningMoreThanTwo, 
         dataFontSize, headingFontSize 
     } = props;
-
+    let timeOut:NodeJS.Timeout;
     // boolean value of the index found or not in the set
     const foundOrNot = open.has(selectedIndex);
     const {styles} = useStyles(styleSheet);
@@ -84,11 +84,12 @@ function AccordionElement(props: AccordionElementProps){
                 const afterDeletion = new Set([...open]);
                 afterDeletion.delete(selectedIndex);
                 // putting a delay for animation
-                setTimeout(()=>{
+                timeOut = setTimeout(()=>{
                     setOpen(afterDeletion);
-                },50)
+                },150)
             }
             else {
+                clearInterval(timeOut);
                 animateIntro();
                 setOpen(new Set([...open,selectedIndex]));
             }
@@ -100,7 +101,7 @@ function AccordionElement(props: AccordionElementProps){
                 // putting a delay for animation
                 setTimeout(()=>{
                     setOpen(afterDeletion);
-                },50)
+                },150)
             }
             else {
                 animateIntro();
@@ -151,26 +152,23 @@ const styleSheet = createStyleSheet((theme)=>({
     parnetView: {
         paddingHorizontal: 12,
         paddingVertical: 4,
-        backgroundColor: theme.color['white']
     },
     // text displayed in accordion box
     font:{
-        marginTop: 4,
         textAlign: 'justify',
         padding: 4,
-        backgroundColor: theme.color['white']
     },
     // modify this for your heading style, 
     //icon color is the same as color here!
     headingText: {
-        color: theme.color['black'],
-        textDecorationColor: theme.color['black'],
+        color: theme.color.black,
+        textDecorationColor: theme.color.black,
         textDecorationLine: 'underline',
         textDecorationStyle: 'solid',
         textAlign: 'left',
     },
     headingView: {
-        minHeight:40,
+        minHeight:35,
         paddingVertical:10
     },
     actionView:{

@@ -15,18 +15,20 @@ export default function LongPressMenuBox(props: LongPressMenuBoxProps){
         width: 100,
         height: 100
     });
+    let timeOut:NodeJS.Timeout;
     const {ParentView,PopOverView,animationDuration=200,backdrop={color:'black',opacity:.5}} = props;
-    const {styles} = useStyles(styleSheet);
+    const {styles:{backdropStyle,popOverContainer}} = useStyles(styleSheet);
     const {animateIntro,animateOutro,animatedStyles} = GenerateScaleAnimation({animationDuration,oneDirectionalAnimation:true});
     
     const closePopOver = () =>{
         animateOutro();
-        setTimeout(()=>{
+        timeOut = setTimeout(()=>{
             setVisible(false);
         },animationDuration)
     }
     React.useEffect(()=>{
         if(visible) animateIntro();
+        else clearInterval(timeOut);
     },[visible])
 
     const optimisePosition = (left: number, top: number,pageY:number) =>{
@@ -48,15 +50,14 @@ export default function LongPressMenuBox(props: LongPressMenuBoxProps){
             {visible&&
                 <Pressable 
                     onPress={closePopOver}  
-                    style={[styles.backdrop,{
+                    style={[backdropStyle,{
                         backgroundColor:backdrop.color,
                         opacity:backdrop.opacity
                     }]} 
                 />}
             <Animated.View onLayout={(e)=>{visible&&setDimension({width:e.nativeEvent.layout.width,height:e.nativeEvent.layout.height})}} 
-                style={[animatedStyles,position,styles.popOverContainer,{
-                    display: visible? 'flex' : 'none',
-                }]}
+                style={[animatedStyles,popOverContainer(visible, position)]}
+                
             >
                 {PopOverView}
             </Animated.View>
@@ -64,12 +65,14 @@ export default function LongPressMenuBox(props: LongPressMenuBoxProps){
     )
 }
 const styleSheet = createStyleSheet((theme)=>({
-    popOverContainer:{
+    popOverContainer:(visible: boolean,position: {top: number, left: number})=>({ 
+        display: visible? 'flex' : 'none',
         position: 'absolute',
         alignSelf: 'flex-start',
-        zIndex: 3
-    },
-    backdrop: {
+        zIndex: 3,
+        ...position
+    }),
+    backdropStyle: {
         position: 'absolute',
         width: '100%',
         height: '100%',

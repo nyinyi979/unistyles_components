@@ -35,7 +35,9 @@ export default function Select(props: selectProps){
     const {styles:{dropdown,containerView,placeholderStyle,arrowContainer,arrow,mainContainer}} = useStyles(styleSheet,{
         variant: variant
     });
+    let timeOut:NodeJS.Timeout;
     const [visible, setVisible] = React.useState(false);
+    !visible&&clearInterval(timeOut);
     const {current:{animateIntro,animateOutro,animatedStyles}} = React.useRef(GenerateScaleAnimation({
         animationDuration: 100,
         oneDirectionalAnimation: true,
@@ -48,7 +50,7 @@ export default function Select(props: selectProps){
         }
         if(visible) {
             animateOutro();
-            setTimeout(()=>{
+            timeOut = setTimeout(()=>{
                 setVisible(false);
             },100)
         } 
@@ -67,7 +69,6 @@ export default function Select(props: selectProps){
                 block
                 // Change the border rounded here
                 rounded={true} 
-                animateScale={false} 
                 asChild>
                 <View style={{flexDirection:'row',position:'relative'}}>
                     <Text selectable={false} numberOfLines={1} style={[{color:dropdown.color},placeholderStyle]}>
@@ -94,6 +95,7 @@ export default function Select(props: selectProps){
                         onChange={onChange}
                         selectedIndex={selectedIndex}
                         setSelectedIndex={setSelectedIndex}
+                        size={size}
                         toggleVisible={toggle}
                         variant={variant}
                         key={index}
@@ -106,7 +108,7 @@ export default function Select(props: selectProps){
 }
 
 function Option(props: optionProps){
-    const {data,setSelectedIndex,variant,index,selectedIndex,onChange,toggleVisible} = props;
+    const {data,setSelectedIndex,variant,index,selectedIndex,size,onChange,toggleVisible} = props;
     const intendedData = React.useRef(index);
     const setSelectedData = () => {
         onChange(data);
@@ -122,10 +124,10 @@ function Option(props: optionProps){
             rounded={false} 
             animateScale={false}
             block 
-            asChild
-        >
-            <Text numberOfLines={1} style={{color:styles.dropdown.color}}>{data.label}</Text>
-        </Button>
+            size={size}
+            title={data.label}
+            style={{marginTop:.15}}
+        />
     )
 
 }
@@ -135,28 +137,28 @@ const styleSheet = createStyleSheet((theme)=>({
         variants:{
             variant:{
                 primary: {
-                    color: theme.color['primaryForeground'],
+                    color: theme.color.primaryForeground,
                 },
                 secondary: {
-                    color: theme.color['secondaryForeground'],
+                    color: theme.color.secondaryForeground,
                 },
                 tertiary: {
-                    color: theme.color['tertiaryForeground'],
+                    color: theme.color.tertiaryForeground,
                 },
                 success: {
-                    color: theme.color['successForeground'],
+                    color: theme.color.successForeground,
                 },
                 warning: {
-                    color: theme.color['warningForeground'],
+                    color: theme.color.warningForeground,
                 },
                 error: {
-                    color: theme.color['errorForeground'],
+                    color: theme.color.errorForeground,
                 },
                 black: {
-                    color: theme.color['white'],
+                    color: theme.color.white,
                 },
                 white:{
-                    color: theme.color['black']
+                    color: theme.color.black
                 }
             }
         }
@@ -164,7 +166,8 @@ const styleSheet = createStyleSheet((theme)=>({
     mainContainer:{
         position:'relative',
         zIndex:2,
-        borderRadius:5
+        borderRadius:5,
+        alignSelf:'flex-start'
     },
     containerView:{
         position:'absolute',

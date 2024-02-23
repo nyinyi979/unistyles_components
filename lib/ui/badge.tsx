@@ -17,37 +17,25 @@ function Badge(props:BadgeProps){
     const {
         variant='primary',
         size='md',
-        rounded=true
+        rounded=true,
+        shadow=true
     } = props;
 
-    const {styles:{badge}} = useStyles(styleSheet,{
+    const {styles:{badge,textStyle}} = useStyles(styleSheet,{
         sizes: size,
-        variant: variant
+        variant: variant,
     });
-    
-    const shadowStyles = {
-        shadowColor: badge.color,
-        shadowOffset: { width: 3, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,  
-        elevation: 5,
-    }
-    const viewStyle:ViewStyle = {
-        alignSelf: 'flex-start',
-        backgroundColor: badge.backgroundColor,
-        borderRadius: rounded? 5 : 0,
-        paddingHorizontal: badge.paddingHorizontal,
-        paddingVertical: badge.paddingVertical
-    }
-    const textStyle:TextStyle = {
-        color: variant==='black'? 'white': badge.color,
-        textAlign: 'center',
-        fontSize: badge.fontSize,
-        fontWeight: '700',
-    }
     return(
-        <View style={[viewStyle,shadowStyles]}>
-            <Text style={textStyle}>
+        <View style={[badge(rounded),
+            shadow&&{
+                shadowOffset: { width: 3, height: 2 },
+                shadowOpacity: 0.8,
+                shadowRadius: 2,  
+                elevation: 5,
+                shadowColor: variant ==='black' ? 'darkgray' : textStyle.color,
+            }
+        ]}>
+            <Text style={[textStyle,{fontSize:FontSizes[size]}]}>
                 {props.title}
             </Text>
         </View>
@@ -58,78 +46,96 @@ function Badge(props:BadgeProps){
  *  Customization of the buttons' styles can be done here!
  */
 const styleSheet = createStyleSheet((theme => ({
-    badge:{
+    badge: (rounded: boolean)=>({
+        alignSelf: 'flex-start',
+        borderRadius: rounded? 5 : 0,
         variants:{
             variant:{
-                primary: {
-                    backgroundColor: theme.color['primary'],
-                    color: theme.color['primaryForeground'],
+                primary:{
+                    backgroundColor: theme.color.primary,
                 },
-                secondary: {
-                    backgroundColor: theme.color['secondary'],
-                    color: theme.color['secondaryForeground'],
+                secondary:{
+                    backgroundColor: theme.color.secondary,
                 },
-                tertiary: {
-                    backgroundColor: theme.color['tertiary'],
-                    color: theme.color['tertiaryForeground'],
+                tertiary:{
+                    backgroundColor: theme.color.tertiary,
                 },
-                success: {
-                    backgroundColor: theme.color['success'],
-                    color: theme.color['successForeground'],
+                success:{
+                    backgroundColor: theme.color.success,
                 },
                 warning: {
-                    backgroundColor: theme.color['warning'],
-                    color: theme.color['warningForeground'],
+                    backgroundColor: theme.color.warning,
                 },
                 error: {
-                    backgroundColor: theme.color['error'],
-                    color: theme.color['errorForeground'],
+                    backgroundColor: theme.color.error,
                 },
-                black: {
-                    backgroundColor: theme.color['black'],
-                    color: theme.color['darkGray']
+                black:{
+                    backgroundColor: theme.color.black,
                 },
-                white: {
-                    backgroundColor: theme.color['white'],
-                    color: theme.color['black']
-                }
+                white:{
+                    backgroundColor: theme.color.white,
+                },
             },
             sizes:{
                 'xs': {
-                    fontSize: FontSizes['xs'],
-                    paddingHorizontal: 6,
+                    paddingHorizontal: 4,
                     paddingVertical: 2
                 },
                 'sm': {
-                    fontSize: FontSizes['sm'],
-                    paddingHorizontal: 8,
+                    paddingHorizontal: 6,
                     paddingVertical: 2
                 },
                 'md': {
-                    fontSize: FontSizes['md'],
                     paddingHorizontal: 10,
-                    paddingVertical: 3
+                    paddingVertical: 4
                 },
                 'lg': {
-                    fontSize: FontSizes['lg'],
-                    paddingHorizontal: 12,
-                    paddingVertical: 3
-                },
-                'xl': {
-                    fontSize: FontSizes['xl'],
                     paddingHorizontal: 12,
                     paddingVertical: 4
                 },
+                'xl': {
+                    paddingHorizontal: 16,
+                    paddingVertical: 6
+                },
                 '2xl': {
-                    fontSize: FontSizes['2xl'],
-                    paddingHorizontal: 14,
-                    paddingVertical: 5
-                }
+                    paddingHorizontal: 20,
+                    paddingVertical: 8
+                },
             }
         }
-    }
-    
-    
-})))
+    }),
+    textStyle:{
+        textAlign: 'center',
+        fontWeight: '700',
+        variants:{
+            variant:{
+                primary:{
+                    color: theme.color.primaryForeground,
+                },
+                secondary:{
+                    color: theme.color.secondaryForeground,
+                },
+                tertiary:{
+                    color: theme.color.tertiaryForeground,
+                },
+                success:{
+                    color: theme.color.successForeground,
+                },
+                warning: {
+                    color: theme.color.warningForeground,
+                },
+                error: {
+                    color: theme.color.errorForeground,
+                },
+                black:{
+                    color: theme.color.white
+                },
+                white:{
+                    color: theme.color.black
+                },
+            },
+        }
+    },
+})));
 
 export default Badge

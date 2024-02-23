@@ -73,7 +73,7 @@ export default function Slider(props: SliderProps){
                     <View style={[{width:width+5},bgSliderBar]} />
                     <View style={[{width:`${value}%`},slideBar]}/>
                     <GestureDetector gesture={pan}>
-                        <View style={[circle,{left:`${value-1}%`}]} />
+                        <View style={[circle,{left:`${value-2}%`}]} />
                     </GestureDetector>
                 </View>
             </GestureDetector>
@@ -85,7 +85,7 @@ const styleSheet = createStyleSheet((theme)=>({
     sliderContainer:{
         height:20,
         alignSelf:'flex-start',
-        position:'relative'
+        position:'relative',
     },
     bgSliderBar:{
         position:'absolute',
@@ -96,10 +96,10 @@ const styleSheet = createStyleSheet((theme)=>({
         variants:{
             variant:{
                 white:{
-                    backgroundColor: theme.color['lightGray'],
+                    backgroundColor: theme.color.lightGray,
                 },
                 black:{
-                    backgroundColor: theme.color['darkGray'],
+                    backgroundColor: theme.color.darkGray,
                 }
             }
         }
@@ -109,13 +109,14 @@ const styleSheet = createStyleSheet((theme)=>({
         top:5,
         height:10,
         zIndex:3,
+        borderRadius:10,
         variants:{
             variant:{
                 white:{
-                    backgroundColor: theme.color['darkGray'],
+                    backgroundColor: theme.color.darkGray,
                 },
                 black:{
-                    backgroundColor: theme.color['lightGray'],
+                    backgroundColor: theme.color.black,
                 }
             }
         }
@@ -131,12 +132,12 @@ const styleSheet = createStyleSheet((theme)=>({
         variants:{
             variant:{
                 white:{
-                    backgroundColor: theme.color['white'],
-                    borderColor: theme.color['lightGray']
+                    backgroundColor: theme.color.lightGray,
+                    borderColor: theme.color.darkGray
                 },
                 black:{
-                    backgroundColor: theme.color['black'],
-                    borderColor: theme.color['darkGray']
+                    backgroundColor: theme.color.black,
+                    borderColor: theme.color.darkGray
                 }
             }
         }

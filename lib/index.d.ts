@@ -3,7 +3,7 @@
 import React, { Dispatch, SetStateAction } from "react"
 import { ViewProps, TextProps, DimensionValue, TextInputProps } from 'react-native'
 import { SharedValue } from "react-native-gesture-handler"
-import { animationType, direction, variant, Sizes, btnSize, color, fontSizes, tint, fontWeight, textAlign } from "./default"
+import { animationType, direction, variant, Sizes, btnSize, color, fontSizes, tint, fontWeight, textAlign, allVariants } from "./default"
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,6 +40,7 @@ export interface BadgeProps extends ViewProps{
     rounded?: boolean,
     /** Size variant - xs, sm, md, lg, xl*/
     size?: btnSize,
+    shadow?: boolean,
     /** The title must be provided */
     title: string,
     /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
@@ -221,6 +222,7 @@ export interface DrawerProps {
 export interface InputProps extends TextInputProps {
     borderRadius?: number,
     borderWidth?: number,
+    disabled?: boolean,
     /** xxs, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl */
     fontSize?: fontSizes,
     height?: number,
@@ -244,7 +246,7 @@ export interface LinkBtnProps extends ViewProps {
     /** The title must be provided */
     title: string,
     /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
-    variant?: variant,
+    variant?: allVariants,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -276,6 +278,7 @@ interface optionProps {
     onChange: (data: data)=>void,
     selectedIndex: number,
     setSelectedIndex: Dispatch<SetStateAction<number>>,
+    size: btnSize,
     toggleVisible: ()=>void,
     /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
     variant?: variant,
@@ -365,10 +368,8 @@ export interface TextProp extends TextProps{
     textAlign?: textAlign,
     /** 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 */
     tint?: tint,
-    variant?: textVariant
+    variant?: allVariants
 }
-type textVariant = 'primary'|'primaryForeground'|'secondary'|'secondaryForeground'|'tertiary'|'tertiaryForeground'|
-            'success'|'successForeground'|'warning'|'warningForeground'|'error'|'errorForeground'|'black'|'white'
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

@@ -41,23 +41,12 @@ function Button(props:BtnProps){
         children
     } = props;
 
-    const [hover,setHover] = React.useState<'normal'|'hover'>(disabled? 'hover':'normal');
-    const {styles:{button}} = 
-    variant==='primary'? useStyles(styleSheet,{primary:hover,sizes:size}) :
-    variant==='secondary'? useStyles(styleSheet,{secondary:hover,sizes:size}) :
-    variant==='tertiary'? useStyles(styleSheet,{tertiary:hover,sizes:size}) :
-    variant==='success'? useStyles(styleSheet,{success:hover,sizes:size}) :
-    variant==='warning'? useStyles(styleSheet,{warning:hover,sizes:size}) :
-    variant==='error'? useStyles(styleSheet,{error:hover,sizes:size}) :
-    variant==='black'? useStyles(styleSheet,{black:hover,sizes:size}) :
-    useStyles(styleSheet,{white:hover,sizes:size});
+    const [hover,setHover] = React.useState(disabled? true: false);
+    const {styles:{button,textStyle}} = useStyles(styleSheet,{variant:variant,sizes:size});
 
-    const color = button.color;
-    const fontSize = button.fontSize;
-    const padding = {
-        paddingHorizontal: button.paddingHorizontal,
-        paddingVertical: button.paddingVertical
-    }
+    const hoverColor = React.useRef(variant==='black'? 
+        '#1f2937':
+        Color(button.backgroundColor).darken(.3).toString());
 
     const scale = useSharedValue(1);
     
@@ -66,17 +55,17 @@ function Button(props:BtnProps){
     }));
     
     const originalState = () =>{
-        if(disabled) setHover('hover');
-        else setHover('normal');
+        if(disabled) setHover(true);
+        else setHover(false);
     }
 
     const hoverState = () =>{
-        setHover('hover');
+        setHover(true);
         onHover();
     }
 
     const pressState = () =>{
-        setHover('hover');
+        setHover(true);
         onPress();
     }
     const pressInState = () =>{
@@ -87,24 +76,19 @@ function Button(props:BtnProps){
         onHoverOut();
     }
     const pressOutState = ()=>{
-        if(animateScale) scale.value = withTiming(1, {duration:50});
+        if(animateScale) scale.value = withTiming(1, {duration:100});
         originalState();
         onPressOut();
     }
     return(
         <Animated.View {...props}
-            style={[
+            style={[props.style,
                 animatedStyles,
                 {position:'relative'},
                 block? 
-                    {alignItems:'center',justifyContent:'flex-start'}: 
+                    {alignItems:'center'}: 
                     {alignSelf:'flex-start'},
-                rounded&& {
-                    borderRadius: 5
-                },
-                {
-                    backgroundColor: button.backgroundColor
-                }
+                {backgroundColor: hover? hoverColor.current : button.backgroundColor}, 
             ]}
         >
             <Pressable
@@ -115,16 +99,26 @@ function Button(props:BtnProps){
                 onFocus={onFocus}
                 onHoverOut={hoverOutState}
                 onBlur={onBlur}
-                style={[{width:'100%',height:'100%'},padding]}
                 disabled={disabled}
-            >
+                style={[ 
+                    rounded&& {borderRadius: 5},
+                    {
+                        paddingHorizontal: button.paddingHorizontal,
+                        paddingVertical: button.paddingVertical,
+                    },
+                    block&&{
+                        width:'100%',
+                        height:'100%'
+                    }
+
+                ]}
+                >
                 {asChild? children :
-                <Text selectable={false} style={{
-                    color:color,
+                <Text selectable={false} style={[textStyle,{
                     textAlign: 'center',
-                    fontSize: fontSize,
-                    fontStyle: italic? 'italic' : 'normal'
-                    }}>
+                    fontSize: FontSizes[size],
+                    fontStyle: italic? 'italic' : 'normal',
+                }]}>
                     {props.title}
                 </Text>}
             </Pressable>
@@ -138,120 +132,90 @@ function Button(props:BtnProps){
 const styleSheet = createStyleSheet((theme => ({
     button:{
         variants:{
-            primary:{
-                normal:{
-                    backgroundColor: theme.color['primary'],
-                    color: theme.color['primaryForeground'],
+            variant:{
+                primary:{
+                    backgroundColor: theme.color.primary,
                 },
-                hover:{
-                    backgroundColor: Color(theme.color['primary']).darken(.3).toString(),
-                    color: theme.color['primaryForeground'],
-                }
-            },
-            secondary:{
-                normal:{
-                    backgroundColor: theme.color['secondary'],
-                    color: theme.color['secondaryForeground'],
+                secondary:{
+                    backgroundColor: theme.color.secondary,
                 },
-                hover:{
-                    backgroundColor: Color(theme.color['secondary']).darken(.3).toString(),
-                    color: theme.color['secondaryForeground']
-                }
-            },
-            tertiary:{
-                normal:{
-                    backgroundColor: theme.color['tertiary'],
-                    color: theme.color['tertiaryForeground'],
+                tertiary:{
+                    backgroundColor: theme.color.tertiary,
                 },
-                hover:{
-                    backgroundColor: Color(theme.color['tertiary']).darken(.3).toString(),
-                    color: theme.color['tertiaryForeground']
+                success:{
+                    backgroundColor: theme.color.success,
                 },
-            },
-            success:{
-                normal:{
-                    backgroundColor: theme.color['success'],
-                    color: theme.color['successForeground'],
+                warning: {
+                    backgroundColor: theme.color.warning,
                 },
-                hover:{
-                    backgroundColor: Color(theme.color['success']).darken(.3).toString(),
-                    color: theme.color['successForeground']
+                error: {
+                    backgroundColor: theme.color.error,
                 },
-            },
-            warning: {
-                normal:{
-                    backgroundColor: theme.color['warning'],
-                    color: theme.color['warningForeground'],
+                black:{
+                    backgroundColor: theme.color.black,
                 },
-                hover:{
-                    backgroundColor: Color(theme.color['warning']).darken(.3).toString(),
-                    color: theme.color['warningForeground']
-                }
-            },
-            error: {
-                normal:{
-                    backgroundColor: theme.color['error'],
-                    color: theme.color['errorForeground'],
+                white:{
+                    backgroundColor: theme.color.white,
                 },
-                hover:{
-                    backgroundColor: Color(theme.color['error']).darken(.3).toString(),
-                    color: theme.color['errorForeground']
-                }
-            },
-            black:{
-                normal:{
-                    backgroundColor: theme.color['black'],
-                    color: theme.color['white']
-                },
-                hover:{
-                    backgroundColor: theme.color['darkGray'],
-                    color: theme.color['white']
-                }
-            },
-            white:{
-                normal:{
-                    backgroundColor: theme.color['white'],
-                    color: theme.color['black']
-                },
-                hover:{
-                    backgroundColor: theme.color['lightGray'],
-                    color: theme.color['black']
-                }
             },
             sizes:{
                 'xs': {
-                    fontSize: FontSizes['xs'],
                     paddingHorizontal: 4,
                     paddingVertical: 2
                 },
                 'sm': {
-                    fontSize: FontSizes['sm'],
                     paddingHorizontal: 6,
                     paddingVertical: 2
                 },
                 'md': {
-                    fontSize: FontSizes['md'],
                     paddingHorizontal: 10,
                     paddingVertical: 4
                 },
                 'lg': {
-                    fontSize: FontSizes['lg'],
                     paddingHorizontal: 12,
                     paddingVertical: 4
                 },
                 'xl': {
-                    fontSize: FontSizes['xl'],
                     paddingHorizontal: 16,
                     paddingVertical: 6
                 },
                 '2xl': {
-                    fontSize: FontSizes['2xl'],
                     paddingHorizontal: 20,
                     paddingVertical: 8
                 },
             }
+        },
+    },
+    textStyle:{
+        variants:{
+            variant:{
+                primary:{
+                    color: theme.color.primaryForeground,
+                },
+                secondary:{
+                    color: theme.color.secondaryForeground,
+                },
+                tertiary:{
+                    color: theme.color.tertiaryForeground,
+                },
+                success:{
+                    color: theme.color.successForeground,
+                },
+                warning: {
+                    color: theme.color.warningForeground,
+                },
+                error: {
+                    color: theme.color.errorForeground,
+                },
+                black:{
+                    color: theme.color.white
+                },
+                white:{
+                    color: theme.color.black
+                },
+            },
         }
-    }
+    },
 })));
 
 export default Button

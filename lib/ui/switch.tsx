@@ -32,12 +32,12 @@ export default function Switch(props: SwitchCheckProps){
         useStyles(styleSheet, {black:checked, sizes:'xs' }) :
         useStyles(styleSheet, {white:checked, sizes:'xs'})
     
-    const translate = useSharedValue(checked==='notActive'?  switchBtn.width/2 : 5);
+    const translate = useSharedValue(checked==='notActive'?  switchBtn.width/2.1 : 5);
     const translateXAnimatedStyles = useAnimatedStyle(()=>({
         transform: [{translateX: translate.value}]
     }))
     const animateIntro = () =>{
-        translate.value = withTiming(switchBtn.width/2,{duration: animationDuration});
+        translate.value = withTiming(switchBtn.width/2.1,{duration: animationDuration});
     }
     const animateOutro = () =>{
         translate.value = withTiming(5,{duration: animationDuration});
@@ -89,7 +89,8 @@ export default function Switch(props: SwitchCheckProps){
 }
 const styleSheet = createStyleSheet((theme)=>({
     parentView:{
-        alignSelf:'flex-start'
+        alignSelf:'flex-start',
+        margin: 3
     },
     pressableStyle:{
         flexDirection:'row',alignItems:'center'
@@ -98,24 +99,24 @@ const styleSheet = createStyleSheet((theme)=>({
         variants:{
             white:{
                 active:{
-                    backgroundColor: theme.color['primary'],
+                    backgroundColor: theme.color.lightGray,
                 },
                 notActive:{
-                    backgroundColor: theme.color['lightGray'],
+                    backgroundColor: 'gray',
                 },
                 disabled:{
-                    backgroundColor: theme.color['darkGray'],
+                    backgroundColor: theme.color.darkGray,
                 }
             },
             black:{
                 active:{
-                    backgroundColor: theme.color['white'],
+                    backgroundColor: theme.color.lightGray,
                 },
                 notActive:{
-                    backgroundColor: theme.color['black'],
+                    backgroundColor: theme.color.black,
                 },
                 disabled:{
-                    backgroundColor: theme.color['lightGray'],
+                    backgroundColor: theme.color.darkGray,
                 }
             },
             sizes:{

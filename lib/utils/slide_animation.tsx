@@ -7,6 +7,7 @@ import { animationType } from "../default";
  * - animationDuration: duration of the total animation
  */
 export function GenerateAnimation(animation: animationProperties){
+    console.log(animation);
     switch(animation.animationType){
         case 'scale':
             return GenerateScaleAnimation(animation);

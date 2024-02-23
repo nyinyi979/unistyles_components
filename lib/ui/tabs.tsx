@@ -42,34 +42,33 @@ function TabHeadings(props: TabHeadingsProps){
     });
 
     const [width,setWidth] = React.useState(0);
-    const translateX = useSharedValue(width/headings.length * openedIndex);
+    const translateX = useSharedValue(width/5 * openedIndex);
 
     const animatedStyles = useAnimatedStyle(()=>({
         transform: [{translateX: translateX.value}]
     }));
     
     const toggleTab = (index: number)=>{
-        translateX.value = withTiming(width/headings.length * index ,{duration:200});
+        translateX.value = withTiming(width/5 * index ,{duration:200});
         setOpenedIndex(index)
     }
 
     return(
         <View 
-            style={[{
+            style={[headingView,{
                 backgroundColor:tab.backgroundColor,
-                borderColor:indicatorView.backgroundColor},
-                headingView
-                ]} 
-                onLayout={(e)=>{setWidth(e.nativeEvent.layout.width)}}
+                borderColor:indicatorView.backgroundColor,
+            }]} 
+            onLayout={(e)=>{setWidth(e.nativeEvent.layout.width)}}
         >
             <Animated.View style={[{
-                width:`${100/headings.length}%`},
+                width:`${100/5}%`},
                 indicatorView,animatedStyles
                 ]} 
             />
             {headings.map((heading,index)=>(
                 <Pressable 
-                    style={[{width:`${100/headings.length}%`},eachHeadingView]}
+                    style={[{width:`${100/5}%`},eachHeadingView]}
                     key={heading}
                     onPress={()=>{toggleTab(index)}}
                     >
@@ -96,7 +95,7 @@ function TabContents(props: TabContentsProps){
         animateOutro();
         setTimeout(()=>{
             animateIntro();
-        },200)
+        },50)
     },[openedIndex])
     return(
         <View style={[{
@@ -126,12 +125,12 @@ const styleSheet = createStyleSheet((theme)=>({
         variants:{
             variant:{
                 white:{
-                    backgroundColor: theme.color['white'],
-                    color: theme.color['black']
+                    backgroundColor: theme.color.white,
+                    color: theme.color.black
                 },
                 black:{
-                    backgroundColor: theme.color['black'],
-                    color: theme.color['white']
+                    backgroundColor: theme.color.black,
+                    color: theme.color.white
                 },
             }
         },
@@ -147,10 +146,10 @@ const styleSheet = createStyleSheet((theme)=>({
         variants:{
             variant:{
                 white:{
-                    backgroundColor: theme.color['lightGray']
+                    backgroundColor: theme.color.lightGray
                 },
                 black:{
-                    backgroundColor: theme.color['darkGray']
+                    backgroundColor: theme.color.darkGray
                 }
             }
         }
@@ -159,7 +158,7 @@ const styleSheet = createStyleSheet((theme)=>({
         paddingHorizontal: 8,
         paddingVertical: 5,
         borderRadius:4,
-        fontSize: 18
+        fontSize: 18,
     },
     headingView:{
         flexDirection:'row',

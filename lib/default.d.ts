@@ -1,4 +1,4 @@
-export type btnSize = 'xs'|'sm'|'md'|'lg'|'xl'
+export type btnSize = 'xs'|'sm'|'md'|'lg'|'xl'|'2xl'
 
 export type fontSizes = 'xxs'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl'|'3xl'|'4xl'|'5xl'|'6xl'
 
@@ -16,6 +16,9 @@ export type animationType = 'slideFromLeft'|'slideFromRight'|'slideFromBottom'|'
 export type direction = 'top'|'right'|'bottom'|'left'
 
 export type variant = 'primary'|'secondary'|'tertiary'|'success'|'warning'|'error'|'black'|'white'
+
+export type allVariants = 'primary'|'primaryForeground'|'secondary'|'secondaryForeground'|'tertiary'|
+'tertiaryForeground'|'success'|'successForeground'|'warning'|'warningForeground'|'error'|'errorForeground'|'black'|'white'|'lightGray'|'darkGray'
 
 export type fontWeight = '100'|'200'|'300'|'400'|'500'|'600'|'700'|'800'|'900'
 export type textAlign = 'center'|'justify'|'left'|'right'

@@ -147,36 +147,36 @@ const styleSheet = createStyleSheet((theme=>({
         variants:{
             variant:{
                 primary:{
-                    backgroundColor: theme.color['primary'],
-                    color: theme.color['primaryForeground']
+                    backgroundColor: theme.color.primary,
+                    color: theme.color.primaryForeground
                 },
                 secondary:{
-                    backgroundColor: theme.color['secondary'],
-                    color: theme.color['secondaryForeground']
+                    backgroundColor: theme.color.secondary,
+                    color: theme.color.secondaryForeground
                 },
                 tertiary:{
-                    backgroundColor: theme.color['tertiary'],
-                    color: theme.color['tertiaryForeground']
+                    backgroundColor: theme.color.tertiary,
+                    color: theme.color.tertiaryForeground
                 },
                 success:{
-                    backgroundColor: theme.color['success'],
-                    color: theme.color['successForeground']
+                    backgroundColor: theme.color.success,
+                    color: theme.color.successForeground
                 },
                 warning:{
-                    backgroundColor: theme.color['warning'],
-                    color: theme.color['warningForeground']
+                    backgroundColor: theme.color.warning,
+                    color: theme.color.warningForeground
                 },
                 error:{
-                    backgroundColor: theme.color['error'],
-                    color: theme.color['errorForeground']
+                    backgroundColor: theme.color.error,
+                    color: theme.color.errorForeground
                 },
                 black:{
-                    backgroundColor: theme.color['black'],
-                    color: theme.color['white']
+                    backgroundColor: theme.color.black,
+                    color: theme.color.white
                 },
                 white:{
-                    backgroundColor: theme.color['white'],
-                    color: theme.color['black']
+                    backgroundColor: theme.color.white,
+                    color: theme.color.black
                 }
             }
         }
