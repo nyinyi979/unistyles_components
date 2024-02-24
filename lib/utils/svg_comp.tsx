@@ -1,3 +1,4 @@
+import Color from "color";
 import React from "react";
 import { View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
@@ -57,11 +58,12 @@ export function ChevronArrow(props:{activated:boolean,color:string}){
     )
 }
 
-export function Check(props: {checked:boolean,color:string,backgroundColor:string}){
-    const {backgroundColor,color,checked} = props;
+export function Check(props: {checked:boolean,color:string,backgroundColor:string,disabled: boolean}){
+    const {backgroundColor,color,checked,disabled} = props;
+    const disabledColor = Color(backgroundColor).darken(.3).toString();
     const {styles} = useStyles(styleSheet);
     return(
-        <View style={[{borderColor:backgroundColor},checked&&{backgroundColor:backgroundColor},styles.checkContainer]}>
+        <View style={[styles.checkContainer(checked,disabled? disabledColor : backgroundColor)]}>
             {checked? 
             <>
                 <View style={[styles.longCheck,{backgroundColor:color}]}></View>
@@ -139,13 +141,15 @@ const styleSheet = createStyleSheet((theme)=>({
         borderStartEndRadius: 5,
         bottom:4
     },
-    checkContainer:{
+    checkContainer:(checked: boolean,color: string)=>({
         width:20,
         height:20,
         borderWidth:1,
         margin:2,
         marginRight:5,
-        borderRadius:3
-    }
+        borderRadius:3,
+        backgroundColor: checked? color : '',
+        borderColor: color,
+    })
     
 }))

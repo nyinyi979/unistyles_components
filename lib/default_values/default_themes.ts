@@ -13,11 +13,11 @@ export const DefaultLightPlatelette = {
     warningForeground: '#695f00',
     error: '#970000',
     errorForeground: '#ffd4d4',
-    base: '#fafafa',
+    base: '#f5f5f5',
     white: '#ffffff',
-    black: '#000000',
-    lightGray: Colors.slate['300'],
-    darkGray: Colors.slate['800'],
+    black: '#0f0f0f',
+    lightGray: '#e5e7eb',
+    darkGray: '#1f2937'
 }
 
 export const DefaultDarkPlatelette = {
@@ -34,8 +34,8 @@ export const DefaultDarkPlatelette = {
     error: '#970000',
     errorForeground: '#ffd4d4',
     base: '#202020',
-    white: '#000000',
+    white: '#0f0f0f',
     black: '#ffffff',
-    lightGray: Colors.slate['800'],
-    darkGray: Colors.slate['300'],
+    lightGray: '#1f2937',
+    darkGray: '#e5e7eb',
 }

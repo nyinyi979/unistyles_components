@@ -15,7 +15,7 @@ import { GenerateScaleAnimation } from "../utils/slide_animation";
  * - selectedIndex - default selected index ( starting from 1 )
  * - onChange - will return data: {data: string, label: string} when updated
  * - size - button sizes
- * - variant - variants
+ * - variant - primary, secondary, tertiary, success, warning, error, ghost
  * - placeholder - placeholder before anything is selected
  * @returns dropdown react node
  */
@@ -27,8 +27,8 @@ export default function Select(props: selectProps){
         selectedIndex=0,
         setSelectedIndex,
         onChange=()=>{},
-        size='xs',
-        variant='white',
+        size='md',
+        variant='ghost',
         placeholder="Select"
     } = props;
 
@@ -154,10 +154,7 @@ const styleSheet = createStyleSheet((theme)=>({
                 error: {
                     color: theme.color.errorForeground,
                 },
-                black: {
-                    color: theme.color.white,
-                },
-                white:{
+                ghost:{
                     color: theme.color.black
                 }
             }

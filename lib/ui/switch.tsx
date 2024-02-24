@@ -99,24 +99,24 @@ const styleSheet = createStyleSheet((theme)=>({
         variants:{
             white:{
                 active:{
-                    backgroundColor: theme.color.lightGray,
+                    backgroundColor: '#e5e7eb',
                 },
                 notActive:{
                     backgroundColor: 'gray',
                 },
                 disabled:{
-                    backgroundColor: theme.color.darkGray,
+                    backgroundColor: '#1f2937',
                 }
             },
             black:{
                 active:{
-                    backgroundColor: theme.color.lightGray,
+                    backgroundColor: '#e5e7eb'
                 },
                 notActive:{
-                    backgroundColor: theme.color.black,
+                    backgroundColor: 'black',
                 },
                 disabled:{
-                    backgroundColor: theme.color.darkGray,
+                    backgroundColor: '#e5e7eb',
                 }
             },
             sizes:{
@@ -129,6 +129,6 @@ const styleSheet = createStyleSheet((theme)=>({
         }
     },
     circle:{
-        backgroundColor: Colors.slate[400]
+        backgroundColor: '#9ca3af'
     }
 }))

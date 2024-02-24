@@ -15,7 +15,7 @@ export type animationType = 'slideFromLeft'|'slideFromRight'|'slideFromBottom'|'
 
 export type direction = 'top'|'right'|'bottom'|'left'
 
-export type variant = 'primary'|'secondary'|'tertiary'|'success'|'warning'|'error'|'black'|'white'
+export type variant = 'primary'|'secondary'|'tertiary'|'success'|'warning'|'error'|'ghost'
 
 export type allVariants = 'primary'|'primaryForeground'|'secondary'|'secondaryForeground'|'tertiary'|
 'tertiaryForeground'|'success'|'successForeground'|'warning'|'warningForeground'|'error'|'errorForeground'|'black'|'white'|'lightGray'|'darkGray'

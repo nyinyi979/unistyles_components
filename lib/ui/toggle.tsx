@@ -12,12 +12,13 @@ import { Pressable, Text} from "react-native"
  * - disabled - true or false
  * - defaultToggled - default value
  * - onToggle - called when the value is updated
+ * - variant - primary, secondary, tertiary, success, warning, error, ghost
  * @returns Toggle react node
  */
 export default function Toggle(props: ToggleProps){
     const {
         description,
-        variant='black',
+        variant='ghost',
         disabled=false,
         defaultToggled=false,
         onToggle=()=>{}
@@ -25,11 +26,9 @@ export default function Toggle(props: ToggleProps){
 
     const [toggled,setToggle] = React.useState(disabled? true: defaultToggled);
     const [hover,setHover] = React.useState(false);
-    const {styles:{toggleView,container}} = useStyles(styleSheet,{variant:variant});
+    const {styles:{toggleView,container,textStyle}} = useStyles(styleSheet,{variant:variant});
 
-    const hoverColor = React.useRef(variant==='black'? 
-        Color(toggleView.backgroundColor).lighten(.3).toString():
-        Color(toggleView.backgroundColor).darken(.3).toString());
+    const hoverColor = React.useRef(Color(toggleView.backgroundColor).darken(.3).toString());
 
 
     const toggle = () =>{
@@ -49,7 +48,7 @@ export default function Toggle(props: ToggleProps){
                 onHoverOut={()=>{setHover(false)}}
                 onPress={toggle}
                 style={[toggleView,hover&&{
-                    shadowColor: variant==='white'? toggleView.color : toggleView.backgroundColor,
+                    shadowColor: toggleView.backgroundColor,
                     shadowOffset: { width: 2, height: 2 },
                     shadowOpacity: 0.6,
                     shadowRadius: 2,  
@@ -59,10 +58,7 @@ export default function Toggle(props: ToggleProps){
                 }]}
                 disabled={disabled}
             >
-                <Text selectable={false} style={{
-                    color:toggleView.color,
-                    textAlign: 'center',
-                }}>
+                <Text selectable={false} style={textStyle}>
                     {description}
                 </Text>
             </Pressable>
@@ -102,15 +98,39 @@ const styleSheet = createStyleSheet((theme)=>({
                     backgroundColor: theme.color.error,
                     color: theme.color.errorForeground
                 },
-                black:{
-                    backgroundColor: theme.color.black,
-                    color: theme.color.white
-                },
-                white:{
+                ghost:{
                     backgroundColor: theme.color.white,
                     color: theme.color.black
                 },
             },
         }
-    }
+    },
+    textStyle:{
+        textAlign: 'center',
+        variants:{
+            variant:{
+                primary:{
+                    color: theme.color.primaryForeground,
+                },
+                secondary:{
+                    color: theme.color.secondaryForeground,
+                },
+                tertiary:{
+                    color: theme.color.tertiaryForeground,
+                },
+                success:{
+                    color: theme.color.successForeground,
+                },
+                warning: {
+                    color: theme.color.warningForeground,
+                },
+                error: {
+                    color: theme.color.errorForeground,
+                },
+                ghost:{
+                    color: theme.color.black
+                },
+            },
+        }
+    },
 }))

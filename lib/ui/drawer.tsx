@@ -12,8 +12,6 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 /**
  * 
  * @param DrawerProps
- * - background - { color: background color of the menu , opacity: opacity of the background color }, no need to pass
- * hsla 
  * - backdrop - { color: backdrop color of the menu , opacity: opacity of the backdrop color }, no need to pass hsla
  * - visible - boolean state value 
  * - setVisible - dispatch method of React.useState(boolean)
@@ -29,7 +27,6 @@ export default function Drawer(props: DrawerProps){
     // DEINING DEFAULT PARAMETERS
     const {
         backdrop={color:'black',opacity:.5},
-        background={color:'white',opacity:1},
         backdropPressHidesMenu=true,
         notchVisible=true,direction="top",widthOrHeight=100,
         setVisible,visible,children,header
@@ -109,7 +106,6 @@ export default function Drawer(props: DrawerProps){
                     direction==='top'?      {height:widthOrHeight} : 
                     direction==='right'?    {width:widthOrHeight} :
                     direction==='bottom'?   {height:widthOrHeight} : {width:widthOrHeight},
-                    {backgroundColor: Color(background.color).alpha(background.opacity).toString()}
                 ]}>
                         {direction==='bottom'&&notchVisible&&<Notch animationType="slideFromTop"/>}
                         <Text style={styles.modalText}>{header}</Text>
@@ -164,6 +160,7 @@ const styleSheet = createStyleSheet((theme)=>({
         right:0,
     },
     dirModalContainer:{
+        backgroundColor: theme.color.white,
         variants:{
             direction:{
                 left:{

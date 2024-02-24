@@ -4,7 +4,6 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-na
 import Input from "./input";
 import { Pressable, Text, View } from "react-native";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import { Colors } from "../unistyles";
 import { CalendarHeadingProps, CalendarProps, DateData, DayProp, EachDayProps, MonthProps, Months, EachMonthProps, CurrentMonthProps, YearProps } from "..";
 
 const months:Months[] = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -114,14 +113,14 @@ function CalendarYear(props: YearProps){
         <View style={styles.calendarContainer}>
             <Input 
                 keyboardType="numeric" 
-                variant="white" 
+                variant="ghost" 
                 value={`${year}`}  
                 onChangeText={setYear}
                 onEndEditing={openMonthView}
                 onSubmitEditing={openMonthView}
                 
             />
-            <Button title="Ok" variant="white" block onPress={openMonthView} size="md"/>
+            <Button title="Ok" variant="ghost" block onPress={openMonthView} size="md"/>
         </View>
     )
 }
@@ -194,20 +193,20 @@ function CalendarHeading(props: CalendarHeadingProps){
     const {styles:{flexBoxStyles,borderStyle,calendarHeadingView,headingStyles}} = useStyles(styleSheet);
     return (
         <View style={[flexBoxStyles,borderStyle,{paddingBottom:3}]}>
-            <Button title="<" variant="white" size="sm" onPress={PreviousMonth} />
+            <Button title="<" variant="ghost" size="sm" onPress={PreviousMonth} />
             <View style={calendarHeadingView}>
-                <Button variant="white" asChild onPress={openMonthView}>
+                <Button variant="ghost" asChild onPress={openMonthView}>
                     <Text style={[headingStyles]}>
                         {months[props.date.month]} 
                     </Text>
                 </Button>
-                <Button variant="white" asChild onPress={openYearView}>
+                <Button variant="ghost" asChild onPress={openYearView}>
                     <Text style={[headingStyles]}>
                         {date.year}
                     </Text>
                 </Button>
             </View>
-            <Button title=">" variant="white" size="sm" onPress={NextMonth} />
+            <Button title=">" variant="ghost" size="sm" onPress={NextMonth} />
         </View>
     )
 }
@@ -360,7 +359,7 @@ const styleSheet = createStyleSheet((theme)=>({
         borderRadius:5,
         zIndex:3,
         borderWidth: 1,
-        borderColor: Colors.slate['300'],
+        borderColor: '#cbd5e1',
         backgroundColor: theme.color.white
     },
     flexBoxStyles:{
@@ -370,7 +369,7 @@ const styleSheet = createStyleSheet((theme)=>({
     },
     borderStyle:{
         borderBottomWidth: 1,
-        borderBottomColor: Colors.slate['200']
+        borderBottomColor: '#e2e8f0'
     },
     fontStyles:{
         fontWeight: '600',
@@ -415,7 +414,7 @@ const styleSheet = createStyleSheet((theme)=>({
     },
     unselectableDateView:{
         backgroundColor: theme.color.white,
-        color: Colors.slate['500']
+        color: '#64748b'
     }
 }))
 

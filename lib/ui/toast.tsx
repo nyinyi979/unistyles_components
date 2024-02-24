@@ -12,7 +12,7 @@ import { variant } from "../default";
  * 
  * @param 
  * - animationType - four types of animation available 
- * - hidesAfterNoInteraction - time in ms to hide the modal if it is not pressed ( button press will still dimiss it)
+ * - hidesAfter - duation for the toast to disappear
  * - closeBtn - string of the close button, optional ( will hides the button if there is no text )
  * - bottom - boolean, animating bottom bar
  * @returns an object containing Toast - a function to display toast message , ToastContextProvider react node
@@ -21,13 +21,13 @@ import { variant } from "../default";
 export default function useToast(props: toastContext){
 	const {
         animationType="slideFromBottom",
-        hidesAfterNoInteraction=5000,
+        hidesAfter=5000,
         closeBtn="",
-        closeBtnSize="sm",
+        closeBtnSize="md",
         bottomBar=true,
     } = props;
 
-    const [variant , setVariant] = React.useState<variant>(props.variant);
+    const [variant , setVariant] = React.useState<variant>(props.variant&&props.variant||'ghost');
     const [visible, setVisible] = React.useState(false);
     const {styles} = useStyles(styleSheet);
 
@@ -59,7 +59,7 @@ export default function useToast(props: toastContext){
             setTimeout(()=>{
                 setVisible(false);
             },300)
-        },hidesAfterNoInteraction)
+        },hidesAfter)
     }
 
     const Toast = (ToastMethod: ToastMethod) =>{
@@ -79,8 +79,7 @@ export default function useToast(props: toastContext){
     return{
         ToastContextProvider:()=>(
             <View style={[
-                styles.toastContainer,
-                {display: visible? 'flex':'none'}
+                styles.toastContainer(visible)
             ]}>
                 <ToastBox
                     message={toast}
@@ -90,7 +89,7 @@ export default function useToast(props: toastContext){
                     openToast={openToast}
                     closeBtn={closeBtn}
                     closeBtnSize={closeBtnSize}
-                    duration={hidesAfterNoInteraction}
+                    duration={hidesAfter}
                     bottomBar={bottomBar}
                 />
             </View>
@@ -111,7 +110,7 @@ function ToastBox(props: ToastProps){
         bottomBar
 	} = props;
 
-    const {styles:{toast,basicToast,toastMessageContainer,toastText}} = useStyles(styleSheet,{
+    const {styles:{toast,basicToast,toastMessageContainer,toastText,textStyle}} = useStyles(styleSheet,{
         variant: variant
     });
     
@@ -119,13 +118,13 @@ function ToastBox(props: ToastProps){
         <Animated.View style={[
                 basicToast,
                 animatedStyles,
-                {backgroundColor:toast.backgroundColor}
+                toast
             ]}>
           	<View style={toastMessageContainer}>
 
           		<Text style={[
                     toastText,
-                    {color:toast.color}
+                    textStyle
                 ]}>{message}</Text>
                 
           		{closeBtn===''? <Text>''</Text>:
@@ -135,7 +134,7 @@ function ToastBox(props: ToastProps){
                 }
           	</View>
             {bottomBar? 
-                <BottomBar foreground={toast.color} duration={duration} reversed /> : 
+                <BottomBar foreground={textStyle.color} duration={duration} reversed /> : 
             ''}
         </Animated.View>
     )
@@ -148,48 +147,65 @@ const styleSheet = createStyleSheet((theme=>({
             variant:{
                 primary:{
                     backgroundColor: theme.color.primary,
-                    color: theme.color.primaryForeground
                 },
                 secondary:{
                     backgroundColor: theme.color.secondary,
-                    color: theme.color.secondaryForeground
                 },
                 tertiary:{
                     backgroundColor: theme.color.tertiary,
-                    color: theme.color.tertiaryForeground
                 },
                 success:{
                     backgroundColor: theme.color.success,
-                    color: theme.color.successForeground
                 },
                 warning:{
                     backgroundColor: theme.color.warning,
-                    color: theme.color.warningForeground
                 },
                 error:{
                     backgroundColor: theme.color.error,
-                    color: theme.color.errorForeground
                 },
-                black:{
-                    backgroundColor: theme.color.black,
-                    color: theme.color.white
-                },
-                white:{
+                ghost:{
                     backgroundColor: theme.color.white,
-                    color: theme.color.black
                 }
             }
         }
     },
-    toastContainer:{
+    textStyle:{
+        variants:{
+            variant:{
+                primary:{
+                    color: theme.color.primaryForeground,
+                },
+                secondary:{
+                    color: theme.color.secondaryForeground,
+                },
+                tertiary:{
+                    color: theme.color.tertiaryForeground,
+                },
+                success:{
+                    color: theme.color.successForeground,
+                },
+                warning: {
+                    color: theme.color.warningForeground,
+                },
+                error: {
+                    color: theme.color.errorForeground,
+                },
+                ghost:{
+                    color: theme.color.black
+                },
+            },
+        }
+    },
+    toastContainer:(visible: boolean)=>({
         flex: 1,
+        display: visible? 'flex' : 'none',
         width: '95%',
         height: 70,
         bottom: 20,
         left: '2.5%',
         position: 'absolute',
         zIndex:5
-    },
+    }),
     toastMessageContainer:{
         flex:1,
         flexDirection:'row',

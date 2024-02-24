@@ -14,7 +14,7 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
  * - animationProperties - {animationType: type of animation to be used(fade), 
  * animationDuration - duration of the animation(500), 
  * oneDirectionalAnimation - see the details hovering it:)}
- * - variant - black and white is currently supported, default white ( work on both light and dark mode )
+ * - variant - primary, secondary, tertiary, success, warning, error, ghost
  * - backdrop - color for the backdrop and opacity for the opacity of it-_-
  * - header - header string
  * - footer - { 
@@ -33,7 +33,7 @@ function Dialog(DialogProps: DialogProps){
         children,setVisible,visible,header,
         backdropPressHidesModal=false,
         footer=undefined,
-        variant='white',
+        variant='ghost',
         backdrop={
             color:'black',
             opacity:.8
@@ -59,8 +59,8 @@ function Dialog(DialogProps: DialogProps){
     const animation = React.useRef(GenerateAnimation(animationProperties));
 
     const {animateIntro,animateOutro,animatedStyles} = animation.current;
-    const {styles} = useStyles(styleSheet);
-    const {backdropView,childrenContainer,insideModalContainer,modalContainer,modalText,parentView} = styles;
+    const {styles} = useStyles(styleSheet,{variant:variant});
+    const {backdropView,childrenContainer,insideModalContainer,modalContainer,modalText,modalHeader,parentView} = styles;
 
     const closeDialog = () =>{
         backdropAnimation.current.animateOutro();
@@ -106,9 +106,10 @@ function Dialog(DialogProps: DialogProps){
                 <Animated.View style={[
                     insideModalContainer,animatedStyles,styles[variant]
                 ]}>
-                    <Text style={modalText}>{header}</Text> 
+                    {header&&<Text style={[modalText,modalHeader]}>{header}</Text>}
                     <View style={childrenContainer}>
-                        {children}
+                        {typeof children==='string'? 
+                        <Text style={modalText}>{children}</Text>: children}
                     </View>
                     {footer&&<View style={{flex:1}}>
                         <Button 
@@ -160,20 +161,76 @@ const styleSheet = createStyleSheet((theme)=>({
         paddingHorizontal:10,
         paddingVertical: 15,
         borderRadius: 5,
+        borderWidth: 1,
+        variants:{
+            variant:{
+                primary:{
+                    backgroundColor: theme.color.primary,
+                    borderColor: theme.color.primaryForeground,
+                },
+                secondary:{
+                    backgroundColor: theme.color.secondary,
+                    borderColor: theme.color.secondaryForeground,
+                },
+                tertiary:{
+                    backgroundColor: theme.color.tertiary,
+                    borderColor: theme.color.tertiaryForeground,
+                },
+                success:{
+                    backgroundColor: theme.color.success,
+                    borderColor: theme.color.successForeground,
+                },
+                warning: {
+                    backgroundColor: theme.color.warning,
+                    borderColor: theme.color.warningForeground,
+                },
+                error: {
+                    backgroundColor: theme.color.error,
+                    borderColor: theme.color.errorForeground,
+                },
+                ghost:{
+                    backgroundColor: theme.color.white,
+                    borderColor: '#e5e7eb',
+                },
+            }
+        }
     },
-    modalText: {
+    modalHeader: {
         fontWeight:'500',
         textAlign: 'center',
+        fontSize: 18
+    },
+    modalText:{
+        
+        variants:{
+            variant:{
+                primary:{
+                    color: theme.color.primaryForeground,
+                },
+                secondary:{
+                    color: theme.color.secondaryForeground,
+                },
+                tertiary:{
+                    color: theme.color.tertiaryForeground,
+                },
+                success:{
+                    color: theme.color.successForeground,
+                },
+                warning: {
+                    color: theme.color.warningForeground,
+                },
+                error: {
+                    color: theme.color.errorForeground,
+                },
+                ghost:{
+                    color: theme.color.black
+                },
+            },
+        }
     },
     childrenContainer: {
         flex: 1,
         marginVertical: 5
-    },
-    white:{
-        backgroundColor: theme.color.white
-    },
-    black:{
-        backgroundColor: theme.color.black
     },
 }))
 export default Dialog

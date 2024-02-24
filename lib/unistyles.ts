@@ -55,8 +55,6 @@ UnistylesRegistry
     // add new themes according to your AppThemes type
 })
 .addConfig({
-    // initial theme to be utilized in your project
-    initialTheme: 'light',
     // allow switching theme based on system JUST FOR light and dark
     adaptiveThemes: true,
 })

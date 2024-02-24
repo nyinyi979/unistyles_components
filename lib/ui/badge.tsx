@@ -3,11 +3,12 @@ import { Text, TextStyle, View, ViewStyle } from "react-native";
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { BadgeProps } from '../';
 import { FontSizes } from '../unistyles';
+import Color from 'color';
 /**
  * 
  * @param Badge
  * - title - title of the badge
- * - variant - primary, secondary, tertiary, success, warning, error, black, white
+ * - variant - primary, secondary, tertiary, success, warning, error, ghost
  * - size - xs, sm, md, lg, xl
  * - rounded - the badge will be a bit rounded if true
  * @returns Badge react node
@@ -15,7 +16,7 @@ import { FontSizes } from '../unistyles';
 function Badge(props:BadgeProps){
     //Destructuring the properties
     const {
-        variant='primary',
+        variant='ghost',
         size='md',
         rounded=true,
         shadow=true
@@ -32,7 +33,7 @@ function Badge(props:BadgeProps){
                 shadowOpacity: 0.8,
                 shadowRadius: 2,  
                 elevation: 5,
-                shadowColor: variant ==='black' ? 'darkgray' : textStyle.color,
+                shadowColor: Color(textStyle.color).lighten(1.4).toString(),
             }
         ]}>
             <Text style={[textStyle,{fontSize:FontSizes[size]}]}>
@@ -69,10 +70,7 @@ const styleSheet = createStyleSheet((theme => ({
                 error: {
                     backgroundColor: theme.color.error,
                 },
-                black:{
-                    backgroundColor: theme.color.black,
-                },
-                white:{
+                ghost:{
                     backgroundColor: theme.color.white,
                 },
             },
@@ -127,10 +125,7 @@ const styleSheet = createStyleSheet((theme => ({
                 error: {
                     color: theme.color.errorForeground,
                 },
-                black:{
-                    color: theme.color.white
-                },
-                white:{
+                ghost:{
                     color: theme.color.black
                 },
             },

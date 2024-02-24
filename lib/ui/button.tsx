@@ -9,7 +9,7 @@ import { FontSizes } from '../unistyles';
  * 
  * @param Button You can provide more params than ViewProps
  * - title - title of the button
- * - variant - primary, secondary, tertiary, success, warning, error, black, white 
+ * - variant - primary, secondary, tertiary, success, warning, error, ghost
  * - block - will display as a block (no floating)
  * - asChild - will not get the theme optimization just as in title but you can provide more details
  * - size - xs, sm, md, lg, xl (default to xs when asChild is true)
@@ -44,8 +44,7 @@ function Button(props:BtnProps){
     const [hover,setHover] = React.useState(disabled? true: false);
     const {styles:{button,textStyle}} = useStyles(styleSheet,{variant:variant,sizes:size});
 
-    const hoverColor = React.useRef(variant==='black'? 
-        '#1f2937':
+    const hoverColor = React.useRef(
         Color(button.backgroundColor).darken(.3).toString());
 
     const scale = useSharedValue(1);
@@ -151,10 +150,7 @@ const styleSheet = createStyleSheet((theme => ({
                 error: {
                     backgroundColor: theme.color.error,
                 },
-                black:{
-                    backgroundColor: theme.color.black,
-                },
-                white:{
+                ghost:{
                     backgroundColor: theme.color.white,
                 },
             },
@@ -207,10 +203,7 @@ const styleSheet = createStyleSheet((theme => ({
                 error: {
                     color: theme.color.errorForeground,
                 },
-                black:{
-                    color: theme.color.white
-                },
-                white:{
+                ghost:{
                     color: theme.color.black
                 },
             },

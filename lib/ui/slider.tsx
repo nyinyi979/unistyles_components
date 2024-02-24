@@ -96,10 +96,10 @@ const styleSheet = createStyleSheet((theme)=>({
         variants:{
             variant:{
                 white:{
-                    backgroundColor: theme.color.lightGray,
+                    backgroundColor: '#e5e7eb',
                 },
                 black:{
-                    backgroundColor: theme.color.darkGray,
+                    backgroundColor: '#1f2937'
                 }
             }
         }
@@ -113,10 +113,10 @@ const styleSheet = createStyleSheet((theme)=>({
         variants:{
             variant:{
                 white:{
-                    backgroundColor: theme.color.darkGray,
+                    backgroundColor: '#9ca3af',
                 },
                 black:{
-                    backgroundColor: theme.color.black,
+                    backgroundColor: '#111827',
                 }
             }
         }
@@ -132,12 +132,12 @@ const styleSheet = createStyleSheet((theme)=>({
         variants:{
             variant:{
                 white:{
-                    backgroundColor: theme.color.lightGray,
-                    borderColor: theme.color.darkGray
+                    backgroundColor: '#e5e7eb',
+                    borderColor: '#1f2937'
                 },
                 black:{
-                    backgroundColor: theme.color.black,
-                    borderColor: theme.color.darkGray
+                    backgroundColor: '#ffffff',
+                    borderColor: '#e5e7eb'
                 }
             }
         }

@@ -38,9 +38,9 @@ export interface AccordionElementProps {
 export interface BadgeProps extends ViewProps{
     /** Rounded or not */
     rounded?: boolean,
+    shadow?: boolean,
     /** Size variant - xs, sm, md, lg, xl*/
     size?: btnSize,
-    shadow?: boolean,
     /** The title must be provided */
     title: string,
     /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
@@ -143,6 +143,7 @@ type Days = 'Sun'|'Mon'|'Tue'|'Wed'|'Thu'|'Fri'|'Sat'
 /** Checkbox */
 interface CheckboxProps {
     description?: React.ReactNode,
+    disabled?: boolean,
     defaultChecked?: boolean,
     onChange?: (checked: boolean)=>void,
     variant?: variant,
@@ -175,7 +176,7 @@ export interface DialogProps {
     /** Visible state */
     visible: boolean,
     /** black and white */
-    variant: 'black'|'white'
+    variant: variant
 }
 export type animationProperties = {
     /** Duration of the animation,  */
@@ -197,11 +198,6 @@ export interface DrawerProps {
     },
     /** If clicking on the backdrop would hides the modal */
     backdropPressHidesMenu?: boolean,
-    background?: {
-        color: string,
-        /**must be between 0-1 */
-        opacity: number,
-    },
     children?: React.ReactNode,
     /** location of the draggable menu */
     direction: direction,
@@ -342,20 +338,20 @@ export interface TabProps{
     defaultOpenedIndex?: number,
     headings: string[],
     height: DimensionValue
-    variant?: 'black'|'white',
+    variant?: variant,
     width?: DimensionValue,
 }
 export type TabHeadingsProps = {
     headings: string[],
     openedIndex: number,
     setOpenedIndex: Dispatch<SetStateAction<number>>,
-    variant: 'black'|'white',
+    variant: variant,
 }
 export type TabContentsProps = {
     contents: React.ReactNode[],
     height: DimensionValue,
     openedIndex: number,
-    variant: 'black'|'white',
+    variant: variant,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -376,10 +372,10 @@ export interface TextProp extends TextProps{
 // Toggle type
 export interface ToggleProps {
     description: string,
-    variant?: variant,
     disabled?: boolean,
     defaultToggled?: boolean,
-    onToggle?: (toggled: boolean)=>void
+    onToggle?: (toggled: boolean)=>void,
+    variant?: variant,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -393,7 +389,7 @@ export interface toastContext{
     closeBtn?: string,
     closeBtnSize?: btnSize,
     /** Setting zero will not hide the toast at all */
-    hidesAfterNoInteraction?: number,
+    hidesAfter?: number,
     /** Primary, Secondary, Tertiary, Success, Warning, Error, Black, White */
     variant?: variant,
 }
