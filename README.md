@@ -39,7 +39,8 @@ Unistyles is an awesome stylesheet for react native!
 ## Sizes
 - Font sizes and (~tailwind) sizes can also be imported from unistyles.ts file ( which is imported from default_values/default_sizes.ts )
   
-## UI Elements ( Most of them are inspired from remix, shadcn )
+## UI Elements ( Most of them are inspired from shadcn )
+
 ### Accordion
 JSX Element - add data and headings props, there are two types of accordion ( chevron arrows and plus, minus )
 
@@ -47,7 +48,7 @@ JSX Element - add data and headings props, there are two types of accordion ( ch
 Non interactive elements with the style of button
 
 ### Button 
-- built from Pressable, View and Text
+Built from Pressable, View and Text
 
 ### Calendar(DatePicker)
 A calendar for date picking, can set a callback function for getting the selected date.
@@ -62,10 +63,13 @@ Or Dialog you would call. Created with View component ( not built on rn modal ),
 This is an other form of Modal which is attached to one side of the screen(all sides available). Can be dragged to dismiss. 
 
 ### Input 
-- built on TextInput from rn
+Built on TextInput from rn
 
-### Link 
-- link btn component with a slight lightened color when hovered
+### LinkBtn
+Link btn component with a slight lightened color when hovered
+
+### Popover
+Parent and popover react node can be provided. Long pressing the box will open up the popover at the pressed location. (Does calculation to screensizes to make the popover visible inside the screen)
 
 ### Select
 A dropdown component , all variants available built on Button
@@ -77,7 +81,7 @@ On/Off switch component, can set a callback function when the value is updated
 Toast is an alert box. useToast() must be called in your app.tsx, which will return two things ( Toast: function to display toast messages , ToastProviderComponent: which must be called inside your app.tsx ) 
 
 ### Text 
-- modified text with support for colors from tailwind, themes colors, boldness etc
+Modified text with support for colors from tailwind, themes colors, boldness etc
 
 ### Toggle
 A toggle component built on Button ( from this library ), it is only supported for one character yet, 
