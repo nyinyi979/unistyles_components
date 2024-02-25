@@ -16,8 +16,7 @@ Unistyles is an awesome stylesheet for react native!
 4. success
 5. warning
 6. error
-7. black
-8. white ( black and white values will be changed according to theme, just use white most of the time )
+7. ghost (change white and black)
 - Default light and dark themes can be seen in default_values/default_themes.ts file.
 - Extension of the themes can be seen on unistyles docs.
 
