@@ -4,11 +4,12 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { SwitchCheckProps } from "..";
 import { Pressable, Text, View } from "react-native";
 import { Colors } from "../unistyles";
+import Color from "color";
 
 /**
  * 
  * @param Switch
- * - variant - black and white
+ * - variant - primary, secondary, tertiary, success, warning, error, ghost
  * - defualtChecked - default checked or not (default - false)
  * - onChange - called when the value is changed
  * - description - description text beside the switch
@@ -18,7 +19,7 @@ import { Colors } from "../unistyles";
  */
 export default function Switch(props: SwitchCheckProps){
     const {
-        variant='black',
+        variant='ghost',
         defaultChecked=false,
         onChange=()=>{},
         description,
@@ -28,9 +29,7 @@ export default function Switch(props: SwitchCheckProps){
     const [checked, setChecked] = React.useState<"active" | "notActive" | "disabled">
         (disabled? 'disabled': defaultChecked? 'active' : 'notActive');
 
-    const { styles:{switchBtn,parentView,circle,pressableStyle} } = variant ==='black' ? 
-        useStyles(styleSheet, {black:checked, sizes:'xs' }) :
-        useStyles(styleSheet, {white:checked, sizes:'xs'})
+    const { styles:{switchBtn,switchBtnVariant,parentView,circle,pressableStyle} } = useStyles(styleSheet, {variant: variant})
     
     const translate = useSharedValue(checked==='notActive'?  switchBtn.width/2.1 : 5);
     const translateXAnimatedStyles = useAnimatedStyle(()=>({
@@ -52,25 +51,6 @@ export default function Switch(props: SwitchCheckProps){
         if(checked==='active') animateIntro();
         else animateOutro();
     },[checked]);
-
-    const sizes = React.useMemo(()=>{
-        return {
-            bgSize: {
-                width:  switchBtn.width,
-                height: switchBtn.height,
-                borderStartEndRadius: switchBtn.width,
-                borderStartStartRadius: switchBtn.width,
-                borderEndEndRadius: switchBtn.width,
-                borderEndStartRadius: switchBtn.width,
-            },
-            circleStyle: {
-                width: switchBtn.circleSize,
-                height: switchBtn.circleSize,
-                borderRadius: switchBtn.circleSize,
-                backgroundColor: circle.backgroundColor,
-            }
-        }
-    },[variant])
     
     return(
         <Animated.View style={parentView}>
@@ -78,8 +58,8 @@ export default function Switch(props: SwitchCheckProps){
                 disabled={disabled} 
                 onPress={toggle} 
                 style={pressableStyle}>
-                <View style={[sizes.bgSize,{justifyContent:'center',backgroundColor:switchBtn.backgroundColor}]}>
-                    <Animated.View style={[sizes.circleStyle,translateXAnimatedStyles]} />
+                <View style={[switchBtn,switchBtnVariant(checked)]}>
+                    <Animated.View style={[translateXAnimatedStyles,circle]} />
                 </View>
                 {typeof description === 'string'? <Text selectable={false}>{description}</Text>
                 : description}
@@ -95,40 +75,88 @@ const styleSheet = createStyleSheet((theme)=>({
     pressableStyle:{
         flexDirection:'row',alignItems:'center'
     },
-    switchBtn:{
+    switchBtnVariant:(state: "active" | "notActive" | "disabled")=>({
         variants:{
-            white:{
-                active:{
-                    backgroundColor: '#e5e7eb',
+            variant:{
+                primary:{
+                    backgroundColor: state==='active'? 
+                        Color(theme.color.primary).lighten(.3).toString() :
+                    state==='notActive'? theme.color.primary : 
+                        Color(theme.color.primary).darken(.5).toString(),
                 },
-                notActive:{
-                    backgroundColor: 'gray',
+                secondary:{
+                    backgroundColor: state==='active'? 
+                        Color(theme.color.secondary).lighten(.3).toString() :
+                    state==='notActive'? theme.color.secondary : 
+                        Color(theme.color.secondary).darken(.5).toString(),
                 },
-                disabled:{
-                    backgroundColor: '#1f2937',
-                }
+                tertiary:{
+                    backgroundColor: state==='active'? 
+                        Color(theme.color.tertiary).lighten(.3).toString() :
+                    state==='notActive'? theme.color.tertiary : 
+                        Color(theme.color.tertiary).darken(.5).toString(),
+                },
+                success:{
+                    backgroundColor: state==='active'? 
+                        Color(theme.color.success).lighten(.3).toString() :
+                    state==='notActive'? theme.color.success : 
+                        Color(theme.color.success).darken(.5).toString(),
+                },
+                warning: {
+                    backgroundColor: state==='active'? 
+                        Color(theme.color.warning).lighten(.3).toString() :
+                    state==='notActive'? theme.color.warning : 
+                        Color(theme.color.warning).darken(.5).toString(),
+                },
+                error: {
+                    backgroundColor: state==='active'? 
+                        Color(theme.color.error).lighten(.3).toString() :
+                    state==='notActive'? theme.color.error : 
+                        Color(theme.color.error).darken(.5).toString(),
+                },
+                ghost:{
+                    backgroundColor: state==='active'? 
+                        Color(theme.color.white).lighten(.3).toString() :
+                    state==='notActive'? theme.color.white : 
+                        Color(theme.color.white).darken(.5).toString(),
+                },
             },
-            black:{
-                active:{
-                    backgroundColor: '#e5e7eb'
-                },
-                notActive:{
-                    backgroundColor: 'black',
-                },
-                disabled:{
-                    backgroundColor: '#e5e7eb',
-                }
-            },
-            sizes:{
-                'xs':{
-                    width:  60,
-                    height: 30,
-                    circleSize: 25,
-                }
-            }
         }
+    }),
+    switchBtn:{
+        width:  60,
+        height: 30,
+        justifyContent:'center',
+        borderRadius: 50,   
     },
     circle:{
-        backgroundColor: '#9ca3af'
+        width: 25,
+        height: 25,
+        borderRadius: 25,
+        variants:{
+            variant:{
+                primary:{
+                    backgroundColor: Color(theme.color.primary).darken(.5).toString(),
+                },
+                secondary:{
+                    backgroundColor: Color(theme.color.secondary).darken(.5).toString(),
+                },
+                tertiary:{
+                    backgroundColor: Color(theme.color.tertiary).darken(.5).toString(),
+                },
+                success:{
+                    backgroundColor: Color(theme.color.success).darken(.5).toString(),
+                },
+                warning: {
+                    backgroundColor: Color(theme.color.warning).darken(.5).toString(),
+                },
+                error: {
+                    backgroundColor: Color(theme.color.error).darken(.5).toString(),
+                },
+                ghost:{
+                    backgroundColor: Color(theme.color.white).darken(.5).toString(),
+                },
+            }
+        }
     }
 }))

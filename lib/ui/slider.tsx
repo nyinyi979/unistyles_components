@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { SliderProps } from "..";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
+import Color from "color";
 
 /**
  * 
@@ -12,14 +13,14 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
  * - width - width of the slider
  * - min - minimum value
  * - max - maximum value
- * - variant - white, black
+ * - variant - primary, secondary, tertiary, success, warning, error, ghost
  * @returns 
  */
 export default function Slider(props: SliderProps){
     const {
         defaultValue=10,
         onChange=()=>{},
-        variant='white',
+        variant='ghost',
         width=200,
         min=0,
         max=100
@@ -95,12 +96,27 @@ const styleSheet = createStyleSheet((theme)=>({
         borderRadius:10,
         variants:{
             variant:{
-                white:{
-                    backgroundColor: '#e5e7eb',
+                primary:{
+                    backgroundColor: theme.color.primary,
                 },
-                black:{
-                    backgroundColor: '#1f2937'
-                }
+                secondary:{
+                    backgroundColor: theme.color.secondary,
+                },
+                tertiary:{
+                    backgroundColor: theme.color.tertiary,
+                },
+                success:{
+                    backgroundColor: theme.color.success,
+                },
+                warning: {
+                    backgroundColor: theme.color.warning,
+                },
+                error: {
+                    backgroundColor: theme.color.error,
+                },
+                ghost:{
+                    backgroundColor: theme.color.white,
+                },
             }
         }
     },
@@ -112,12 +128,27 @@ const styleSheet = createStyleSheet((theme)=>({
         borderRadius:10,
         variants:{
             variant:{
-                white:{
-                    backgroundColor: '#9ca3af',
+                primary:{
+                    backgroundColor: theme.color.primaryForeground,
                 },
-                black:{
-                    backgroundColor: '#111827',
-                }
+                secondary:{
+                    backgroundColor: theme.color.secondaryForeground,
+                },
+                tertiary:{
+                    backgroundColor: theme.color.tertiaryForeground,
+                },
+                success:{
+                    backgroundColor: theme.color.successForeground,
+                },
+                warning: {
+                    backgroundColor: theme.color.warningForeground,
+                },
+                error: {
+                    backgroundColor: theme.color.errorForeground,
+                },
+                ghost:{
+                    backgroundColor: Color(theme.color.white).darken(.3).toString(),
+                },
             }
         }
     },
@@ -131,14 +162,34 @@ const styleSheet = createStyleSheet((theme)=>({
         borderWidth: 1,
         variants:{
             variant:{
-                white:{
-                    backgroundColor: '#e5e7eb',
-                    borderColor: '#1f2937'
+                primary:{
+                    backgroundColor: Color(theme.color.primary).darken(.3).toString(),
+                    borderColor: Color(theme.color.primary).darken(.6).toString()
                 },
-                black:{
-                    backgroundColor: '#ffffff',
-                    borderColor: '#e5e7eb'
-                }
+                secondary:{
+                    backgroundColor: Color(theme.color.secondary).darken(.3).toString(),
+                    borderColor: Color(theme.color.secondary).darken(.6).toString()
+                },
+                tertiary:{
+                    backgroundColor: Color(theme.color.tertiary).darken(.3).toString(),
+                    borderColor: Color(theme.color.tertiary).darken(.6).toString()
+                },
+                success:{
+                    backgroundColor: Color(theme.color.success).darken(.3).toString(),
+                    borderColor: Color(theme.color.success).darken(.6).toString()
+                },
+                warning: {
+                    backgroundColor: Color(theme.color.warning).darken(.3).toString(),
+                    borderColor: Color(theme.color.warning).darken(.6).toString()
+                },
+                error: {
+                    backgroundColor: Color(theme.color.error).darken(.3).toString(),
+                    borderColor: Color(theme.color.error).darken(.6).toString()
+                },
+                ghost:{
+                    backgroundColor: Color(theme.color.white).darken(.3).toString(),
+                    borderColor: Color(theme.color.white).darken(.6).toString()
+                },
             }
         }
     }

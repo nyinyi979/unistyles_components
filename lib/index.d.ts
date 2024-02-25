@@ -310,7 +310,7 @@ export interface SliderProps {
     max?: number,
     min?: number,
     onChange?: (value: number)=>void,
-    variant?: 'black'|'white',
+    variant?: variant,
     width?: number,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -326,7 +326,7 @@ export interface SwitchCheckProps  {
     disabled?: boolean,
     onChange?: (checked: boolean)=>void,
     /** Variant, only supported for black and white yet */
-    variant?: 'black'|'white',
+    variant?: variant,
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
