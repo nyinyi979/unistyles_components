@@ -84,6 +84,7 @@ function Button(props:BtnProps){
             style={[props.style,
                 animatedStyles,
                 {position:'relative'},
+                rounded&& {borderRadius: 5},
                 block? 
                     {alignItems:'center'}: 
                     {alignSelf:'flex-start'},
@@ -100,7 +101,6 @@ function Button(props:BtnProps){
                 onBlur={onBlur}
                 disabled={disabled}
                 style={[ 
-                    rounded&& {borderRadius: 5},
                     {
                         paddingHorizontal: button.paddingHorizontal,
                         paddingVertical: button.paddingVertical,
